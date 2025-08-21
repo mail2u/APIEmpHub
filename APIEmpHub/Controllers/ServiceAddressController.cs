@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ServiceAddressController : baseController<ServiceAddressModels>
@@ -106,34 +107,36 @@ namespace APIEmpHub.Controllers
         {
             try
             {
-                iData = model.DetailByRef(iProp);
+                lData = model.DetailByRef(iProp);
 
-                var vData = new
+                var vData = lData.Select(x=> new
                 {
-                    iData.refId
+                    x.refId
                     ,
-                    iData.addressId
+                    x.addressId
                     ,
-                    iData.home
+                    x.mode
                     ,
-                    iData.road
+                    x.home
                     ,
-                    iData.subDistrictCode
+                    x.road
                     ,
-                    iData.subDistrictName
+                    x.subDistrictCode
                     ,
-                    iData.districtCode
+                    x.subDistrictName
                     ,
-                    iData.districtName
+                    x.districtCode
                     ,
-                    iData.provinceCode
+                    x.districtName
                     ,
-                    iData.provinceName
+                    x.provinceCode
                     ,
-                    iData.postcode
+                    x.provinceName
                     ,
-                    iData.status
-                };
+                    x.postcode
+                    ,
+                    x.status
+                }).ToList();
 
                 return Ok(vData);
             }

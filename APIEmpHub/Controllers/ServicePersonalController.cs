@@ -1,12 +1,14 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
 using APIEmpHub.Utility.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Reflection;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ServicePersonalController : baseController<ServicePersonalModels>
@@ -108,36 +110,38 @@ namespace APIEmpHub.Controllers
         {
             try
             {
-                iData = model.DetailByRef(iProp);
+                lData = model.DetailByRef(iProp);
 
-                var vData = new
+                var vData = lData.Select(x=> new
                 {
-                    iData.refId
+                    x.refId
                     ,
-                    iData.personalId
+                    x.personalId
                     ,
-                    iData.firstname_th
+                    x.mode
                     ,
-                    iData.lastname_th
+                    x.firstname_th
                     ,
-                    iData.firstname_en
+                    x.lastname_th
                     ,
-                    iData.lastname_en
+                    x.firstname_en
                     ,
-                    iData.nickname
+                    x.lastname_en
                     ,
-                    iData.sex
+                    x.nickname
                     ,
-                    iData.birth_date
+                    x.sex
                     ,
-                    iData.maritalStatus
+                    x.birth_date
                     ,
-                    iData.email
+                    x.maritalStatus
                     ,
-                    iData.phoneNo
+                    x.email
                     ,
-                    iData.status
-                };
+                    x.phoneNo
+                    ,
+                    x.status
+                }).ToList();
 
                 return Ok(vData);
             }

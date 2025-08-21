@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class MasterCodeController : baseController<MasterCodeModels>

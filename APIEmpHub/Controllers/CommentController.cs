@@ -6,6 +6,7 @@ using System.Reflection;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CommentController : baseController<CommentModels>

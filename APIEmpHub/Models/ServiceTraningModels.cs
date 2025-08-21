@@ -9,6 +9,7 @@ namespace APIEmpHub.Models
     {
         public string refId { get; set; }
         public string traningId { get; set; }
+        public string mode { get; set; }
         public string license { get; set; }
         public string organization { get; set; }
         public string issueDate { get; set; }
@@ -136,6 +137,8 @@ namespace APIEmpHub.Models
                                  ,
                                  traningId = HelperConvert.ConvertToString(r.Field<object>("traningId")!)
                                  ,
+                                 mode = HelperConvert.ConvertToString(r.Field<object>("mode")!)
+                                 ,
                                  license = HelperConvert.ConvertToString(r.Field<object>("license")!)
                                  ,
                                  organization = HelperConvert.ConvertToString(r.Field<object>("organization")!)
@@ -183,6 +186,8 @@ namespace APIEmpHub.Models
                                  refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
                                  ,
                                  traningId = HelperConvert.ConvertToString(r.Field<object>("traningId")!)
+                                 ,
+                                 mode = HelperConvert.ConvertToString(r.Field<object>("mode")!)
                                  ,
                                  license = HelperConvert.ConvertToString(r.Field<object>("license")!)
                                  ,

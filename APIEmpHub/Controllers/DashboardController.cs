@@ -2,6 +2,7 @@
 using APIEmpHub.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Reflection;
 using System.Xml.Linq;
 
@@ -10,11 +11,11 @@ namespace APIEmpHub.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class FunctionController : baseController<FunctionModels>
+    public class DashboardController : baseController<DashboardModels>
     {
-        public FunctionController(IConfiguration configuration
+        public DashboardController(IConfiguration configuration
            , IWebHostEnvironment hostingEnvironment
-            , ILogger<FunctionModels> logger)
+            , ILogger<DashboardModels> logger)
         {
             this._configuration = configuration;
             model.connection = this._configuration.GetSection("Connection").Get<ConnectionModels>();
@@ -26,31 +27,19 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("DataList")]
-        public IActionResult DataList(FunctionModels iProp)
+        public IActionResult DataList()
         {
-            lData = new List<FunctionModels>();
-
             try
             {
-                lData = model.DataList(iProp);
+                dsData = model.DataList();
+
+                return Ok(JsonConvert.SerializeObject(dsData));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
-            var vData = lData.Select(x => new
-            {
-                x.funcId
-                ,
-                x.funcCode
-                ,
-                x.title
-                ,
-                x.detail
-            }).ToList();
-
-            return Ok(vData);
         }
+
     }
 }

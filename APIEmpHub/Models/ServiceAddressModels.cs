@@ -9,6 +9,7 @@ namespace APIEmpHub.Models
     {
         public string refId { get; set; }
         public string addressId { get; set; }
+        public string mode { get; set; }
         public string home { get; set; }
         public string road { get; set; }
         public string subDistrictCode { get; set; }
@@ -133,10 +134,10 @@ namespace APIEmpHub.Models
             return iData;
         }
 
-        public ServiceAddressModels DetailByRef(ServiceAddressModels iProp)
+        public List<ServiceAddressModels> DetailByRef(ServiceAddressModels iProp)
         {
             String query = "up_service_address_detail_by_ref";
-            iData = new ServiceAddressModels();
+            lData = new List<ServiceAddressModels>();
 
             try
             {
@@ -148,12 +149,14 @@ namespace APIEmpHub.Models
                 if (dtData != null && dtData.Rows.Count > 0)
                 {
 
-                    iData = (from r in dtData.AsEnumerable()
+                    lData = (from r in dtData.AsEnumerable()
                              select new ServiceAddressModels
                              {
                                  refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
                                  ,
                                  addressId = HelperConvert.ConvertToString(r.Field<object>("addressId")!)
+                                 ,
+                                 mode = HelperConvert.ConvertToString(r.Field<object>("mode")!)
                                  ,
                                  home = HelperConvert.ConvertToString(r.Field<object>("home")!)
                                  ,
@@ -174,7 +177,7 @@ namespace APIEmpHub.Models
                                  postcode = HelperConvert.ConvertToString(r.Field<object>("postcode")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
-                             }).FirstOrDefault()!;
+                             }).ToList()!;
                 }
             }
             catch (Exception ex)
@@ -186,7 +189,7 @@ namespace APIEmpHub.Models
                 iSql.Close();
             }
 
-            return iData;
+            return lData;
         }
     }
 }

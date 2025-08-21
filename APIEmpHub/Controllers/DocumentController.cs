@@ -7,6 +7,7 @@ using System.Xml.Linq;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class DocumentController : baseController<DocumentModels>

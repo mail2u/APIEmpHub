@@ -9,6 +9,7 @@ namespace APIEmpHub.Models
     {
         public string refId { get; set; }
         public string employeeId { get; set; }
+        public string mode { get; set; }
         public string employeeCode { get; set; }
         public string employeeType { get; set; }
         public string employeeDesc { get; set; }
@@ -147,10 +148,10 @@ namespace APIEmpHub.Models
             return iData;
         }
 
-        public ServiceEmployeeModels DetailByRef(ServiceEmployeeModels iProp)
+        public List<ServiceEmployeeModels> DetailByRef(ServiceEmployeeModels iProp)
         {
             String query = "up_service_employee_detail_by_ref";
-            iData = new ServiceEmployeeModels();
+            lData = new List<ServiceEmployeeModels>();
 
             try
             {
@@ -162,12 +163,14 @@ namespace APIEmpHub.Models
                 if (dtData != null && dtData.Rows.Count > 0)
                 {
 
-                    iData = (from r in dtData.AsEnumerable()
+                    lData = (from r in dtData.AsEnumerable()
                              select new ServiceEmployeeModels
                              {
                                  refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
                                  ,
                                  employeeId = HelperConvert.ConvertToString(r.Field<object>("employeeId")!)
+                                 ,
+                                 mode = HelperConvert.ConvertToString(r.Field<object>("mode")!)
                                  ,
                                  employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
                                  ,
@@ -198,7 +201,7 @@ namespace APIEmpHub.Models
                                  supervisorDepartment = HelperConvert.ConvertToString(r.Field<object>("supervisorDepartment")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
-                             }).FirstOrDefault()!;
+                             }).ToList();
                 }
             }
             catch (Exception ex)
@@ -210,7 +213,7 @@ namespace APIEmpHub.Models
                 iSql.Close();
             }
 
-            return iData;
+            return lData;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace APIEmpHub.Models
     {
         public string refId { get; set; }
         public string jobId { get; set; }
+        public string mode { get; set; }
         public string company { get; set; }
         public string position { get; set; }
         public string fromDate { get; set; }
@@ -136,6 +137,8 @@ namespace APIEmpHub.Models
                                  ,
                                  jobId = HelperConvert.ConvertToString(r.Field<object>("jobId")!)
                                  ,
+                                 mode = HelperConvert.ConvertToString(r.Field<object>("mode")!)
+                                 ,
                                  company = HelperConvert.ConvertToString(r.Field<object>("company")!)
                                  ,
                                  position = HelperConvert.ConvertToString(r.Field<object>("position")!)
@@ -183,6 +186,8 @@ namespace APIEmpHub.Models
                                  refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
                                  ,
                                  jobId = HelperConvert.ConvertToString(r.Field<object>("jobId")!)
+                                 ,
+                                 mode = HelperConvert.ConvertToString(r.Field<object>("mode")!)
                                  ,
                                  company = HelperConvert.ConvertToString(r.Field<object>("company")!)
                                  ,

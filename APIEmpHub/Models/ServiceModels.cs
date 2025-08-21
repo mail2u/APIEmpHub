@@ -24,9 +24,11 @@ namespace APIEmpHub.Models
         public string cancelDate { get; set; }
         public string cancelDesc { get; set; }
         public string rejectBy { get; set; }
+        public string rejectName { get; set; }
         public string rejectDate { get; set; }
         public string rejectDesc { get; set; }
         public string approveBy { get; set; }
+        public string approveName { get; set; }
         public string approveDate { get; set; }
         public string approveDesc { get; set; }
         public int is_action { get; set; }
@@ -88,6 +90,16 @@ namespace APIEmpHub.Models
                              userPosition = HelperConvert.ConvertToString(r.Field<object>("userPosition")!)
                              ,
                              userDepartment = HelperConvert.ConvertToString(r.Field<object>("userDepartment")!)
+                             ,
+                             approveName = HelperConvert.ConvertToString(r.Field<object>("approveName")!)
+                             ,
+                             approveDate = HelperConvert.ConvertToString(r.Field<object>("approveDate")!)
+                             ,
+                             rejectName = HelperConvert.ConvertToString(r.Field<object>("rejectName")!)
+                             ,
+                             rejectDate = HelperConvert.ConvertToString(r.Field<object>("rejectDate")!)
+                             ,
+                             rejectDesc = HelperConvert.ConvertToString(r.Field<object>("rejectDesc")!)
                              ,
                              can_cancel = HelperConvert.ConvertToInt(r.Field<object>("can_cancel")!)
                              ,
@@ -190,6 +202,10 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@page", iProp.page)
                     , iSql.SqlCom_Parameter("@row", iProp.row)
                     , iSql.SqlCom_Parameter("@sortBy", HelperConvert.ConvertToString(iProp.sortBy))
+                    , iSql.SqlCom_Parameter("@serviceNo", HelperConvert.ConvertToString(iProp.serviceNo))
+                    , iSql.SqlCom_Parameter("@categoryDesc", HelperConvert.ConvertToString(iProp.categoryDesc))
+                    , iSql.SqlCom_Parameter("@createName", HelperConvert.ConvertToString(iProp.createName))
+                    , iSql.SqlCom_Parameter("@createDate", HelperConvert.ConvertToDate112(iProp.createDate))
                     , iSql.SqlCom_Parameter("@total", SqlDbType.Int, ParameterDirection.Output)
                 );
 
@@ -250,6 +266,10 @@ namespace APIEmpHub.Models
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@serviceNo", HelperConvert.ConvertToString(iProp.serviceNo))
+                    , iSql.SqlCom_Parameter("@categoryDesc", HelperConvert.ConvertToString(iProp.categoryDesc))
+                    , iSql.SqlCom_Parameter("@createName", HelperConvert.ConvertToString(iProp.createName))
+                    , iSql.SqlCom_Parameter("@createDate", HelperConvert.ConvertToDate112(iProp.createDate))
                 );
             }
             catch (Exception ex)
@@ -276,10 +296,13 @@ namespace APIEmpHub.Models
                 dsData = iSql.SqlCom_DataAdapterWithDataSet(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
                     , iSql.SqlCom_Parameter("@status", HelperConvert.ConvertToString(iProp.status))
-                    , iSql.SqlCom_Parameter("@search_create_by", HelperConvert.ConvertToString(iProp.search_create_by))
                     , iSql.SqlCom_Parameter("@page", iProp.page)
                     , iSql.SqlCom_Parameter("@row", iProp.row)
                     , iSql.SqlCom_Parameter("@sortBy", HelperConvert.ConvertToString(iProp.sortBy))
+                    , iSql.SqlCom_Parameter("@serviceNo", HelperConvert.ConvertToString(iProp.serviceNo))
+                    , iSql.SqlCom_Parameter("@categoryDesc", HelperConvert.ConvertToString(iProp.categoryDesc))
+                    , iSql.SqlCom_Parameter("@createName", HelperConvert.ConvertToString(iProp.createName))
+                    , iSql.SqlCom_Parameter("@createDate", HelperConvert.ConvertToDate112(iProp.createDate))
                     , iSql.SqlCom_Parameter("@total", SqlDbType.Int, ParameterDirection.Output)
                 );
 
@@ -340,7 +363,10 @@ namespace APIEmpHub.Models
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
-                    , iSql.SqlCom_Parameter("@search_create_by", HelperConvert.ConvertToString(iProp.search_create_by))
+                    , iSql.SqlCom_Parameter("@serviceNo", HelperConvert.ConvertToString(iProp.serviceNo))
+                    , iSql.SqlCom_Parameter("@categoryDesc", HelperConvert.ConvertToString(iProp.categoryDesc))
+                    , iSql.SqlCom_Parameter("@createName", HelperConvert.ConvertToString(iProp.createName))
+                    , iSql.SqlCom_Parameter("@createDate", HelperConvert.ConvertToDate112(iProp.createDate))
                 );
             }
             catch (Exception ex)

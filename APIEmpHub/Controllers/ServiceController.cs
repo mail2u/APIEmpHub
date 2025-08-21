@@ -1,6 +1,7 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
 using APIEmpHub.Utility.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -8,6 +9,7 @@ using System.Reflection;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ServiceController : baseController<ServiceModels>
@@ -63,6 +65,16 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.userDepartment
                     ,
+                    iData.approveName
+                    ,
+                    iData.approveDate
+                    ,
+                    iData.rejectName
+                    ,
+                    iData.rejectDate
+                    ,
+                    iData.rejectDesc
+                    ,
                     iData.can_cancel
                     ,
                     iData.can_approve
@@ -74,6 +86,22 @@ namespace APIEmpHub.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost]
+        [Route("Cancel")]
+        public IActionResult Cancel(ServiceModels iProp)
+        {
+            try
+            {
+                model.Cancel(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
         }
 
         [HttpPost]

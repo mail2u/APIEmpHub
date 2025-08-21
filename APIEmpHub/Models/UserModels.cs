@@ -180,7 +180,12 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@employeeType", HelperConvert.ConvertToString(iProp.employeeType))
                     , iSql.SqlCom_Parameter("@dateFrom", HelperConvert.ConvertToString(iProp.dateFrom))
                     , iSql.SqlCom_Parameter("@dateTo", HelperConvert.ConvertToString(iProp.dateTo))
+                    , iSql.SqlCom_Parameter("@page", iProp.page)
+                    , iSql.SqlCom_Parameter("@row", iProp.row)
+                    , iSql.SqlCom_Parameter("@total", SqlDbType.Int, ParameterDirection.Output)
                 );
+
+                iProp.total = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@total"].Value);
 
                 if (dtData != null && dtData.Rows.Count > 0)
                 {
@@ -228,6 +233,30 @@ namespace APIEmpHub.Models
             return lData;
         }
 
+        public DataTable UserSummary(UserModels iProp)
+        {
+            String query = "up_user_summary";
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@firstname_th", HelperConvert.ConvertToString(iProp.firstname_th))
+                    , iSql.SqlCom_Parameter("@departmentCode", HelperConvert.ConvertToString(iProp.departmentCode))
+                    , iSql.SqlCom_Parameter("@positionCode", HelperConvert.ConvertToString(iProp.positionCode))
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
         public ServiceAddressModels UserAddress(UserModels iProp)
         {
             String query = "up_user_address_detail";

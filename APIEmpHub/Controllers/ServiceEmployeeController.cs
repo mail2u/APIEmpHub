@@ -1,12 +1,14 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
 using APIEmpHub.Utility.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ServiceEmployeeController : baseController<ServiceEmployeeModels>
@@ -116,44 +118,46 @@ namespace APIEmpHub.Controllers
         {
             try
             {
-                iData = model.DetailByRef(iProp);
+                lData = model.DetailByRef(iProp);
 
-                var vData = new
+                var vData = lData.Select(x=> new
                 {
-                    iData.refId
+                    x.refId
                     ,
-                    iData.employeeId
+                    x.employeeId
                     ,
-                    iData.employeeCode
+                    x.mode
                     ,
-                    iData.employeeType
+                    x.employeeCode
                     ,
-                    iData.employeeDesc
+                    x.employeeType
                     ,
-                    iData.email
+                    x.employeeDesc
                     ,
-                    iData.ext
+                    x.email
                     ,
-                    iData.departmentCode
+                    x.ext
                     ,
-                    iData.departmentDesc
+                    x.departmentCode
                     ,
-                    iData.positionCode
+                    x.departmentDesc
                     ,
-                    iData.positionDesc
+                    x.positionCode
                     ,
-                    iData.join_date
+                    x.positionDesc
                     ,
-                    iData.supervisorId
+                    x.join_date
                     ,
-                    iData.supervisorName
+                    x.supervisorId
                     ,
-                    iData.supervisorPosition
+                    x.supervisorName
                     ,
-                    iData.supervisorDepartment
+                    x.supervisorPosition
                     ,
-                    iData.status
-                };
+                    x.supervisorDepartment
+                    ,
+                    x.status
+                }).ToList();
 
                 return Ok(vData);
             }

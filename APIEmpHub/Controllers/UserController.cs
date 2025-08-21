@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : baseController<UserModels>
@@ -26,6 +27,7 @@ namespace APIEmpHub.Controllers
             this._logger = logger;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("Register")]
         public IActionResult Register(UserModels iProp)
@@ -50,6 +52,7 @@ namespace APIEmpHub.Controllers
             return Ok(vData);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("Login")]
         public IActionResult Login(UserModels iProp)
@@ -133,11 +136,11 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("DataList")]
-        public IActionResult DataList()
+        public IActionResult DataList(UserModels iProp)
         {
             try
             {
-                lData = model.DataList(new UserModels());
+                lData = model.DataList(iProp);
 
                 var vData = lData.Select(x=> new
                 {
@@ -168,12 +171,28 @@ namespace APIEmpHub.Controllers
                     x.employeeType
                 }).ToList();
 
-                return Ok(new { data = vData, total = lData.Count() });
+                return Ok(new { data = vData, total = iProp.total });
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost]
+        [Route("UserSummary")]
+        public IActionResult UserSummary(UserModels iProp)
+        {
+            try
+            {
+                dtData = model.UserSummary(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok(JsonConvert.SerializeObject(dtData));
         }
 
         [Authorize("Admin")]
@@ -185,7 +204,7 @@ namespace APIEmpHub.Controllers
             {
                 lData = model.DataList(iProp);
 
-                var vData = lData.Skip((iProp.page - 1) * iProp.row).Take(iProp.row).Select(x => new
+                var vData = lData.Select(x => new
                 {
                     x.userId
                     ,
@@ -214,7 +233,7 @@ namespace APIEmpHub.Controllers
                     x.employeeType
                 }).ToList();
 
-                return Ok(new { data = vData, total = lData.Count() });
+                return Ok(new { data = vData, total = iProp.total });
             }
             catch (Exception ex)
             {

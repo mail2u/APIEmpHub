@@ -1,5 +1,6 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Reflection;
@@ -7,6 +8,7 @@ using System.Xml.Linq;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class OrgChartController : baseController<OrgChartModels>

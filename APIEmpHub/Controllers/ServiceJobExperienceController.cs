@@ -1,12 +1,14 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
 using APIEmpHub.Utility.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Reflection;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ServiceJobExperienceController : baseController<ServiceJobExperienceModels>
@@ -105,6 +107,8 @@ namespace APIEmpHub.Controllers
                     ,
                     x.jobId
                     ,
+                    x.mode
+                    ,
                     x.company
                     ,
                     x.position
@@ -139,6 +143,8 @@ namespace APIEmpHub.Controllers
                     x.refId
                     ,
                     x.jobId
+                    ,
+                    x.mode
                     ,
                     x.company
                     ,

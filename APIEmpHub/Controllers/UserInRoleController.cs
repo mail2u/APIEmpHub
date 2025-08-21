@@ -8,6 +8,7 @@ using System.Xml.Linq;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserInRoleController : baseController<UserInRoleModels>

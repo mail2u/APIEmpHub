@@ -1,11 +1,13 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Reflection;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ServiceTraningController : baseController<ServiceTraningModels>
@@ -104,6 +106,8 @@ namespace APIEmpHub.Controllers
                     ,
                     x.traningId
                     ,
+                    x.mode
+                    ,
                     x.license
                     ,
                     x.organization
@@ -138,6 +142,8 @@ namespace APIEmpHub.Controllers
                     x.refId
                     ,
                     x.traningId
+                    ,
+                    x.mode
                     ,
                     x.license
                     ,

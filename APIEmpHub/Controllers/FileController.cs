@@ -8,6 +8,7 @@ using Microsoft.Extensions.FileProviders;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class FileController : baseController<FileModels>
