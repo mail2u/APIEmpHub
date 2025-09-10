@@ -47,69 +47,11 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddAuthorization(options =>
 {
     //Admin
-    options.AddPolicy("User", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-        policy.RequireAssertion(context => (context.User.FindFirst(ClaimTypes.Authentication) != null ? context.User.FindFirst(ClaimTypes.Authentication).Value : "").ToLower().Contains("[user]"));
-    });
-
-    //Admin
     options.AddPolicy("Admin", policy =>
     {
         policy.RequireAuthenticatedUser();
         policy.RequireAssertion(context => (context.User.FindFirst(ClaimTypes.Authentication) != null ? context.User.FindFirst(ClaimTypes.Authentication).Value : "").ToLower().Contains("[admin]"));
     });
-
-    //SuperAdmin
-    options.AddPolicy("SuperAdmin", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-        policy.RequireAssertion(context => (context.User.FindFirst(ClaimTypes.Authentication) != null ? context.User.FindFirst(ClaimTypes.Authentication).Value : "").ToLower().Contains("[superadmin]"));
-    });
-
-    //Function
-    options.AddPolicy("Dashboard", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-        policy.RequireAssertion(context => (context.User.FindFirst(ClaimTypes.Authentication) != null ? context.User.FindFirst(ClaimTypes.Authentication).Value : "").ToLower().Contains("[dashboard]"));
-    });
-
-    options.AddPolicy("Monitor", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-        policy.RequireAssertion(context => (context.User.FindFirst(ClaimTypes.Authentication) != null ? context.User.FindFirst(ClaimTypes.Authentication).Value : "").ToLower().Contains("[monitor]"));
-    });
-
-    options.AddPolicy("Work", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-        policy.RequireAssertion(context => (context.User.FindFirst(ClaimTypes.Authentication) != null ? context.User.FindFirst(ClaimTypes.Authentication).Value : "").ToLower().Contains("[work]"));
-    });
-
-    options.AddPolicy("ReportDepartment", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-        policy.RequireAssertion(context => (context.User.FindFirst(ClaimTypes.Authentication) != null ? context.User.FindFirst(ClaimTypes.Authentication).Value : "").ToLower().Contains("[reportdepartment]"));
-    });
-
-    options.AddPolicy("ReportAll", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-        policy.RequireAssertion(context => (context.User.FindFirst(ClaimTypes.Authentication) != null ? context.User.FindFirst(ClaimTypes.Authentication).Value : "").ToLower().Contains("[reportall]"));
-    });
-
-    options.AddPolicy("Link", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-        policy.RequireAssertion(context => (context.User.FindFirst(ClaimTypes.Authentication) != null ? context.User.FindFirst(ClaimTypes.Authentication).Value : "").ToLower().Contains("[link]"));
-    });
-
-    options.AddPolicy("Assign", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-        policy.RequireAssertion(context => (context.User.FindFirst(ClaimTypes.Authentication) != null ? context.User.FindFirst(ClaimTypes.Authentication).Value : "").ToLower().Contains("[assign]"));
-    });
-
 });
 
 builder.Services.AddAuthentication(options =>
