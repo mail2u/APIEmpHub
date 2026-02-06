@@ -2,23 +2,21 @@
 using APIEmpHub.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Reflection;
+using System.Text.Json;
 using System.Xml.Linq;
 
 namespace APIEmpHub.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class OrgChartController : baseController<OrgChartModels>
+    public class ServiceStepTemplateController : baseController<ServiceStepTemplateModels>
     {
-        public OrgChartController(IConfiguration configuration
-            , IWebHostEnvironment hostingEnvironment
-            , ILogger<OrgChartModels> logger)
+        public ServiceStepTemplateController(IConfiguration configuration
+           , IWebHostEnvironment hostingEnvironment
+            , ILogger<ServiceStepTemplateModels> logger)
         {
             this._configuration = configuration;
-            //model.connectionString = this._configuration.GetConnectionString("Connection");
             model.connection = this._configuration.GetSection("Connection").Get<ConnectionModels>();
             model.connectionString = model.connection.GetConnectionString();
             this._webhost = hostingEnvironment;
@@ -28,93 +26,87 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create(OrgChartModels iProp)
+        public IActionResult Create(ServiceStepTemplateModels iProp)
         {
+            this._logger.LogInformation("ServiceStepTemplate_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
             try
             {
-                this._logger.LogInformation("OrgChart_Create : " + JsonConvert.SerializeObject(iProp));
                 model.Create(iProp);
-
-                return Ok(iProp);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("Delete")]
-        public IActionResult Delete(OrgChartModels iProp)
-        {
-            try
-            {
-                this._logger.LogInformation("OrgChart_Delete : " + JsonConvert.SerializeObject(iProp));
-                model.Delete(iProp);
 
                 return Ok();
             }
             catch (Exception ex)
             {
+                this._logger.LogError("ServiceStepTemplate_Create [Error] : " + ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost]
         [Route("Update")]
-        public IActionResult Update(OrgChartModels iProp)
+        public IActionResult Update(ServiceStepTemplateModels iProp)
         {
+            this._logger.LogInformation("ServiceStepTemplate_Update [Request] : " + JsonSerializer.Serialize(iProp));
+
             try
             {
-                this._logger.LogInformation("OrgChart_Update : " + JsonConvert.SerializeObject(iProp));
                 model.Update(iProp);
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
-            }
-        }
+                this._logger.LogError("ServiceStepTemplate_Update [Error] : " + ex.Message);
 
-
-        [HttpPost]
-        [Route("UpdatePosition")]
-        public IActionResult UpdatePosition(OrgChartModels iProp)
-        {
-            try
-            {
-                this._logger.LogInformation("OrgChart_UpdatePosition : " + JsonConvert.SerializeObject(iProp));
-                model.UpdatePosition(iProp);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost]
-        [Route("UpdateParent")]
-        public IActionResult UpdateParent(OrgChartModels iProp)
+        [Route("Sort")]
+        public IActionResult Sort(ServiceStepTemplateModels iProp)
         {
+            this._logger.LogInformation("ServiceStepTemplate_Sort [Request] : " + JsonSerializer.Serialize(iProp));
+
             try
             {
-                this._logger.LogInformation("OrgChart_UpdateParent : " + JsonConvert.SerializeObject(iProp));
-                model.UpdateParent(iProp);
+                model.Sort(iProp);
 
                 return Ok();
             }
             catch (Exception ex)
             {
+                this._logger.LogError("ServiceStepTemplate_Sort [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("Delete")]
+        public IActionResult Delete(ServiceStepTemplateModels iProp)
+        {
+            this._logger.LogInformation("ServiceStepTemplate_Delete [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                model.Delete(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("ServiceStepTemplate_Delete [Error] : " + ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost]
         [Route("DataList")]
-        public IActionResult DataList(OrgChartModels iProp)
+        public IActionResult DataList(ServiceStepTemplateModels iProp)
         {
             try
             {
@@ -122,24 +114,18 @@ namespace APIEmpHub.Controllers
 
                 var vData = lData.Select(x => new
                 {
-                    x.chartId
+                    x.stepId
                     ,
-                    x.id
+                    x.cateId
                     ,
-                    x.parentId
+                    x.stepIndex
                     ,
-                    x.title
+                    x.status
                     ,
-                    x.name
-                    ,
-                    x.levelOffset
-                    ,
-                    x.pos_x
-                    ,
-                    x.pos_y
+                    x.statusDesc
                 }).ToList();
 
-                return Ok(new { data = vData, total = lData.Count() });
+                return Ok(vData);
             }
             catch (Exception ex)
             {

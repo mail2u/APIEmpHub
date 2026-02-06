@@ -381,5 +381,199 @@ namespace APIEmpHub.Models
             return dtData;
         }
 
+        public List<ServiceModels> WorkList(ServiceModels iProp)
+        {
+            String query = "up_service_work_sel";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dsData = iSql.SqlCom_DataAdapterWithDataSet(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@status", HelperConvert.ConvertToString(iProp.status))
+                    , iSql.SqlCom_Parameter("@page", iProp.page)
+                    , iSql.SqlCom_Parameter("@row", iProp.row)
+                    , iSql.SqlCom_Parameter("@sortBy", HelperConvert.ConvertToString(iProp.sortBy))
+                    , iSql.SqlCom_Parameter("@serviceNo", HelperConvert.ConvertToString(iProp.serviceNo))
+                    , iSql.SqlCom_Parameter("@categoryDesc", HelperConvert.ConvertToString(iProp.categoryDesc))
+                    , iSql.SqlCom_Parameter("@createName", HelperConvert.ConvertToString(iProp.createName))
+                    , iSql.SqlCom_Parameter("@createDate", HelperConvert.ConvertToDate112(iProp.createDate))
+                    , iSql.SqlCom_Parameter("@total", SqlDbType.Int, ParameterDirection.Output)
+                );
+
+                iProp.total = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@total"].Value);
+
+                lData = (from r in dsData.Tables[0].AsEnumerable()
+                         select new ServiceModels
+                         {
+                             id = HelperConvert.ConvertToString(r.Field<object>("id")!)
+                             ,
+                             serviceNo = HelperConvert.ConvertToString(r.Field<object>("serviceNo")!)
+                             ,
+                             categoryCode = HelperConvert.ConvertToString(r.Field<object>("categoryCode")!)
+                             ,
+                             categoryDesc = HelperConvert.ConvertToString(r.Field<object>("categoryDesc")!)
+                             ,
+                             title = HelperConvert.ConvertToString(r.Field<object>("title")!)
+                             ,
+                             status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                             ,
+                             statusCss = HelperConvert.ConvertToString(r.Field<object>("statusCss")!)
+                             ,
+                             statusDesc = HelperConvert.ConvertToString(r.Field<object>("statusDesc")!)
+                             ,
+                             createBy = HelperConvert.ConvertToString(r.Field<object>("createBy")!)
+                             ,
+                             createName = HelperConvert.ConvertToString(r.Field<object>("createName")!)
+                             ,
+                             createDate = HelperConvert.ConvertToString(r.Field<object>("createDate")!)
+                             ,
+                             actionDate = HelperConvert.ConvertToString(r.Field<object>("actionDate")!)
+                             ,
+                             orderDate1 = HelperConvert.ConvertToString(r.Field<object>("orderDate1")!)
+                             ,
+                             orderDate2 = HelperConvert.ConvertToString(r.Field<object>("orderDate2")!)
+                         }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return lData;
+        }
+
+        public DataTable WorkSummary(ServiceModels iProp)
+        {
+            String query = "up_service_work_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@serviceNo", HelperConvert.ConvertToString(iProp.serviceNo))
+                    , iSql.SqlCom_Parameter("@categoryDesc", HelperConvert.ConvertToString(iProp.categoryDesc))
+                    , iSql.SqlCom_Parameter("@createName", HelperConvert.ConvertToString(iProp.createName))
+                    , iSql.SqlCom_Parameter("@createDate", HelperConvert.ConvertToDate112(iProp.createDate))
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public List<ServiceModels> InquireList(ServiceModels iProp)
+        {
+            String query = "up_service_inquire_sel";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dsData = iSql.SqlCom_DataAdapterWithDataSet(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@status", HelperConvert.ConvertToString(iProp.status))
+                    , iSql.SqlCom_Parameter("@page", iProp.page)
+                    , iSql.SqlCom_Parameter("@row", iProp.row)
+                    , iSql.SqlCom_Parameter("@sortBy", HelperConvert.ConvertToString(iProp.sortBy))
+                    , iSql.SqlCom_Parameter("@serviceNo", HelperConvert.ConvertToString(iProp.serviceNo))
+                    , iSql.SqlCom_Parameter("@categoryDesc", HelperConvert.ConvertToString(iProp.categoryDesc))
+                    , iSql.SqlCom_Parameter("@createName", HelperConvert.ConvertToString(iProp.createName))
+                    , iSql.SqlCom_Parameter("@createDate", HelperConvert.ConvertToDate112(iProp.createDate))
+                    , iSql.SqlCom_Parameter("@total", SqlDbType.Int, ParameterDirection.Output)
+                );
+
+                iProp.total = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@total"].Value);
+
+                lData = (from r in dsData.Tables[0].AsEnumerable()
+                         select new ServiceModels
+                         {
+                             id = HelperConvert.ConvertToString(r.Field<object>("id")!)
+                             ,
+                             serviceNo = HelperConvert.ConvertToString(r.Field<object>("serviceNo")!)
+                             ,
+                             categoryCode = HelperConvert.ConvertToString(r.Field<object>("categoryCode")!)
+                             ,
+                             categoryDesc = HelperConvert.ConvertToString(r.Field<object>("categoryDesc")!)
+                             ,
+                             title = HelperConvert.ConvertToString(r.Field<object>("title")!)
+                             ,
+                             status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                             ,
+                             statusCss = HelperConvert.ConvertToString(r.Field<object>("statusCss")!)
+                             ,
+                             statusDesc = HelperConvert.ConvertToString(r.Field<object>("statusDesc")!)
+                             ,
+                             createBy = HelperConvert.ConvertToString(r.Field<object>("createBy")!)
+                             ,
+                             createName = HelperConvert.ConvertToString(r.Field<object>("createName")!)
+                             ,
+                             createDate = HelperConvert.ConvertToString(r.Field<object>("createDate")!)
+                             ,
+                             actionDate = HelperConvert.ConvertToString(r.Field<object>("actionDate")!)
+                             ,
+                             orderDate1 = HelperConvert.ConvertToString(r.Field<object>("orderDate1")!)
+                             ,
+                             orderDate2 = HelperConvert.ConvertToString(r.Field<object>("orderDate2")!)
+                         }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return lData;
+        }
+
+        public DataTable InquireSummary(ServiceModels iProp)
+        {
+            String query = "up_service_inquire_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@serviceNo", HelperConvert.ConvertToString(iProp.serviceNo))
+                    , iSql.SqlCom_Parameter("@categoryDesc", HelperConvert.ConvertToString(iProp.categoryDesc))
+                    , iSql.SqlCom_Parameter("@createName", HelperConvert.ConvertToString(iProp.createName))
+                    , iSql.SqlCom_Parameter("@createDate", HelperConvert.ConvertToDate112(iProp.createDate))
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
     }
 }

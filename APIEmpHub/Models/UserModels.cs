@@ -120,6 +120,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@userId", SqlDbType.NVarChar, 50, ParameterDirection.Output)
                     , iSql.SqlCom_Parameter("@firstname_th", SqlDbType.NVarChar, 50, ParameterDirection.Output)
                     , iSql.SqlCom_Parameter("@lastname_th", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@position", SqlDbType.NVarChar, 50, ParameterDirection.Output)
                     , iSql.SqlCom_Parameter("@department", SqlDbType.NVarChar, 50, ParameterDirection.Output)
                     , iSql.SqlCom_Parameter("@role", SqlDbType.NVarChar, 200, ParameterDirection.Output)
                     , iSql.SqlCom_Parameter("@username", HelperConvert.ConvertToString(iProp.username))
@@ -129,6 +130,7 @@ namespace APIEmpHub.Models
                 iProp.userId = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@userId"].Value);
                 iProp.firstname_th = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@firstname_th"].Value);
                 iProp.lastname_th = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@lastname_th"].Value);
+                iProp.positionDesc = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@position"].Value);
                 iProp.departmentDesc = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@department"].Value);
                 iProp.role = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@role"].Value);
             }
@@ -182,6 +184,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@dateTo", HelperConvert.ConvertToString(iProp.dateTo))
                     , iSql.SqlCom_Parameter("@page", iProp.page)
                     , iSql.SqlCom_Parameter("@row", iProp.row)
+                    , iSql.SqlCom_Parameter("@sortBy", HelperConvert.ConvertToString(iProp.sortBy))
                     , iSql.SqlCom_Parameter("@total", SqlDbType.Int, ParameterDirection.Output)
                 );
 

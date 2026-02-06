@@ -76,6 +76,8 @@ namespace APIEmpHub.Controllers
                 ,
                 iProp.lastname_th
                 ,
+                iProp.positionDesc
+                ,
                 iProp.departmentDesc
                 ,
                 iProp.role

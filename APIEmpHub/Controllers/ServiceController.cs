@@ -254,5 +254,123 @@ namespace APIEmpHub.Controllers
             return Ok(JsonConvert.SerializeObject(dtData));
         }
 
+        [HttpPost]
+        [Route("WorkList")]
+        public IActionResult WorkList(ServiceModels iProp)
+        {
+            try
+            {
+                lData = model.WorkList(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            var vData = lData.Select(x => new
+            {
+                x.id
+                ,
+                x.serviceNo
+                ,
+                x.categoryCode
+                ,
+                x.categoryDesc
+                ,
+                x.title
+                ,
+                x.status
+                ,
+                x.statusCss
+                ,
+                x.statusDesc
+                ,
+                x.createBy
+                ,
+                x.createName
+                ,
+                x.createDate
+                ,
+                x.actionDate
+            }).ToList();
+
+            return Ok(new { data = vData, total = iProp.total });
+        }
+
+        [HttpPost]
+        [Route("WorkSummary")]
+        public IActionResult WorkSummary(ServiceModels iProp)
+        {
+            try
+            {
+                dtData = model.WorkSummary(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok(JsonConvert.SerializeObject(dtData));
+        }
+
+        [HttpPost]
+        [Route("InquireList")]
+        public IActionResult InquireList(ServiceModels iProp)
+        {
+            try
+            {
+                lData = model.InquireList(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            var vData = lData.Select(x => new
+            {
+                x.id
+                ,
+                x.serviceNo
+                ,
+                x.categoryCode
+                ,
+                x.categoryDesc
+                ,
+                x.title
+                ,
+                x.status
+                ,
+                x.statusCss
+                ,
+                x.statusDesc
+                ,
+                x.createBy
+                ,
+                x.createName
+                ,
+                x.createDate
+                ,
+                x.actionDate
+            }).ToList();
+
+            return Ok(new { data = vData, total = iProp.total });
+        }
+
+        [HttpPost]
+        [Route("InquireSummary")]
+        public IActionResult InquireSummary(ServiceModels iProp)
+        {
+            try
+            {
+                dtData = model.InquireSummary(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok(JsonConvert.SerializeObject(dtData));
+        }
+
     }
 }

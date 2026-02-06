@@ -16,6 +16,8 @@ namespace APIEmpHub.Models
         public string title { get; set; }
         public string name { get; set; }
         public int levelOffset { get; set; }
+        public int pos_x { get; set; }
+        public int pos_y { get; set; }
         public string create_by { get; set; }
         public string update_by { get; set; }
 
@@ -56,6 +58,7 @@ namespace APIEmpHub.Models
             {
                 iSql.Open(connectionString);
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@chartId", HelperConvert.ConvertToString(iProp.chartId))
                     , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
                     , iSql.SqlCom_Parameter("@parentId", HelperConvert.ConvertToString(iProp.parentId))
                     , iSql.SqlCom_Parameter("@title", HelperConvert.ConvertToString(iProp.title))
@@ -72,6 +75,54 @@ namespace APIEmpHub.Models
                 iSql.Close();
             }
         }
+
+        public void UpdatePosition(OrgChartModels iProp)
+        {
+            String query = "up_orgchart_upd_position";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@chartId", HelperConvert.ConvertToString(iProp.chartId))
+                    , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
+                    , iSql.SqlCom_Parameter("@pos_x", iProp.pos_x)
+                    , iSql.SqlCom_Parameter("@pos_y", iProp.pos_y)
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void UpdateParent(OrgChartModels iProp)
+        {
+            String query = "up_orgchart_upd_parent";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@chartId", HelperConvert.ConvertToString(iProp.chartId))
+                    , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
+                    , iSql.SqlCom_Parameter("@parentId", HelperConvert.ConvertToString(iProp.parentId))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
 
         public void Delete(OrgChartModels iProp)
         {
@@ -105,7 +156,7 @@ namespace APIEmpHub.Models
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@chartId", HelperConvert.ConvertToString(iProp.chartId))
-                    , iSql.SqlCom_Parameter("@parentId", HelperConvert.ConvertToString(iProp.parentId))
+                    , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
                 );
 
                 if (dtData != null && dtData.Rows.Count > 0)
@@ -125,6 +176,10 @@ namespace APIEmpHub.Models
                                  name = HelperConvert.ConvertToString(r.Field<object>("name")!)
                                  ,
                                  levelOffset = HelperConvert.ConvertToInt(r.Field<object>("levelOffset")!)
+                                 ,
+                                 pos_x = HelperConvert.ConvertToInt(r.Field<object>("pos_x")!)
+                                 ,
+                                 pos_y = HelperConvert.ConvertToInt(r.Field<object>("pos_y")!)
                              }).ToList();
                 }
             }
