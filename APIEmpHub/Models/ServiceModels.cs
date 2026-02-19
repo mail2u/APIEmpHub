@@ -9,9 +9,14 @@ namespace APIEmpHub.Models
         public string id { get; set; }
         public string userId { get; set; }
         public string serviceNo { get; set; }
+        public string categoryId { get; set; }
         public string categoryCode { get; set; }
         public string categoryDesc { get; set; }
+        public string subCategoryId { get; set; }
+        public string subCategoryCode { get; set; }
+        public string subCategoryDesc { get; set; }
         public string title { get; set; }
+        public string detail { get; set; }
         public string status { get; set; }
         public string statusCss { get; set; }
         public string statusDesc { get; set; }
@@ -34,6 +39,8 @@ namespace APIEmpHub.Models
         public int is_action { get; set; }
         public int can_cancel { get; set; }
         public int can_approve { get; set; }
+        public int can_work { get; set; }
+        public int can_assign { get; set; }
 
         public string actionDate { get; set; }
         public string userBy { get; set; }
@@ -73,6 +80,10 @@ namespace APIEmpHub.Models
                              ,
                              categoryDesc = HelperConvert.ConvertToString(r.Field<object>("categoryDesc")!)
                              ,
+                             subCategoryCode = HelperConvert.ConvertToString(r.Field<object>("subCategoryCode")!)
+                             ,
+                             subCategoryDesc = HelperConvert.ConvertToString(r.Field<object>("subCategoryDesc")!)
+                             ,
                              title = HelperConvert.ConvertToString(r.Field<object>("title")!)
                              ,
                              status = HelperConvert.ConvertToString(r.Field<object>("status")!)
@@ -104,6 +115,10 @@ namespace APIEmpHub.Models
                              can_cancel = HelperConvert.ConvertToInt(r.Field<object>("can_cancel")!)
                              ,
                              can_approve = HelperConvert.ConvertToInt(r.Field<object>("can_approve")!)
+                             ,
+                             can_work = HelperConvert.ConvertToInt(r.Field<object>("can_work")!)
+                             ,
+                             can_assign = HelperConvert.ConvertToInt(r.Field<object>("can_assign")!)
                          }).FirstOrDefault()!;
             }
             catch (Exception ex)
@@ -116,6 +131,64 @@ namespace APIEmpHub.Models
             }
 
             return iData;
+        }
+
+        public void Create(ServiceModels iProp)
+        {
+            String query = "up_service_ins";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@categoryId", HelperConvert.ConvertToString(iProp.categoryId))
+                    , iSql.SqlCom_Parameter("@categoryCode", HelperConvert.ConvertToString(iProp.categoryCode))
+                    , iSql.SqlCom_Parameter("@categoryDesc", HelperConvert.ConvertToString(iProp.categoryDesc))
+                    , iSql.SqlCom_Parameter("@subCategoryId", HelperConvert.ConvertToString(iProp.subCategoryId))
+                    , iSql.SqlCom_Parameter("@subCategoryCode", HelperConvert.ConvertToString(iProp.subCategoryCode))
+                    , iSql.SqlCom_Parameter("@subCategoryDesc", HelperConvert.ConvertToString(iProp.subCategoryDesc))
+                    , iSql.SqlCom_Parameter("@title", HelperConvert.ConvertToString(iProp.title))
+                    , iSql.SqlCom_Parameter("@detail", HelperConvert.ConvertToString(iProp.detail))
+                    , iSql.SqlCom_Parameter("@createBy", HelperConvert.ConvertToString(iProp.createBy))
+                    , iSql.SqlCom_Parameter("@id", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    );
+
+                iProp.id = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@id"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void Request(ServiceModels iProp)
+        {
+            String query = "up_service_request_upd";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@serviceNo", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    );
+
+                iProp.serviceNo = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@serviceNo"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
         }
 
         public void Cancel(ServiceModels iProp)
@@ -222,6 +295,10 @@ namespace APIEmpHub.Models
                              ,
                              categoryDesc = HelperConvert.ConvertToString(r.Field<object>("categoryDesc")!)
                              ,
+                             subCategoryCode = HelperConvert.ConvertToString(r.Field<object>("subCategoryCode")!)
+                             ,
+                             subCategoryDesc = HelperConvert.ConvertToString(r.Field<object>("subCategoryDesc")!)
+                             ,
                              title = HelperConvert.ConvertToString(r.Field<object>("title")!)
                              ,
                              status = HelperConvert.ConvertToString(r.Field<object>("status")!)
@@ -318,6 +395,10 @@ namespace APIEmpHub.Models
                              categoryCode = HelperConvert.ConvertToString(r.Field<object>("categoryCode")!)
                              ,
                              categoryDesc = HelperConvert.ConvertToString(r.Field<object>("categoryDesc")!)
+                             ,
+                             subCategoryCode = HelperConvert.ConvertToString(r.Field<object>("subCategoryCode")!)
+                             ,
+                             subCategoryDesc = HelperConvert.ConvertToString(r.Field<object>("subCategoryDesc")!)
                              ,
                              title = HelperConvert.ConvertToString(r.Field<object>("title")!)
                              ,
@@ -416,6 +497,10 @@ namespace APIEmpHub.Models
                              ,
                              categoryDesc = HelperConvert.ConvertToString(r.Field<object>("categoryDesc")!)
                              ,
+                             subCategoryCode = HelperConvert.ConvertToString(r.Field<object>("subCategoryCode")!)
+                             ,
+                             subCategoryDesc = HelperConvert.ConvertToString(r.Field<object>("subCategoryDesc")!)
+                             ,
                              title = HelperConvert.ConvertToString(r.Field<object>("title")!)
                              ,
                              status = HelperConvert.ConvertToString(r.Field<object>("status")!)
@@ -512,6 +597,10 @@ namespace APIEmpHub.Models
                              categoryCode = HelperConvert.ConvertToString(r.Field<object>("categoryCode")!)
                              ,
                              categoryDesc = HelperConvert.ConvertToString(r.Field<object>("categoryDesc")!)
+                             ,
+                             subCategoryCode = HelperConvert.ConvertToString(r.Field<object>("subCategoryCode")!)
+                             ,
+                             subCategoryDesc = HelperConvert.ConvertToString(r.Field<object>("subCategoryDesc")!)
                              ,
                              title = HelperConvert.ConvertToString(r.Field<object>("title")!)
                              ,

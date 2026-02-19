@@ -126,12 +126,6 @@ namespace APIEmpHub.Controllers
                     ,
                     x.allow_every
                     ,
-                    x.allow_pr_po
-                    ,
-                    x.allow_pr_non_po
-                    ,
-                    x.allow_pr_non_po_adv
-                    ,
                     x.order_index
                     ,
                     x.min_amount
@@ -170,12 +164,6 @@ namespace APIEmpHub.Controllers
                     x.min_amount
                     ,
                     x.max_amount
-                    ,
-                    x.allow_pr_po
-                    ,
-                    x.allow_pr_non_po
-                    ,
-                    x.allow_pr_non_po_adv
                 }).ToList();
 
                 return Ok(vData);

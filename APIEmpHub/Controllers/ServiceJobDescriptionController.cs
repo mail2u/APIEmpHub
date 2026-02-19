@@ -1,21 +1,17 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
-using APIEmpHub.Utility.Helper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace APIEmpHub.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class ServiceEmployeeController : baseController<ServiceEmployeeModels>
+    public class ServiceJobDescriptionController : baseController<ServiceJobDescriptionModels>
     {
-        public ServiceEmployeeController(IConfiguration configuration
+        public ServiceJobDescriptionController(IConfiguration configuration
            , IWebHostEnvironment hostingEnvironment
-            , ILogger<ServiceEmployeeModels> logger)
+            , ILogger<ServiceJobDescriptionModels> logger)
         {
             this._configuration = configuration;
             model.connection = this._configuration.GetSection("Connection").Get<ConnectionModels>();
@@ -27,11 +23,11 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public IActionResult Save(ServiceEmployeeModels iProp)
+        public IActionResult Save(ServiceJobDescriptionModels iProp)
         {
             try
             {
-                this._logger.LogInformation("ServiceEmployee Save : " + JsonConvert.SerializeObject(iProp));
+                this._logger.LogInformation("ServicJobDescription Save : " + JsonConvert.SerializeObject(iProp));
                 model.Save(iProp);
             }
             catch (Exception ex)
@@ -44,7 +40,7 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Detail")]
-        public IActionResult Detail(ServiceEmployeeModels iProp)
+        public IActionResult Detail(ServiceJobDescriptionModels iProp)
         {
             try
             {
@@ -54,40 +50,44 @@ namespace APIEmpHub.Controllers
                 {
                     iData.refId
                     ,
-                    iData.employeeId
+                    iData.positionName
                     ,
-                    iData.employeeCode
+                    iData.jobFunction
                     ,
-                    iData.employeeType
+                    iData.departmentName
                     ,
-                    iData.employeeDesc
-                    , 
-                    iData.email
+                    iData.sectionName
                     ,
-                    iData.ext
+                    iData.position_description
                     ,
-                    iData.departmentCode
+                    iData.major_description
                     ,
-                    iData.departmentDesc
+                    iData.education
                     ,
-                    iData.positionCode
+                    iData.experience
                     ,
-                    iData.positionDesc
+                    iData.functional_competencies
                     ,
-                    iData.join_date
+                    iData.leadership_competencies
                     ,
-                    iData.supervisorId
+                    iData.financial
                     ,
-                    iData.supervisorName
+                    iData.customer_and_market
                     ,
-                    iData.supervisorPosition
+                    iData.process
                     ,
-                    iData.supervisorDepartment
+                    iData.people_development
                     ,
-                    iData.status
+                    iData.internal_description
+                    ,
+                    iData.internal_contact_description
+                    ,
+                    iData.external_description
+                    ,
+                    iData.external_contact_description
                 };
 
-                return Ok(vData);
+                return Ok(new { iProp.can_edit, data = vData });
             }
             catch (Exception ex)
             {

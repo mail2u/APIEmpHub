@@ -11,13 +11,11 @@ namespace APIEmpHub.Models
         public string roleId { get; set; }
         public string parentId { get; set; }
         public string cateId { get; set; }
+        public string cateCode { get; set; }
         public string cateDesc { get; set; }
         public string description { get; set; }
         public int is_authen { get; set; }
         public int allow_every { get; set; }
-        public int allow_pr_po { get; set; }
-        public int allow_pr_non_po { get; set; }
-        public int allow_pr_non_po_adv { get; set; }
         public int order_index { get; set; }
         public decimal min_amount { get; set; }
         public decimal max_amount { get; set; }
@@ -93,6 +91,8 @@ namespace APIEmpHub.Models
                              {
                                  cateId = HelperConvert.ConvertToString(r.Field<object>("cateId")!)
                                  ,
+                                 cateCode = HelperConvert.ConvertToString(r.Field<object>("cateCode")!)
+                                 ,
                                  cateDesc = HelperConvert.ConvertToString(r.Field<object>("cateDesc")!)
                                  ,
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
@@ -111,6 +111,8 @@ namespace APIEmpHub.Models
                                                            ,
                                                            cateId = HelperConvert.ConvertToString(r.Field<object>("cateId")!)
                                                            ,
+                                                           cateCode = HelperConvert.ConvertToString(r.Field<object>("cateCode")!)
+                                                           ,
                                                            cateDesc = HelperConvert.ConvertToString(r.Field<object>("cateDesc")!)
                                                            ,
                                                            description = HelperConvert.ConvertToString(r.Field<object>("description")!)
@@ -128,6 +130,8 @@ namespace APIEmpHub.Models
                                                             parentId = HelperConvert.ConvertToString(r.Field<object>("parentId")!)
                                                             ,
                                                             cateId = HelperConvert.ConvertToString(r.Field<object>("cateId")!)
+                                                            ,
+                                                            cateCode = HelperConvert.ConvertToString(r.Field<object>("cateCode")!)
                                                             ,
                                                             cateDesc = HelperConvert.ConvertToString(r.Field<object>("cateDesc")!)
                                                             ,
@@ -157,6 +161,45 @@ namespace APIEmpHub.Models
 
                         return x;
                     }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return lData;
+        }
+
+        public List<CateInRoleModels> DataList(CateInRoleModels iProp)
+        {
+            String query = "up_cate_in_role_sel";
+            lData = new List<CateInRoleModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dsData = iSql.SqlCom_DataAdapterWithDataSet(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@roleId", HelperConvert.ConvertToString(iProp.roleId))
+                );
+
+                if (dsData != null && dsData.Tables.Count > 0)
+                {
+                    lData = (from r in dsData.Tables[0].AsEnumerable()
+                             select new CateInRoleModels
+                             {
+                                 roleId = HelperConvert.ConvertToString(r.Field<object>("roleId")!)
+                                 ,
+                                 cateId = HelperConvert.ConvertToString(r.Field<object>("cateId")!)
+                                 ,
+                                 cateCode = HelperConvert.ConvertToString(r.Field<object>("cateCode")!)
+                                 ,
+                                 cateDesc = HelperConvert.ConvertToString(r.Field<object>("cateDesc")!)
+                             }).ToList();
                 }
             }
             catch (Exception ex)

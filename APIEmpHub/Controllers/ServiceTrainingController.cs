@@ -1,6 +1,5 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
-using APIEmpHub.Utility.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -11,11 +10,11 @@ namespace APIEmpHub.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class ServiceEducationController : baseController<ServiceEducationModels>
+    public class ServiceTrainingController : baseController<ServiceTrainingModels>
     {
-        public ServiceEducationController(IConfiguration configuration
+        public ServiceTrainingController(IConfiguration configuration
            , IWebHostEnvironment hostingEnvironment
-            , ILogger<ServiceEducationModels> logger)
+            , ILogger<ServiceTrainingModels> logger)
         {
             this._configuration = configuration;
             model.connection = this._configuration.GetSection("Connection").Get<ConnectionModels>();
@@ -27,13 +26,13 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public IActionResult Save(List<ServiceEducationModels> lProp)
+        public IActionResult Save(List<ServiceTrainingModels> lProp)
         {
             try
             {
-                this._logger.LogInformation("ServiceEducation Save : " + JsonConvert.SerializeObject(lProp));
+                this._logger.LogInformation("Servicetraining Save : " + JsonConvert.SerializeObject(lProp));
 
-                foreach (ServiceEducationModels iProp in lProp)
+                foreach (ServiceTrainingModels iProp in lProp)
                 {
                     model.Save(iProp);
                 }
@@ -48,7 +47,7 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Detail")]
-        public IActionResult Detail(ServiceEducationModels iProp)
+        public IActionResult Detail(ServiceTrainingModels iProp)
         {
             try
             {
@@ -58,17 +57,17 @@ namespace APIEmpHub.Controllers
                 {
                     x.refId
                     ,
-                    x.educationId
+                    x.trainingId
                     ,
                     x.mode
                     ,
-                    x.levelCode
+                    x.license
                     ,
-                    x.levelName
+                    x.organization
                     ,
-                    x.institution
+                    x.issueDate
                     ,
-                    x.year
+                    x.expireDate
                     ,
                     x.description
                     ,

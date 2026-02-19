@@ -18,6 +18,8 @@ namespace APIEmpHub.iBase
         public int row { get; set; }
         public int page { get; set; }
         public int total { get; set; }
+        public int can_view { get; set; }
+        public int can_edit { get; set; }
         public string sortBy { get; set; }
         public string orderDate1 { get; set; }
         public string orderDate2 { get; set; }

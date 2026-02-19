@@ -24,7 +24,6 @@ namespace APIEmpHub.Controllers
             this._logger = logger;
         }
 
-        [Authorize("Admin")]
         [HttpPost]
         [Route("Create")]
         public IActionResult Create(CateInRoleModels iProp)
@@ -45,7 +44,6 @@ namespace APIEmpHub.Controllers
             }
         }
 
-        [Authorize("Admin")]
         [HttpPost]
         [Route("Delete")]
         public IActionResult Delete(CateInRoleModels iProp)
@@ -66,7 +64,6 @@ namespace APIEmpHub.Controllers
             }
         }
 
-        [Authorize("Admin")]
         [HttpPost]
         [Route("AllList")]
         public IActionResult AllList(CateInRoleModels iProp)
@@ -81,6 +78,8 @@ namespace APIEmpHub.Controllers
                     ,
                     x.cateId
                     ,
+                    x.cateCode
+                    ,
                     x.cateDesc
                     ,
                     x.description
@@ -92,6 +91,33 @@ namespace APIEmpHub.Controllers
                     x.is_authen
                     ,
                     x.lSub
+                }).ToList();
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("DataList")]
+        public IActionResult DataList(CateInRoleModels iProp)
+        {
+            try
+            {
+                lData = model.DataList(iProp);
+
+                var vData = lData.Select(x => new
+                {
+                    x.roleId
+                    ,
+                    x.cateId
+                    ,
+                    x.cateCode
+                    ,
+                    x.cateDesc
                 }).ToList();
 
                 return Ok(vData);

@@ -11,6 +11,9 @@ namespace APIEmpHub.Models
         public string cateId { get; set; }
         public string categoryCode { get; set; }
         public string categoryDesc { get; set; }
+        public string subCateId { get; set; }
+        public string subCategoryCode { get; set; }
+        public string subCategoryDesc { get; set; }
         public string description { get; set; }
         public int allow_every { get; set; }
         public int order_index { get; set; }
@@ -177,6 +180,8 @@ namespace APIEmpHub.Models
                              {
                                  cateId = HelperConvert.ConvertToString(r.Field<object>("cateId")!)
                                  ,
+                                 cateCode = HelperConvert.ConvertToString(r.Field<object>("cateCode")!)
+                                 ,
                                  cateDesc = HelperConvert.ConvertToString(r.Field<object>("cateDesc")!)
                                  ,
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
@@ -193,6 +198,8 @@ namespace APIEmpHub.Models
                                                            ,
                                                            cateId = HelperConvert.ConvertToString(r.Field<object>("cateId")!)
                                                            ,
+                                                           cateCode = HelperConvert.ConvertToString(r.Field<object>("cateCode")!)
+                                                           ,
                                                            cateDesc = HelperConvert.ConvertToString(r.Field<object>("cateDesc")!)
                                                            ,
                                                            description = HelperConvert.ConvertToString(r.Field<object>("description")!)
@@ -208,6 +215,8 @@ namespace APIEmpHub.Models
                                                              parentId = HelperConvert.ConvertToString(r.Field<object>("parentId")!)
                                                              ,
                                                              cateId = HelperConvert.ConvertToString(r.Field<object>("cateId")!)
+                                                             ,
+                                                             cateCode = HelperConvert.ConvertToString(r.Field<object>("cateCode")!)
                                                              ,
                                                              cateDesc = HelperConvert.ConvertToString(r.Field<object>("cateDesc")!)
                                                              ,
@@ -270,6 +279,8 @@ namespace APIEmpHub.Models
                              {
                                  cateId = HelperConvert.ConvertToString(r.Field<object>("cateId")!)
                                  ,
+                                 cateCode = HelperConvert.ConvertToString(r.Field<object>("cateCode")!)
+                                 ,
                                  cateDesc = HelperConvert.ConvertToString(r.Field<object>("cateDesc")!)
                                  ,
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
@@ -286,17 +297,13 @@ namespace APIEmpHub.Models
                                                            ,
                                                            cateId = HelperConvert.ConvertToString(r.Field<object>("cateId")!)
                                                            ,
+                                                           cateCode = HelperConvert.ConvertToString(r.Field<object>("cateCode")!)
+                                                           ,
                                                            cateDesc = HelperConvert.ConvertToString(r.Field<object>("cateDesc")!)
                                                            ,
                                                            description = HelperConvert.ConvertToString(r.Field<object>("description")!)
                                                            ,
                                                            allow_every = HelperConvert.ConvertToInt(r.Field<object>("allow_every")!)
-                                                           ,
-                                                           allow_pr_po = HelperConvert.ConvertToInt(r.Field<object>("allow_pr_po")!)
-                                                           ,
-                                                           allow_pr_non_po = HelperConvert.ConvertToInt(r.Field<object>("allow_pr_non_po")!)
-                                                           ,
-                                                           allow_pr_non_po_adv = HelperConvert.ConvertToInt(r.Field<object>("allow_pr_non_po_adv")!)
                                                            ,
                                                            order_index = HelperConvert.ConvertToInt(r.Field<object>("order_index")!)
                                                        }).ToList();
@@ -307,6 +314,8 @@ namespace APIEmpHub.Models
                                                              parentId = HelperConvert.ConvertToString(r.Field<object>("parentId")!)
                                                              ,
                                                              cateId = HelperConvert.ConvertToString(r.Field<object>("cateId")!)
+                                                             ,
+                                                             cateCode = HelperConvert.ConvertToString(r.Field<object>("cateCode")!)
                                                              ,
                                                              cateDesc = HelperConvert.ConvertToString(r.Field<object>("cateDesc")!)
                                                              ,
@@ -394,5 +403,51 @@ namespace APIEmpHub.Models
 
             return dtData;
         }
+
+        public List<CategoryModels> CategoryByCode(CategoryModels iProp)
+        {
+            String query = "up_category_sel_by_code";
+            lData = new List<CategoryModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@subCategoryCode", HelperConvert.ConvertToString(iProp.subCategoryCode))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+                    lData = (from r in dtData.AsEnumerable()
+                             select new CategoryModels
+                             {
+                                 sysId = HelperConvert.ConvertToString(r.Field<object>("sysId")!)
+                                 ,
+                                 cateId = HelperConvert.ConvertToString(r.Field<object>("cateId")!)
+                                 ,
+                                 categoryCode = HelperConvert.ConvertToString(r.Field<object>("categoryCode")!)
+                                 ,
+                                 categoryDesc = HelperConvert.ConvertToString(r.Field<object>("categoryDesc")!)
+                                 ,
+                                 subCateId = HelperConvert.ConvertToString(r.Field<object>("subCateId")!)
+                                 ,
+                                 subCategoryCode = HelperConvert.ConvertToString(r.Field<object>("subCategoryCode")!)
+                                 ,
+                                 subCategoryDesc = HelperConvert.ConvertToString(r.Field<object>("subCategoryDesc")!)
+                             }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return lData;
+        }
+
     }
 }

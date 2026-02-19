@@ -37,7 +37,7 @@ namespace APIEmpHub.Models
             {
                 iSql.Open(connectionString);
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
                     , iSql.SqlCom_Parameter("@employeeCode", HelperConvert.ConvertToString(iProp.employeeCode))
                     , iSql.SqlCom_Parameter("@employeeType", HelperConvert.ConvertToString(iProp.employeeType))
                     , iSql.SqlCom_Parameter("@email", HelperConvert.ConvertToString(iProp.email))
@@ -59,28 +59,6 @@ namespace APIEmpHub.Models
             }
         }
 
-        public void Cancel(ServiceEmployeeModels iProp)
-        {
-            String query = "up_service_employee_cancel";
-
-            try
-            {
-                iSql.Open(connectionString);
-                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
-                    , iSql.SqlCom_Parameter("@update_by", HelperConvert.ConvertToString(iProp.update_by))
-                    );
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex.InnerException);
-            }
-            finally
-            {
-                iSql.Close();
-            }
-        }
-
         public ServiceEmployeeModels Detail(ServiceEmployeeModels iProp)
         {
             String query = "up_service_employee_detail";
@@ -90,8 +68,7 @@ namespace APIEmpHub.Models
             {
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
-                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
                 );
 
                 if (dtData != null && dtData.Rows.Count > 0)
@@ -131,8 +108,6 @@ namespace APIEmpHub.Models
                                  supervisorPosition = HelperConvert.ConvertToString(r.Field<object>("supervisorPosition")!)
                                  ,
                                  supervisorDepartment = HelperConvert.ConvertToString(r.Field<object>("supervisorDepartment")!)
-                                 ,
-                                 status = HelperConvert.ConvertToString(r.Field<object>("status")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -146,74 +121,6 @@ namespace APIEmpHub.Models
             }
 
             return iData;
-        }
-
-        public List<ServiceEmployeeModels> DetailByRef(ServiceEmployeeModels iProp)
-        {
-            String query = "up_service_employee_detail_by_ref";
-            lData = new List<ServiceEmployeeModels>();
-
-            try
-            {
-                iSql.Open(connectionString);
-                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
-                );
-
-                if (dtData != null && dtData.Rows.Count > 0)
-                {
-
-                    lData = (from r in dtData.AsEnumerable()
-                             select new ServiceEmployeeModels
-                             {
-                                 refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
-                                 ,
-                                 employeeId = HelperConvert.ConvertToString(r.Field<object>("employeeId")!)
-                                 ,
-                                 mode = HelperConvert.ConvertToString(r.Field<object>("mode")!)
-                                 ,
-                                 employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
-                                 ,
-                                 employeeType = HelperConvert.ConvertToString(r.Field<object>("employeeType")!)
-                                 ,
-                                 employeeDesc = HelperConvert.ConvertToString(r.Field<object>("employeeDesc")!)
-                                 ,
-                                 email = HelperConvert.ConvertToString(r.Field<object>("email")!)
-                                 ,
-                                 ext = HelperConvert.ConvertToString(r.Field<object>("ext")!)
-                                 ,
-                                 departmentCode = HelperConvert.ConvertToString(r.Field<object>("departmentCode")!)
-                                 ,
-                                 departmentDesc = HelperConvert.ConvertToString(r.Field<object>("departmentDesc")!)
-                                 ,
-                                 positionCode = HelperConvert.ConvertToString(r.Field<object>("positionCode")!)
-                                 ,
-                                 positionDesc = HelperConvert.ConvertToString(r.Field<object>("positionDesc")!)
-                                 ,
-                                 join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
-                                 ,
-                                 supervisorId = HelperConvert.ConvertToString(r.Field<object>("supervisorId")!)
-                                 ,
-                                 supervisorName = HelperConvert.ConvertToString(r.Field<object>("supervisorName")!)
-                                 ,
-                                 supervisorPosition = HelperConvert.ConvertToString(r.Field<object>("supervisorPosition")!)
-                                 ,
-                                 supervisorDepartment = HelperConvert.ConvertToString(r.Field<object>("supervisorDepartment")!)
-                                 ,
-                                 status = HelperConvert.ConvertToString(r.Field<object>("status")!)
-                             }).ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex.InnerException);
-            }
-            finally
-            {
-                iSql.Close();
-            }
-
-            return lData;
         }
     }
 }

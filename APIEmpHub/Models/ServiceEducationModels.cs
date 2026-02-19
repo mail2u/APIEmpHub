@@ -28,7 +28,7 @@ namespace APIEmpHub.Models
             {
                 iSql.Open(connectionString);
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
                     , iSql.SqlCom_Parameter("@educationId", HelperConvert.ConvertToString(iProp.educationId))
                     , iSql.SqlCom_Parameter("@levelCode", HelperConvert.ConvertToString(iProp.levelCode))
                     , iSql.SqlCom_Parameter("@levelName", HelperConvert.ConvertToString(iProp.levelName))
@@ -48,126 +48,9 @@ namespace APIEmpHub.Models
             }
         }
 
-        public void Clone(ServiceEducationModels iProp)
-        {
-            String query = "up_service_education_clone";
-
-            try
-            {
-                iSql.Open(connectionString);
-                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
-                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
-                    );
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex.InnerException);
-            }
-            finally
-            {
-                iSql.Close();
-            }
-        }
-
-        public void Cancel(ServiceEducationModels iProp)
-        {
-            String query = "up_service_education_cancel";
-
-            try
-            {
-                iSql.Open(connectionString);
-                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
-                    , iSql.SqlCom_Parameter("@update_by", HelperConvert.ConvertToString(iProp.update_by))
-                    );
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex.InnerException);
-            }
-            finally
-            {
-                iSql.Close();
-            }
-        }
-
-        public void Delete(ServiceEducationModels iProp)
-        {
-            String query = "up_service_education_del";
-
-            try
-            {
-                iSql.Open(connectionString);
-                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@educationId", HelperConvert.ConvertToString(iProp.educationId))
-                    , iSql.SqlCom_Parameter("@update_by", HelperConvert.ConvertToString(iProp.update_by))
-                    );
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex.InnerException);
-            }
-            finally
-            {
-                iSql.Close();
-            }
-        }
-
         public List<ServiceEducationModels> DataList(ServiceEducationModels iProp)
         {
             String query = "up_service_education_sel";
-            lData = new List<ServiceEducationModels>();
-
-            try
-            {
-                iSql.Open(connectionString);
-                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
-                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
-                );
-
-                if (dtData != null && dtData.Rows.Count > 0)
-                {
-
-                    lData = (from r in dtData.AsEnumerable()
-                             select new ServiceEducationModels
-                             {
-                                 refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
-                                 ,
-                                 educationId = HelperConvert.ConvertToString(r.Field<object>("educationId")!)
-                                 ,
-                                 mode = HelperConvert.ConvertToString(r.Field<object>("mode")!)
-                                 ,
-                                 levelCode = HelperConvert.ConvertToString(r.Field<object>("levelCode")!)
-                                 ,
-                                 levelName = HelperConvert.ConvertToString(r.Field<object>("levelName")!)
-                                 ,
-                                 institution = HelperConvert.ConvertToString(r.Field<object>("institution")!)
-                                 ,
-                                 year = HelperConvert.ConvertToInt(r.Field<object>("year")!)
-                                 ,
-                                 description = HelperConvert.ConvertToString(r.Field<object>("description")!)
-                                 ,
-                                 status = HelperConvert.ConvertToString(r.Field<object>("status")!)
-                             }).ToList()!;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex.InnerException);
-            }
-            finally
-            {
-                iSql.Close();
-            }
-
-            return lData;
-        }
-
-        public List<ServiceEducationModels> DataListByRef(ServiceEducationModels iProp)
-        {
-            String query = "up_service_education_sel_by_ref";
             lData = new List<ServiceEducationModels>();
 
             try
@@ -198,8 +81,6 @@ namespace APIEmpHub.Models
                                  year = HelperConvert.ConvertToInt(r.Field<object>("year")!)
                                  ,
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
-                                 ,
-                                 status = HelperConvert.ConvertToString(r.Field<object>("status")!)
                              }).ToList()!;
                 }
             }

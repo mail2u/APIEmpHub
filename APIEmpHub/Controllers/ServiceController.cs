@@ -47,6 +47,10 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.categoryDesc
                     ,
+                    iData.subCategoryCode
+                    ,
+                    iData.subCategoryDesc
+                    ,
                     iData.title
                     ,
                     iData.status
@@ -81,6 +85,38 @@ namespace APIEmpHub.Controllers
                 };
 
                 return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("Create")]
+        public IActionResult Create(ServiceModels iProp)
+        {
+            try
+            {
+                model.Create(iProp);
+
+                return Ok(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("Request")]
+        public IActionResult Request(ServiceModels iProp)
+        {
+            try
+            {
+                model.Request(iProp);
+
+                return Ok(iProp);
             }
             catch (Exception ex)
             {
@@ -159,6 +195,10 @@ namespace APIEmpHub.Controllers
                 ,
                 x.categoryDesc
                 ,
+                x.subCategoryCode
+                ,
+                x.subCategoryDesc
+                ,
                 x.title
                 ,
                 x.status
@@ -217,6 +257,10 @@ namespace APIEmpHub.Controllers
                 x.categoryCode
                 ,
                 x.categoryDesc
+                ,
+                x.subCategoryCode
+                ,
+                x.subCategoryDesc
                 ,
                 x.title
                 ,
@@ -277,6 +321,10 @@ namespace APIEmpHub.Controllers
                 ,
                 x.categoryDesc
                 ,
+                x.subCategoryCode
+                ,
+                x.subCategoryDesc
+                ,
                 x.title
                 ,
                 x.status
@@ -335,6 +383,10 @@ namespace APIEmpHub.Controllers
                 x.categoryCode
                 ,
                 x.categoryDesc
+                ,
+                x.subCategoryCode
+                ,
+                x.subCategoryDesc
                 ,
                 x.title
                 ,

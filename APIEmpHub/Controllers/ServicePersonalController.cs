@@ -43,23 +43,6 @@ namespace APIEmpHub.Controllers
         }
 
         [HttpPost]
-        [Route("Cancel")]
-        public IActionResult Cancel(ServicePersonalModels iProp)
-        {
-            try
-            {
-                this._logger.LogInformation("ServicePersonal Cancel : " + JsonConvert.SerializeObject(iProp));
-                model.Cancel(iProp);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-            return Ok();
-        }
-
-        [HttpPost]
         [Route("Detail")]
         public IActionResult Detail(ServicePersonalModels iProp)
         {
@@ -95,53 +78,6 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.status
                 };
-
-                return Ok(vData);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("DetailByRef")]
-        public IActionResult DetailByRef(ServicePersonalModels iProp)
-        {
-            try
-            {
-                lData = model.DetailByRef(iProp);
-
-                var vData = lData.Select(x=> new
-                {
-                    x.refId
-                    ,
-                    x.personalId
-                    ,
-                    x.mode
-                    ,
-                    x.firstname_th
-                    ,
-                    x.lastname_th
-                    ,
-                    x.firstname_en
-                    ,
-                    x.lastname_en
-                    ,
-                    x.nickname
-                    ,
-                    x.sex
-                    ,
-                    x.birth_date
-                    ,
-                    x.maritalStatus
-                    ,
-                    x.email
-                    ,
-                    x.phoneNo
-                    ,
-                    x.status
-                }).ToList();
 
                 return Ok(vData);
             }

@@ -271,7 +271,12 @@ namespace APIEmpHub.Models
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@can_view", SqlDbType.Int, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@can_edit", SqlDbType.Int, ParameterDirection.Output)
                 );
+
+                iProp.can_view = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_view"].Value);
+                iProp.can_edit = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_edit"].Value);
 
                 if (dtData != null && dtData.Rows.Count > 0)
                 {
@@ -328,7 +333,12 @@ namespace APIEmpHub.Models
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@can_view", SqlDbType.Int, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@can_edit", SqlDbType.Int, ParameterDirection.Output)
                 );
+
+                iProp.can_view = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_view"].Value);
+                iProp.can_edit = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_edit"].Value);
 
                 if (dtData != null && dtData.Rows.Count > 0)
                 {
@@ -377,7 +387,12 @@ namespace APIEmpHub.Models
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@can_view", SqlDbType.Int, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@can_edit", SqlDbType.Int, ParameterDirection.Output)
                 );
+
+                iProp.can_view = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_view"].Value);
+                iProp.can_edit = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_edit"].Value);
 
                 if (dtData != null && dtData.Rows.Count > 0)
                 {
@@ -444,7 +459,12 @@ namespace APIEmpHub.Models
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@can_view", SqlDbType.Int, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@can_edit", SqlDbType.Int, ParameterDirection.Output)
                 );
+
+                iProp.can_view = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_view"].Value);
+                iProp.can_edit = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_edit"].Value);
 
                 if (dtData != null && dtData.Rows.Count > 0)
                 {
@@ -493,7 +513,12 @@ namespace APIEmpHub.Models
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@can_view", SqlDbType.Int, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@can_edit", SqlDbType.Int, ParameterDirection.Output)
                 );
+
+                iProp.can_view = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_view"].Value);
+                iProp.can_edit = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_edit"].Value);
 
                 if (dtData != null && dtData.Rows.Count > 0)
                 {
@@ -541,10 +566,10 @@ namespace APIEmpHub.Models
             return iData;
         }
 
-        public List<ServiceTraningModels> UserTraning(UserModels iProp)
+        public List<ServiceTrainingModels> UserTraining(UserModels iProp)
         {
-            String query = "up_service_traning_sel";
-            List<ServiceTraningModels> lData = new List<ServiceTraningModels>();
+            String query = "up_user_training_sel";
+            List<ServiceTrainingModels> lData = new List<ServiceTrainingModels>();
 
             try
             {
@@ -552,17 +577,22 @@ namespace APIEmpHub.Models
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@can_view", SqlDbType.Int, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@can_edit", SqlDbType.Int, ParameterDirection.Output)
                 );
+
+                iProp.can_view = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_view"].Value);
+                iProp.can_edit = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_edit"].Value);
 
                 if (dtData != null && dtData.Rows.Count > 0)
                 {
 
                     lData = (from r in dtData.AsEnumerable()
-                             select new ServiceTraningModels
+                             select new ServiceTrainingModels
                              {
                                  refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
                                  ,
-                                 traningId = HelperConvert.ConvertToString(r.Field<object>("traningId")!)
+                                 trainingId = HelperConvert.ConvertToString(r.Field<object>("trainingId")!)
                                  ,
                                  license = HelperConvert.ConvertToString(r.Field<object>("license")!)
                                  ,

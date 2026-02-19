@@ -5,35 +5,35 @@ using System.Xml.Linq;
 
 namespace APIEmpHub.Models
 {
-    public class ServiceJobExperienceModels : baseModels<ServiceJobExperienceModels>
+    public class ServiceTrainingModels : baseModels<ServiceTrainingModels>
     {
         public string refId { get; set; }
-        public string jobId { get; set; }
+        public string trainingId { get; set; }
         public string mode { get; set; }
-        public string company { get; set; }
-        public string position { get; set; }
-        public string fromDate { get; set; }
-        public string endDate { get; set; }
+        public string license { get; set; }
+        public string organization { get; set; }
+        public string issueDate { get; set; }
+        public string expireDate { get; set; }
         public string description { get; set; }
         public string status { get; set; }
         public string userId { get; set; }
         public string create_by { get; set; }
         public string update_by { get; set; }
 
-        public void Save(ServiceJobExperienceModels iProp)
+        public void Save(ServiceTrainingModels iProp)
         {
-            String query = "up_service_job_experience_save";
+            String query = "up_service_training_save";
 
             try
             {
                 iSql.Open(connectionString);
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
-                    , iSql.SqlCom_Parameter("@jobId", HelperConvert.ConvertToString(iProp.jobId))
-                    , iSql.SqlCom_Parameter("@company", HelperConvert.ConvertToString(iProp.company))
-                    , iSql.SqlCom_Parameter("@position", HelperConvert.ConvertToString(iProp.position))
-                    , iSql.SqlCom_Parameter("@fromDate", HelperConvert.ConvertToDate112(iProp.fromDate))
-                    , iSql.SqlCom_Parameter("@endDate", HelperConvert.ConvertToDate112(iProp.endDate))
+                    , iSql.SqlCom_Parameter("@trainingId", HelperConvert.ConvertToString(iProp.trainingId))
+                    , iSql.SqlCom_Parameter("@license", HelperConvert.ConvertToString(iProp.license))
+                    , iSql.SqlCom_Parameter("@organization", HelperConvert.ConvertToString(iProp.organization))
+                    , iSql.SqlCom_Parameter("@issueDate", HelperConvert.ConvertToDate112(iProp.issueDate))
+                    , iSql.SqlCom_Parameter("@expireDate", HelperConvert.ConvertToDate112(iProp.expireDate))
                     , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
                     );
@@ -48,10 +48,10 @@ namespace APIEmpHub.Models
             }
         }
 
-        public List<ServiceJobExperienceModels> DataList(ServiceJobExperienceModels iProp)
+        public List<ServiceTrainingModels> DataList(ServiceTrainingModels iProp)
         {
-            String query = "up_service_job_experience_sel";
-            lData = new List<ServiceJobExperienceModels>();
+            String query = "up_service_training_sel";
+            lData = new List<ServiceTrainingModels>();
 
             try
             {
@@ -64,21 +64,21 @@ namespace APIEmpHub.Models
                 {
 
                     lData = (from r in dtData.AsEnumerable()
-                             select new ServiceJobExperienceModels
+                             select new ServiceTrainingModels
                              {
                                  refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
                                  ,
-                                 jobId = HelperConvert.ConvertToString(r.Field<object>("jobId")!)
+                                 trainingId = HelperConvert.ConvertToString(r.Field<object>("trainingId")!)
                                  ,
                                  mode = HelperConvert.ConvertToString(r.Field<object>("mode")!)
                                  ,
-                                 company = HelperConvert.ConvertToString(r.Field<object>("company")!)
+                                 license = HelperConvert.ConvertToString(r.Field<object>("license")!)
                                  ,
-                                 position = HelperConvert.ConvertToString(r.Field<object>("position")!)
+                                 organization = HelperConvert.ConvertToString(r.Field<object>("organization")!)
                                  ,
-                                 fromDate = HelperConvert.ConvertToString(r.Field<object>("fromDate")!)
+                                 issueDate = HelperConvert.ConvertToString(r.Field<object>("issueDate")!)
                                  ,
-                                 endDate = HelperConvert.ConvertToString(r.Field<object>("endDate")!)
+                                 expireDate = HelperConvert.ConvertToString(r.Field<object>("expireDate")!)
                                  ,
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
                              }).ToList()!;

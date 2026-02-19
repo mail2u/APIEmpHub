@@ -33,7 +33,7 @@ namespace APIEmpHub.Models
             {
                 iSql.Open(connectionString);
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
                     , iSql.SqlCom_Parameter("@firstname_th", HelperConvert.ConvertToString(iProp.firstname_th))
                     , iSql.SqlCom_Parameter("@lastname_th", HelperConvert.ConvertToString(iProp.lastname_th))
                     , iSql.SqlCom_Parameter("@firstname_en", HelperConvert.ConvertToString(iProp.firstname_en))
@@ -57,28 +57,6 @@ namespace APIEmpHub.Models
             }
         }
 
-        public void Cancel(ServicePersonalModels iProp)
-        {
-            String query = "up_service_personal_cancel";
-
-            try
-            {
-                iSql.Open(connectionString);
-                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
-                    , iSql.SqlCom_Parameter("@update_by", HelperConvert.ConvertToString(iProp.update_by))
-                    );
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex.InnerException);
-            }
-            finally
-            {
-                iSql.Close();
-            }
-        }
-
         public ServicePersonalModels Detail(ServicePersonalModels iProp)
         {
             String query = "up_service_personal_detail";
@@ -88,8 +66,7 @@ namespace APIEmpHub.Models
             {
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
-                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
                 );
 
                 if (dtData != null && dtData.Rows.Count > 0)
@@ -121,8 +98,6 @@ namespace APIEmpHub.Models
                                  email = HelperConvert.ConvertToString(r.Field<object>("email")!)
                                  ,
                                  phoneNo = HelperConvert.ConvertToString(r.Field<object>("phoneNo")!)
-                                 ,
-                                 status = HelperConvert.ConvertToString(r.Field<object>("status")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -136,66 +111,6 @@ namespace APIEmpHub.Models
             }
 
             return iData;
-        }
-
-        public List<ServicePersonalModels> DetailByRef(ServicePersonalModels iProp)
-        {
-            String query = "up_service_personal_detail_by_ref";
-            lData = new List<ServicePersonalModels>();
-
-            try
-            {
-                iSql.Open(connectionString);
-                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
-                );
-
-                if (dtData != null && dtData.Rows.Count > 0)
-                {
-
-                    lData = (from r in dtData.AsEnumerable()
-                             select new ServicePersonalModels
-                             {
-                                 refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
-                                 ,
-                                 personalId = HelperConvert.ConvertToString(r.Field<object>("personalId")!)
-                                 ,
-                                 mode = HelperConvert.ConvertToString(r.Field<object>("mode")!)
-                                 ,
-                                 firstname_th = HelperConvert.ConvertToString(r.Field<object>("firstname_th")!)
-                                 ,
-                                 lastname_th = HelperConvert.ConvertToString(r.Field<object>("lastname_th")!)
-                                 ,
-                                 firstname_en = HelperConvert.ConvertToString(r.Field<object>("firstname_en")!)
-                                 ,
-                                 lastname_en = HelperConvert.ConvertToString(r.Field<object>("lastname_en")!)
-                                 ,
-                                 nickname = HelperConvert.ConvertToString(r.Field<object>("nickname")!)
-                                 ,
-                                 sex = HelperConvert.ConvertToString(r.Field<object>("sex")!)
-                                 ,
-                                 birth_date = HelperConvert.ConvertToString(r.Field<object>("birth_date")!)
-                                 ,
-                                 maritalStatus = HelperConvert.ConvertToString(r.Field<object>("maritalStatus")!)
-                                 ,
-                                 email = HelperConvert.ConvertToString(r.Field<object>("email")!)
-                                 ,
-                                 phoneNo = HelperConvert.ConvertToString(r.Field<object>("phoneNo")!)
-                                 ,
-                                 status = HelperConvert.ConvertToString(r.Field<object>("status")!)
-                             }).ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex.InnerException);
-            }
-            finally
-            {
-                iSql.Close();
-            }
-
-            return lData;
         }
     }
 }

@@ -42,23 +42,6 @@ namespace APIEmpHub.Controllers
         }
 
         [HttpPost]
-        [Route("Cancel")]
-        public IActionResult Cancel(ServiceAddressModels iProp)
-        {
-            try
-            {
-                this._logger.LogInformation("ServiceAddress Cancel : " + JsonConvert.SerializeObject(iProp));
-                model.Cancel(iProp);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-            return Ok();
-        }
-
-        [HttpPost]
         [Route("Detail")]
         public IActionResult Detail(ServiceAddressModels iProp)
         {
@@ -92,51 +75,6 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.status
                 };
-
-                return Ok(vData);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("DetailByRef")]
-        public IActionResult DetailByRef(ServiceAddressModels iProp)
-        {
-            try
-            {
-                lData = model.DetailByRef(iProp);
-
-                var vData = lData.Select(x=> new
-                {
-                    x.refId
-                    ,
-                    x.addressId
-                    ,
-                    x.mode
-                    ,
-                    x.home
-                    ,
-                    x.road
-                    ,
-                    x.subDistrictCode
-                    ,
-                    x.subDistrictName
-                    ,
-                    x.districtCode
-                    ,
-                    x.districtName
-                    ,
-                    x.provinceCode
-                    ,
-                    x.provinceName
-                    ,
-                    x.postcode
-                    ,
-                    x.status
-                }).ToList();
 
                 return Ok(vData);
             }

@@ -151,6 +151,8 @@ namespace APIEmpHub.Controllers
                     ,
                     x.cateId
                     ,
+                    x.cateCode
+                    ,
                     x.cateDesc
                     ,
                     x.description
@@ -183,6 +185,8 @@ namespace APIEmpHub.Controllers
                     x.parentId
                     ,
                     x.cateId
+                    ,
+                    x.cateCode
                     ,
                     x.cateDesc
                     ,
@@ -236,6 +240,40 @@ namespace APIEmpHub.Controllers
                     ,
                     iProp.total
                 });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("CategoryByCode")]
+        public IActionResult CategoryByCode(CategoryModels iProp)
+        {
+            try
+            {
+                lData = model.CategoryByCode(iProp);
+
+                var vData = lData.Select(x => new
+                {
+                    x.sysId
+                    ,
+                    x.cateId
+                    ,
+                    x.categoryCode
+                    ,
+                    x.categoryDesc
+                    ,
+                    x.subCateId
+                    ,
+                    x.subCategoryCode
+                    ,
+                    x.subCategoryDesc
+                }).ToList();
+
+                return Ok(vData);
             }
             catch (Exception ex)
             {

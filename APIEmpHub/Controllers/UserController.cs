@@ -278,7 +278,7 @@ namespace APIEmpHub.Controllers
                     iData.status
                 };
 
-                return Ok(vData);
+                return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
             }
             catch (Exception ex)
             {
@@ -313,7 +313,7 @@ namespace APIEmpHub.Controllers
                     x.status
                 }).ToList();
 
-                return Ok(vData);
+                return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
             }
             catch (Exception ex)
             {
@@ -366,7 +366,7 @@ namespace APIEmpHub.Controllers
                     iData.status
                 };
 
-                return Ok(vData);
+                return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
             }
             catch (Exception ex)
             {
@@ -401,7 +401,7 @@ namespace APIEmpHub.Controllers
                     x.status
                 }).ToList();
 
-                return Ok(vData);
+                return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
             }
             catch (Exception ex)
             {
@@ -446,7 +446,7 @@ namespace APIEmpHub.Controllers
                     iData.status
                 };
 
-                return Ok(vData);
+                return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
             }
             catch (Exception ex)
             {
@@ -455,18 +455,18 @@ namespace APIEmpHub.Controllers
         }
 
         [HttpPost]
-        [Route("UserTraning")]
-        public IActionResult UserTraning(UserModels iProp)
+        [Route("UserTraining")]
+        public IActionResult UserTraining(UserModels iProp)
         {
             try
             {
-                List< ServiceTraningModels> lData = model.UserTraning(iProp);
+                List<ServiceTrainingModels> lData = model.UserTraining(iProp);
 
                 var vData = lData.Select(x => new
                 {
                     x.refId
                     ,
-                    x.traningId
+                    x.trainingId
                     ,
                     x.license
                     ,
@@ -481,7 +481,7 @@ namespace APIEmpHub.Controllers
                     x.status
                 }).ToList();
 
-                return Ok(vData);
+                return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
             }
             catch (Exception ex)
             {

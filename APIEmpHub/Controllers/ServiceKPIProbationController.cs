@@ -1,21 +1,17 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
-using APIEmpHub.Utility.Helper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Reflection;
 
 namespace APIEmpHub.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class ServiceEducationController : baseController<ServiceEducationModels>
+    public class ServiceKPIProbationController : baseController<ServiceKPIProbationModels>
     {
-        public ServiceEducationController(IConfiguration configuration
+        public ServiceKPIProbationController(IConfiguration configuration
            , IWebHostEnvironment hostingEnvironment
-            , ILogger<ServiceEducationModels> logger)
+            , ILogger<ServiceKPIProbationModels> logger)
         {
             this._configuration = configuration;
             model.connection = this._configuration.GetSection("Connection").Get<ConnectionModels>();
@@ -27,16 +23,19 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public IActionResult Save(List<ServiceEducationModels> lProp)
+        public IActionResult Save(List<ServiceKPIProbationModels> lProp)
         {
             try
             {
-                this._logger.LogInformation("ServiceEducation Save : " + JsonConvert.SerializeObject(lProp));
-
-                foreach (ServiceEducationModels iProp in lProp)
+                int order_index = 1;
+                lProp = lProp.Select(x =>
                 {
-                    model.Save(iProp);
-                }
+                    x.order_index = order_index++;
+                    return x;
+                }).ToList();
+
+                this._logger.LogInformation("ServicKPIProbation Save : " + JsonConvert.SerializeObject(lProp));
+                model.Save(lProp);
             }
             catch (Exception ex)
             {
@@ -48,34 +47,32 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Detail")]
-        public IActionResult Detail(ServiceEducationModels iProp)
+        public IActionResult Detail(ServiceKPIProbationModels iProp)
         {
             try
             {
-                lData = model.DataList(iProp);
+                lData = model.Detail(iProp);
 
-                var vData = lData.Select(x => new
+                var vData = lData.Select(x => new 
                 {
                     x.refId
                     ,
-                    x.educationId
+                    x.performance_indicator
                     ,
-                    x.mode
+                    x.target
                     ,
-                    x.levelCode
+                    x.weight
                     ,
-                    x.levelName
+                    x.performance_result
                     ,
-                    x.institution
+                    x.answer
                     ,
-                    x.year
+                    x.order_index
                     ,
-                    x.description
-                    ,
-                    x.status
+                    x.create_date
                 }).ToList();
 
-                return Ok(vData);
+                return Ok(new { iProp.can_edit, data = vData });
             }
             catch (Exception ex)
             {
