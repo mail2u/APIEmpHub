@@ -311,6 +311,8 @@ namespace APIEmpHub.Controllers
                     x.description
                     ,
                     x.status
+                    ,
+                    x.mode
                 }).ToList();
 
                 return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
@@ -399,6 +401,8 @@ namespace APIEmpHub.Controllers
                     x.description
                     ,
                     x.status
+                    ,
+                    x.mode
                 }).ToList();
 
                 return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
@@ -479,6 +483,8 @@ namespace APIEmpHub.Controllers
                     x.description
                     ,
                     x.status
+                    ,
+                    x.mode
                 }).ToList();
 
                 return Ok(new { data = vData, iProp.can_edit, iProp.can_view });

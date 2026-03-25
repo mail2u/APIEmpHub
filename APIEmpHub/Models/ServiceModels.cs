@@ -92,15 +92,19 @@ namespace APIEmpHub.Models
                              ,
                              statusDesc = HelperConvert.ConvertToString(r.Field<object>("statusDesc")!)
                              ,
-                             createName = HelperConvert.ConvertToString(r.Field<object>("createName")!)
-                             ,
-                             createDate = HelperConvert.ConvertToString(r.Field<object>("createDate")!)
-                             ,
                              userName = HelperConvert.ConvertToString(r.Field<object>("userName")!)
                              ,
                              userPosition = HelperConvert.ConvertToString(r.Field<object>("userPosition")!)
                              ,
                              userDepartment = HelperConvert.ConvertToString(r.Field<object>("userDepartment")!)
+                             ,
+                             createName = HelperConvert.ConvertToString(r.Field<object>("createName")!)
+                             ,
+                             createPosition = HelperConvert.ConvertToString(r.Field<object>("createPosition")!)
+                             ,
+                             createDepartment = HelperConvert.ConvertToString(r.Field<object>("createDepartment")!)
+                             ,
+                             createDate = HelperConvert.ConvertToString(r.Field<object>("createDate")!)
                              ,
                              approveName = HelperConvert.ConvertToString(r.Field<object>("approveName")!)
                              ,
@@ -240,6 +244,29 @@ namespace APIEmpHub.Models
         public void Reject(ServiceModels iProp)
         {
             String query = "up_service_reject_upd";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void Work(ServiceModels iProp)
+        {
+            String query = "up_service_work_upd";
 
             try
             {

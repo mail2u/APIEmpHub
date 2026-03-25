@@ -26,56 +26,56 @@ namespace APIEmpHub.Controllers
             this._logger = logger;
         }
 
-        //[HttpPost]
-        //[Route("Create")]
-        //public IActionResult Create(OrgChartModels iProp)
-        //{
-        //    try
-        //    {
-        //        this._logger.LogInformation("OrgChart_Create : " + JsonConvert.SerializeObject(iProp));
-        //        model.Create(iProp);
+        [HttpPost]
+        [Route("Create")]
+        public IActionResult Create(OrgChartModels iProp)
+        {
+            try
+            {
+                this._logger.LogInformation("OrgChart_Create : " + JsonConvert.SerializeObject(iProp));
+                model.Create(iProp);
 
-        //        return Ok(iProp);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+                return Ok(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-        //[HttpPost]
-        //[Route("Delete")]
-        //public IActionResult Delete(OrgChartModels iProp)
-        //{
-        //    try
-        //    {
-        //        this._logger.LogInformation("OrgChart_Delete : " + JsonConvert.SerializeObject(iProp));
-        //        model.Delete(iProp);
+        [HttpPost]
+        [Route("Delete")]
+        public IActionResult Delete(OrgChartModels iProp)
+        {
+            try
+            {
+                this._logger.LogInformation("OrgChart_Delete : " + JsonConvert.SerializeObject(iProp));
+                model.Delete(iProp);
 
-        //        return Ok();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-        //[HttpPost]
-        //[Route("Update")]
-        //public IActionResult Update(OrgChartModels iProp)
-        //{
-        //    try
-        //    {
-        //        this._logger.LogInformation("OrgChart_Update : " + JsonConvert.SerializeObject(iProp));
-        //        model.Update(iProp);
+        [HttpPost]
+        [Route("Update")]
+        public IActionResult Update(OrgChartModels iProp)
+        {
+            try
+            {
+                this._logger.LogInformation("OrgChart_Update : " + JsonConvert.SerializeObject(iProp));
+                model.Update(iProp);
 
-        //        return Ok();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpPost]
         [Route("Lock")]
@@ -150,6 +150,8 @@ namespace APIEmpHub.Controllers
                     ,
                     x.name
                     ,
+                    x.description
+                    ,
                     x.position
                     ,
                     x.department
@@ -165,6 +167,26 @@ namespace APIEmpHub.Controllers
                     x.pos_w
                     ,
                     x.pos_h
+                    ,
+                    x.color
+                    ,
+                    x.font_size
+                    ,
+                    x.font_bold
+                    ,
+                    x.sub_color
+                    ,
+                    x.sub_font_size
+                    ,
+                    x.sub_font_bold
+                    ,
+                    x.bg
+                    ,
+                    x.stroke
+                    ,
+                    x.stroke_width
+                    ,
+                    x.link
                     ,
                     x.is_lock
                 }).ToList();

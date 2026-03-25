@@ -9,11 +9,11 @@ namespace APIEmpHub.Models
     {
         public string refId { get; set; }
         public string educationId { get; set; }
-        public string mode { get; set; }
+        public string mode { get; set; } = "";
         public string levelCode { get; set; }
         public string levelName { get; set; }
         public string institution { get; set; }
-        public int year { get; set; }
+        public int year { get; set; } = 0;
         public string description { get; set; }
         public string status { get; set; }
         public string userId { get; set; }
@@ -36,6 +36,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@year", iProp.year)
                     , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@mode", HelperConvert.ConvertToString(iProp.mode))
                     );
             }
             catch (Exception ex)

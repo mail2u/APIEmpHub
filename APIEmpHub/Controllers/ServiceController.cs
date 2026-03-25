@@ -59,15 +59,19 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.statusDesc
                     ,
-                    iData.createName
-                    ,
-                    iData.createDate
-                    ,
                     iData.userName
                     ,
                     iData.userPosition
                     ,
                     iData.userDepartment
+                    ,
+                    iData.createName
+                    ,
+                    iData.createPosition
+                    ,
+                    iData.createDepartment
+                    ,
+                    iData.createDate
                     ,
                     iData.approveName
                     ,
@@ -82,6 +86,8 @@ namespace APIEmpHub.Controllers
                     iData.can_cancel
                     ,
                     iData.can_approve
+                    ,
+                    iData.can_work
                 };
 
                 return Ok(vData);
@@ -163,6 +169,22 @@ namespace APIEmpHub.Controllers
             try
             {
                 model.Approve(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("Work")]
+        public IActionResult Work(ServiceModels iProp)
+        {
+            try
+            {
+                model.Work(iProp);
             }
             catch (Exception ex)
             {

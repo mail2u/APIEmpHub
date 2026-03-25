@@ -9,7 +9,7 @@ namespace APIEmpHub.Models
     {
         public string refId { get; set; }
         public string jobId { get; set; }
-        public string mode { get; set; }
+        public string mode { get; set; } = "";
         public string company { get; set; }
         public string position { get; set; }
         public string fromDate { get; set; }
@@ -36,6 +36,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@endDate", HelperConvert.ConvertToDate112(iProp.endDate))
                     , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@mode", HelperConvert.ConvertToString(iProp.mode))
                     );
             }
             catch (Exception ex)
