@@ -11,6 +11,7 @@ namespace APIEmpHub.Models
         public string employeeId { get; set; }
         public string mode { get; set; }
         public string employeeCode { get; set; }
+        public string employeeName { get; set; }
         public string employeeType { get; set; }
         public string employeeDesc { get; set; }
         public string email { get; set; }
@@ -26,6 +27,7 @@ namespace APIEmpHub.Models
         public string supervisorDepartment { get; set; }
         public string status { get; set; }
         public string userId { get; set; }
+        public int level { get; set; }
         public string create_by { get; set; }
         public string update_by { get; set; }
 

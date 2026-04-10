@@ -353,6 +353,16 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.userId
                     ,
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.section
+                    ,
+                    iData.department
+                    ,
+                    iData.division
+                    ,
                     iData.license
                     ,
                     iData.objectives
@@ -907,5 +917,521 @@ namespace APIEmpHub.Controllers
         }
         #endregion
 
+        #region FormPdpaEmployee
+        [HttpPost]
+        [Route("FormPdpaEmployeeCreate")]
+        public IActionResult FormPdpaEmployeeCreate(FormPdpaEmployeeModels iProp)
+        {
+            this._logger.LogInformation("FormPdpaEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormPdpaEmployeeCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormPdpaEmployee_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormPdpaEmployeeDetail")]
+        public IActionResult FormPdpaEmployeeDetail(FormPdpaEmployeeModels iProp)
+        {
+            try
+            {
+                FormPdpaEmployeeModels iData = model.FormPdpaEmployeeDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.firstname
+                    ,
+                    iData.lastname
+                    ,
+                    iData.idcard
+                    ,
+                    iData.answer1
+                    ,
+                    iData.answer2
+                    ,
+                    iData.answer3
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormWfhEmployee
+        [HttpPost]
+        [Route("FormWfhEmployeeCreate")]
+        public IActionResult FormWfhEmployeeCreate(FormWfhEmployeeModels iProp)
+        {
+            this._logger.LogInformation("FormWfhEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormWfhEmployeeCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormWfhEmployee_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormWfhEmployeeDetail")]
+        public IActionResult FormWfhEmployeeDetail(FormWfhEmployeeModels iProp)
+        {
+            try
+            {
+                FormWfhEmployeeModels iData = model.FormWfhEmployeeDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.fullname
+                    ,
+                    iData.address
+                    ,
+                    iData.start_date
+                    ,
+                    iData.answer1
+                    ,
+                    iData.answer2
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormAgreementEmployee
+        [HttpPost]
+        [Route("FormAgreementEmployeeCreate")]
+        public IActionResult FormAgreementEmployeeCreate(FormAgreementEmployeeModels iProp)
+        {
+            this._logger.LogInformation("FormAgreementEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormAgreementEmployeeCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormAgreementEmployee_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormAgreementEmployeeDetail")]
+        public IActionResult FormAgreementEmployeeDetail(FormAgreementEmployeeModels iProp)
+        {
+            try
+            {
+                FormAgreementEmployeeModels iData = model.FormAgreementEmployeeDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.department
+                    ,
+                    iData.join_date
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormPrepareEmployee
+        [HttpPost]
+        [Route("FormPrepareEmployeeCreate")]
+        public IActionResult FormPrepareEmployeeCreate(FormPrepareEmployeeModels iProp)
+        {
+            this._logger.LogInformation("FormPrepareEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormPrepareEmployeeCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormPrepareEmployee_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormPrepareEmployeeDetail")]
+        public IActionResult FormPrepareEmployeeDetail(FormPrepareEmployeeModels iProp)
+        {
+            try
+            {
+                FormPrepareEmployeeModels iData = model.FormPrepareEmployeeDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.prefix
+                    ,
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.join_date
+                    ,
+                    iData.phoneNo
+                    ,
+                    iData.username
+                    ,
+                    iData.email
+                    ,
+                    iData.sharedrive
+                    ,
+                    iData.speccomputer
+                    ,
+                    iData.answer1
+                    ,
+                    iData.answer2
+                    ,
+                    iData.answer3
+                    ,
+                    iData.answer3_desc
+                    ,
+                    iData.answer4
+                    ,
+                    iData.answer4_desc
+                    ,
+                    iData.answer5
+                    ,
+                    iData.answer5_desc
+                    ,
+                    iData.answer6
+                    ,
+                    iData.answer6_desc
+                    ,
+                    iData.answer7
+                    ,
+                    iData.answer7_desc
+                    ,
+                    iData.answer8
+                    ,
+                    iData.answer8_desc
+                    ,
+                    iData.answer9
+                    ,
+                    iData.answer9_desc
+                    ,
+                    iData.gls_desc
+                    ,
+                    iData.gls_system
+                    ,
+                    iData.ls_desc
+                    ,
+                    iData.ls_system
+                    ,
+                    iData.linet_desc
+                    ,
+                    iData.linet_system
+                    ,
+                    iData.sun_desc
+                    ,
+                    iData.sun_system
+                    ,
+                    iData.prophet_desc
+                    ,
+                    iData.prophet_system
+                    ,
+                    iData.bonunza_desc
+                    ,
+                    iData.bonunza_system
+                    ,
+                    iData.other_desc
+                    ,
+                    iData.other_system
+                    ,
+                    iData.description
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+
+        #region FormProbationReport
+        [HttpPost]
+        [Route("FormProbationReportCreate")]
+        public IActionResult FormProbationReportCreate(FormProbationReportModels iProp)
+        {
+            this._logger.LogInformation("FormProbationReport_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormProbationReportCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormProbationReport_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormProbationReportDetail")]
+        public IActionResult FormProbationReportDetail(FormProbationReportModels iProp)
+        {
+            try
+            {
+                FormProbationReportModels iData = model.FormProbationReportDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.department
+                    ,
+                    iData.join_date
+                    ,
+                    iData.period
+                    ,
+                    iData.answer1
+                    ,
+                    iData.answer2
+                    ,
+                    iData.answer3
+                    ,
+                    iData.answer4
+                    ,
+                    iData.answer5
+                    ,
+                    iData.answer5_fixed
+                    ,
+                    iData.answer6
+                    ,
+                    iData.answer6_fixed
+                    ,
+                    iData.answer7
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormPromoteEmployee
+        [HttpPost]
+        [Route("FormPromoteEmployeeCreate")]
+        public IActionResult FormPromoteEmployeeCreate(FormPromoteEmployeeModels iProp)
+        {
+            this._logger.LogInformation("FormPromoteEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormPromoteEmployeeCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormPromoteEmployee_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormPromoteEmployeeDetail")]
+        public IActionResult FormPromoteEmployeeDetail(FormPromoteEmployeeModels iProp)
+        {
+            try
+            {
+                FormPromoteEmployeeModels iData = model.FormPromoteEmployeeDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.department
+                    ,
+                    iData.section
+                    ,
+                    iData.join_date
+                    ,
+                    iData.year
+                    ,
+                    iData.grade1
+                    ,
+                    iData.grade2
+                    ,
+                    iData.position_current
+                    ,
+                    iData.department_current
+                    ,
+                    iData.position_new
+                    ,
+                    iData.department_new
+                    ,
+                    iData.description
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormIDP
+        [HttpPost]
+        [Route("FormIDPCreate")]
+        public IActionResult FormIDPCreate(FormIDPModels iProp)
+        {
+            this._logger.LogInformation("FormIDP_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormIDPCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormIDP_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormIDPDetail")]
+        public IActionResult FormIDPDetail(FormIDPModels iProp)
+        {
+            try
+            {
+                FormIDPModels iData = model.FormIDPDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.fullname
+                    ,
+                    iData.department
+                    ,
+                    iData.join_date
+                    ,
+                    iData.objective
+                    ,
+                    iData.answer1_desc
+                    ,
+                    iData.answer2_desc
+                    ,
+                    iData.answer2_date
+                    ,
+                    iData.answer3_desc
+                    ,
+                    iData.answer3_date
+                    ,
+                    iData.answer4_desc
+                    ,
+                    iData.answer4_date
+                    ,
+                    iData.answer5_desc
+                    ,
+                    iData.answer6_desc
+                    ,
+                    iData.answer6_date
+                    ,
+                    iData.answer7_a_desc
+                    ,
+                    iData.answer7_b_desc
+                    ,
+                    iData.answer8_desc
+                    ,
+                    iData.answer9_desc
+                    ,
+                    iData.answer9_date
+                    ,
+                    iData.answer10_a_desc
+                    ,
+                    iData.answer10_b_desc
+                    ,
+                    iData.answer11_desc
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
     }
 }

@@ -4,6 +4,11 @@
     {
         public string refId { get; set; }
         public string userId { get; set; }
+        public string fullname { get; set; }
+        public string position { get; set; }
+        public string section { get; set; }
+        public string department { get; set; }
+        public string division { get; set; }
         public string license { get; set; }
         public string objectives { get; set; }
         public string organization { get; set; }

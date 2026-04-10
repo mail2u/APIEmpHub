@@ -619,5 +619,93 @@ namespace APIEmpHub.Models
 
             return lData;
         }
+
+        public List<ServiceEmployeeModels> UserSub(UserModels iProp)
+        {
+            String query = "up_user_sub_with_me";
+            List<ServiceEmployeeModels> lData = new List<ServiceEmployeeModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    lData = (from r in dtData.AsEnumerable()
+                             select new ServiceEmployeeModels
+                             {
+                                 userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
+                                 ,
+                                 employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
+                                 ,
+                                 employeeName = HelperConvert.ConvertToString(r.Field<object>("employeeName")!)
+                                 ,
+                                 departmentDesc = HelperConvert.ConvertToString(r.Field<object>("departmentDesc")!)
+                                 ,
+                                 positionDesc = HelperConvert.ConvertToString(r.Field<object>("positionDesc")!)
+                                 ,
+                                 level = HelperConvert.ConvertToInt(r.Field<object>("level")!)
+                             }).ToList()!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return lData;
+        }
+
+        public List<ServiceEmployeeModels> UserSup(UserModels iProp)
+        {
+            String query = "up_user_sup_me";
+            List<ServiceEmployeeModels> lData = new List<ServiceEmployeeModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    lData = (from r in dtData.AsEnumerable()
+                             select new ServiceEmployeeModels
+                             {
+                                 userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
+                                 ,
+                                 employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
+                                 ,
+                                 employeeName = HelperConvert.ConvertToString(r.Field<object>("employeeName")!)
+                                 ,
+                                 departmentDesc = HelperConvert.ConvertToString(r.Field<object>("departmentDesc")!)
+                                 ,
+                                 positionDesc = HelperConvert.ConvertToString(r.Field<object>("positionDesc")!)
+                                 ,
+                                 level = HelperConvert.ConvertToInt(r.Field<object>("level")!)
+                             }).ToList()!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return lData;
+        }
     }
 }

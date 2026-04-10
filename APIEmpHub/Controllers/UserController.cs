@@ -495,5 +495,66 @@ namespace APIEmpHub.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("UserSub")]
+        public IActionResult UserSub(UserModels iProp)
+        {
+            try
+            {
+                List<ServiceEmployeeModels> lData = model.UserSub(iProp);
+
+                var vData = lData.Select(x => new
+                {
+                    x.userId
+                    ,
+                    x.employeeCode
+                    ,
+                    x.employeeName
+                    ,
+                    x.departmentDesc
+                    ,
+                    x.positionDesc
+                    ,
+                    x.level
+                }).ToList();
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("UserSup")]
+        public IActionResult UserSup(UserModels iProp)
+        {
+            try
+            {
+                List<ServiceEmployeeModels> lData = model.UserSup(iProp);
+
+                var vData = lData.Select(x => new
+                {
+                    x.userId
+                    ,
+                    x.employeeCode
+                    ,
+                    x.employeeName
+                    ,
+                    x.departmentDesc
+                    ,
+                    x.positionDesc
+                    ,
+                    x.level
+                }).ToList();
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
