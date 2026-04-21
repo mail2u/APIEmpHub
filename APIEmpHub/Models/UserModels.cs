@@ -260,6 +260,184 @@ namespace APIEmpHub.Models
 
             return dtData;
         }
+
+        #region Person
+        public void UserPersonalSave(ServicePersonalModels iProp)
+        {
+            String query = "up_user_personal_save";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                    , iSql.SqlCom_Parameter("@prefix_th", HelperConvert.ConvertToString(iProp.prefix_th))
+                    , iSql.SqlCom_Parameter("@firstname_th", HelperConvert.ConvertToString(iProp.firstname_th))
+                    , iSql.SqlCom_Parameter("@lastname_th", HelperConvert.ConvertToString(iProp.lastname_th))
+                    , iSql.SqlCom_Parameter("@prefix_en", HelperConvert.ConvertToString(iProp.prefix_en))
+                    , iSql.SqlCom_Parameter("@firstname_en", HelperConvert.ConvertToString(iProp.firstname_en))
+                    , iSql.SqlCom_Parameter("@lastname_en", HelperConvert.ConvertToString(iProp.lastname_en))
+                    , iSql.SqlCom_Parameter("@nickname", HelperConvert.ConvertToString(iProp.nickname))
+                    , iSql.SqlCom_Parameter("@sex", HelperConvert.ConvertToString(iProp.sex))
+                    , iSql.SqlCom_Parameter("@birth_date", HelperConvert.ConvertToString(iProp.birth_date))
+                    , iSql.SqlCom_Parameter("@age", HelperConvert.ConvertToString(iProp.age))
+                    , iSql.SqlCom_Parameter("@email", HelperConvert.ConvertToString(iProp.email))
+                    , iSql.SqlCom_Parameter("@phoneNo", HelperConvert.ConvertToString(iProp.phoneNo))
+                    , iSql.SqlCom_Parameter("@mobile", HelperConvert.ConvertToString(iProp.mobile))
+                    , iSql.SqlCom_Parameter("@nationality", HelperConvert.ConvertToString(iProp.nationality))
+                    , iSql.SqlCom_Parameter("@ethnicity", HelperConvert.ConvertToString(iProp.ethnicity))
+                    , iSql.SqlCom_Parameter("@religion", HelperConvert.ConvertToString(iProp.religion))
+                    , iSql.SqlCom_Parameter("@maritalStatus", HelperConvert.ConvertToString(iProp.maritalStatus))
+                    , iSql.SqlCom_Parameter("@militaryStatus", HelperConvert.ConvertToString(iProp.militaryStatus))
+                    , iSql.SqlCom_Parameter("@disabilityStatus", HelperConvert.ConvertToString(iProp.disabilityStatus))
+                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public ServicePersonalModels UserPersonal(UserModels iProp)
+        {
+            String query = "up_user_personal_detail";
+            ServicePersonalModels iData = new ServicePersonalModels();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@can_view", SqlDbType.Int, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@can_edit", SqlDbType.Int, ParameterDirection.Output)
+                );
+
+                iProp.can_view = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_view"].Value);
+                iProp.can_edit = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_edit"].Value);
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    iData = (from r in dtData.AsEnumerable()
+                             select new ServicePersonalModels
+                             {
+                                 userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
+                                 ,
+                                 personalId = HelperConvert.ConvertToString(r.Field<object>("personalId")!)
+                                 ,
+                                 prefix_th = HelperConvert.ConvertToString(r.Field<object>("prefix_th")!)
+                                 ,
+                                 firstname_th = HelperConvert.ConvertToString(r.Field<object>("firstname_th")!)
+                                 ,
+                                 lastname_th = HelperConvert.ConvertToString(r.Field<object>("lastname_th")!)
+                                 ,
+                                 prefix_en = HelperConvert.ConvertToString(r.Field<object>("prefix_en")!)
+                                 ,
+                                 firstname_en = HelperConvert.ConvertToString(r.Field<object>("firstname_en")!)
+                                 ,
+                                 lastname_en = HelperConvert.ConvertToString(r.Field<object>("lastname_en")!)
+                                 ,
+                                 nickname = HelperConvert.ConvertToString(r.Field<object>("nickname")!)
+                                 ,
+                                 sex = HelperConvert.ConvertToString(r.Field<object>("sex")!)
+                                 ,
+                                 birth_date = HelperConvert.ConvertToString(r.Field<object>("birth_date")!)
+                                 ,
+                                 age = HelperConvert.ConvertToString(r.Field<object>("age")!)
+                                 ,
+                                 email = HelperConvert.ConvertToString(r.Field<object>("email")!)
+                                 ,
+                                 phoneNo = HelperConvert.ConvertToString(r.Field<object>("phoneNo")!)
+                                 ,
+                                 mobile = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
+                                 ,
+                                 nationality = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
+                                 ,
+                                 ethnicity = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
+                                 ,
+                                 religion = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
+                                 ,
+                                 maritalStatus = HelperConvert.ConvertToString(r.Field<object>("maritalStatus")!)
+                                 ,
+                                 militaryStatus = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
+                                 ,
+                                 disabilityStatus = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
+                                 ,
+                                 status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                             }).FirstOrDefault()!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return iData;
+        }
+        #endregion
+
+        #region Address
+        public void UserAddressSave(ServiceAddressModels iProp)
+        {
+            String query = "up_user_address_save";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@registered_home", HelperConvert.ConvertToString(iProp.registered_home))
+                    , iSql.SqlCom_Parameter("@registered_road", HelperConvert.ConvertToString(iProp.registered_road))
+                    , iSql.SqlCom_Parameter("@registered_subDistrictCode", HelperConvert.ConvertToString(iProp.registered_subDistrictCode))
+                    , iSql.SqlCom_Parameter("@registered_subDistrictName", HelperConvert.ConvertToString(iProp.registered_subDistrictName))
+                    , iSql.SqlCom_Parameter("@registered_districtCode", HelperConvert.ConvertToString(iProp.registered_districtCode))
+                    , iSql.SqlCom_Parameter("@registered_districtName", HelperConvert.ConvertToString(iProp.registered_districtName))
+                    , iSql.SqlCom_Parameter("@registered_provinceCode", HelperConvert.ConvertToString(iProp.registered_provinceCode))
+                    , iSql.SqlCom_Parameter("@registered_provinceName", HelperConvert.ConvertToString(iProp.registered_provinceName))
+                    , iSql.SqlCom_Parameter("@registered_postcode", HelperConvert.ConvertToString(iProp.registered_postcode))
+
+                    , iSql.SqlCom_Parameter("@card_home", HelperConvert.ConvertToString(iProp.card_home))
+                    , iSql.SqlCom_Parameter("@card_road", HelperConvert.ConvertToString(iProp.card_road))
+                    , iSql.SqlCom_Parameter("@card_subDistrictCode", HelperConvert.ConvertToString(iProp.card_subDistrictCode))
+                    , iSql.SqlCom_Parameter("@card_subDistrictName", HelperConvert.ConvertToString(iProp.card_subDistrictName))
+                    , iSql.SqlCom_Parameter("@card_districtCode", HelperConvert.ConvertToString(iProp.card_districtCode))
+                    , iSql.SqlCom_Parameter("@card_districtName", HelperConvert.ConvertToString(iProp.card_districtName))
+                    , iSql.SqlCom_Parameter("@card_provinceCode", HelperConvert.ConvertToString(iProp.card_provinceCode))
+                    , iSql.SqlCom_Parameter("@card_provinceName", HelperConvert.ConvertToString(iProp.card_provinceName))
+                    , iSql.SqlCom_Parameter("@card_postcode", HelperConvert.ConvertToString(iProp.card_postcode))
+
+                    , iSql.SqlCom_Parameter("@live_home", HelperConvert.ConvertToString(iProp.live_home))
+                    , iSql.SqlCom_Parameter("@live_road", HelperConvert.ConvertToString(iProp.live_road))
+                    , iSql.SqlCom_Parameter("@live_subDistrictCode", HelperConvert.ConvertToString(iProp.live_subDistrictCode))
+                    , iSql.SqlCom_Parameter("@live_subDistrictName", HelperConvert.ConvertToString(iProp.live_subDistrictName))
+                    , iSql.SqlCom_Parameter("@live_districtCode", HelperConvert.ConvertToString(iProp.live_districtCode))
+                    , iSql.SqlCom_Parameter("@live_districtName", HelperConvert.ConvertToString(iProp.live_districtName))
+                    , iSql.SqlCom_Parameter("@live_provinceCode", HelperConvert.ConvertToString(iProp.live_provinceCode))
+                    , iSql.SqlCom_Parameter("@live_provinceName", HelperConvert.ConvertToString(iProp.live_provinceName))
+                    , iSql.SqlCom_Parameter("@live_postcode", HelperConvert.ConvertToString(iProp.live_postcode))
+                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
         public ServiceAddressModels UserAddress(UserModels iProp)
         {
             String query = "up_user_address_detail";
@@ -284,27 +462,63 @@ namespace APIEmpHub.Models
                     iData = (from r in dtData.AsEnumerable()
                              select new ServiceAddressModels
                              {
-                                 refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
+                                 userId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
                                  ,
                                  addressId = HelperConvert.ConvertToString(r.Field<object>("addressId")!)
                                  ,
-                                 home = HelperConvert.ConvertToString(r.Field<object>("home")!)
+                                 registered_home = HelperConvert.ConvertToString(r.Field<object>("registered_home")!)
                                  ,
-                                 road = HelperConvert.ConvertToString(r.Field<object>("road")!)
+                                 registered_road = HelperConvert.ConvertToString(r.Field<object>("registered_road")!)
                                  ,
-                                 subDistrictCode = HelperConvert.ConvertToString(r.Field<object>("subDistrictCode")!)
+                                 registered_subDistrictCode = HelperConvert.ConvertToString(r.Field<object>("registered_subDistrictCode")!)
                                  ,
-                                 subDistrictName = HelperConvert.ConvertToString(r.Field<object>("subDistrictName")!)
+                                 registered_subDistrictName = HelperConvert.ConvertToString(r.Field<object>("registered_subDistrictName")!)
                                  ,
-                                 districtCode = HelperConvert.ConvertToString(r.Field<object>("districtCode")!)
+                                 registered_districtCode = HelperConvert.ConvertToString(r.Field<object>("registered_districtCode")!)
                                  ,
-                                 districtName = HelperConvert.ConvertToString(r.Field<object>("districtName")!)
+                                 registered_districtName = HelperConvert.ConvertToString(r.Field<object>("registered_districtName")!)
                                  ,
-                                 provinceCode = HelperConvert.ConvertToString(r.Field<object>("provinceCode")!)
+                                 registered_provinceCode = HelperConvert.ConvertToString(r.Field<object>("registered_provinceCode")!)
                                  ,
-                                 provinceName = HelperConvert.ConvertToString(r.Field<object>("provinceName")!)
+                                 registered_provinceName = HelperConvert.ConvertToString(r.Field<object>("registered_provinceName")!)
                                  ,
-                                 postcode = HelperConvert.ConvertToString(r.Field<object>("postcode")!)
+                                 registered_postcode = HelperConvert.ConvertToString(r.Field<object>("registered_postcode")!)
+                                 ,
+                                 card_home = HelperConvert.ConvertToString(r.Field<object>("card_home")!)
+                                 ,
+                                 card_road = HelperConvert.ConvertToString(r.Field<object>("card_road")!)
+                                 ,
+                                 card_subDistrictCode = HelperConvert.ConvertToString(r.Field<object>("card_subDistrictCode")!)
+                                 ,
+                                 card_subDistrictName = HelperConvert.ConvertToString(r.Field<object>("card_subDistrictName")!)
+                                 ,
+                                 card_districtCode = HelperConvert.ConvertToString(r.Field<object>("card_districtCode")!)
+                                 ,
+                                 card_districtName = HelperConvert.ConvertToString(r.Field<object>("card_districtName")!)
+                                 ,
+                                 card_provinceCode = HelperConvert.ConvertToString(r.Field<object>("card_provinceCode")!)
+                                 ,
+                                 card_provinceName = HelperConvert.ConvertToString(r.Field<object>("card_provinceName")!)
+                                 ,
+                                 card_postcode = HelperConvert.ConvertToString(r.Field<object>("card_postcode")!)
+                                 ,
+                                 live_home = HelperConvert.ConvertToString(r.Field<object>("live_home")!)
+                                 ,
+                                 live_road = HelperConvert.ConvertToString(r.Field<object>("live_road")!)
+                                 ,
+                                 live_subDistrictCode = HelperConvert.ConvertToString(r.Field<object>("live_subDistrictCode")!)
+                                 ,
+                                 live_subDistrictName = HelperConvert.ConvertToString(r.Field<object>("live_subDistrictName")!)
+                                 ,
+                                 live_districtCode = HelperConvert.ConvertToString(r.Field<object>("live_districtCode")!)
+                                 ,
+                                 live_districtName = HelperConvert.ConvertToString(r.Field<object>("live_districtName")!)
+                                 ,
+                                 live_provinceCode = HelperConvert.ConvertToString(r.Field<object>("live_provinceCode")!)
+                                 ,
+                                 live_provinceName = HelperConvert.ConvertToString(r.Field<object>("live_provinceName")!)
+                                 ,
+                                 live_postcode = HelperConvert.ConvertToString(r.Field<object>("live_postcode")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
                              }).FirstOrDefault()!;
@@ -321,6 +535,162 @@ namespace APIEmpHub.Models
 
             return iData;
         }
+        #endregion
+
+        #region Employee
+        public void UserEmployeeSave(ServiceEmployeeModels iProp)
+        {
+            String query = "up_user_employee_save";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@processType", HelperConvert.ConvertToString(iProp.processType))
+                    , iSql.SqlCom_Parameter("@processReason", HelperConvert.ConvertToString(iProp.processReason))
+                    , iSql.SqlCom_Parameter("@employeeCode", HelperConvert.ConvertToString(iProp.employeeCode))
+                    , iSql.SqlCom_Parameter("@employeeType", HelperConvert.ConvertToString(iProp.employeeType))
+                    , iSql.SqlCom_Parameter("@email", HelperConvert.ConvertToString(iProp.email))
+                    , iSql.SqlCom_Parameter("@ext", HelperConvert.ConvertToString(iProp.ext))
+                    , iSql.SqlCom_Parameter("@phone_office", HelperConvert.ConvertToString(iProp.phone_office))
+                    , iSql.SqlCom_Parameter("@departmentCode", HelperConvert.ConvertToString(iProp.departmentCode))
+                    , iSql.SqlCom_Parameter("@positionCode", HelperConvert.ConvertToString(iProp.positionCode))
+                    , iSql.SqlCom_Parameter("@levelCode", HelperConvert.ConvertToString(iProp.levelCode))
+                    , iSql.SqlCom_Parameter("@grade", HelperConvert.ConvertToString(iProp.grade))
+                    , iSql.SqlCom_Parameter("@join_date", HelperConvert.ConvertToDate112(iProp.join_date))
+                    , iSql.SqlCom_Parameter("@probration_end_date", HelperConvert.ConvertToDate112(iProp.probration_end_date))
+                    , iSql.SqlCom_Parameter("@probration_day", iProp.probration_day)
+                    , iSql.SqlCom_Parameter("@supervisorId", HelperConvert.ConvertToString(iProp.supervisorId))
+                    , iSql.SqlCom_Parameter("@location", HelperConvert.ConvertToString(iProp.location))
+                    , iSql.SqlCom_Parameter("@sso", HelperConvert.ConvertToString(iProp.sso))
+                    , iSql.SqlCom_Parameter("@workMode", HelperConvert.ConvertToString(iProp.workMode))
+                    , iSql.SqlCom_Parameter("@workModeDesc", HelperConvert.ConvertToString(iProp.workModeDesc))
+                    , iSql.SqlCom_Parameter("@workTime", HelperConvert.ConvertToString(iProp.workTime))
+                    , iSql.SqlCom_Parameter("@workTimeDesc", HelperConvert.ConvertToString(iProp.workTimeDesc))
+                    , iSql.SqlCom_Parameter("@otMode", HelperConvert.ConvertToString(iProp.otMode))
+                    , iSql.SqlCom_Parameter("@otModeDesc", HelperConvert.ConvertToString(iProp.otModeDesc))
+                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public ServiceEmployeeModels UserEmployee(UserModels iProp)
+        {
+            String query = "up_user_employee_detail";
+            ServiceEmployeeModels iData = new ServiceEmployeeModels();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@can_view", SqlDbType.Int, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@can_edit", SqlDbType.Int, ParameterDirection.Output)
+                );
+
+                iProp.can_view = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_view"].Value);
+                iProp.can_edit = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_edit"].Value);
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    iData = (from r in dtData.AsEnumerable()
+                             select new ServiceEmployeeModels
+                             {
+                                 userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
+                                 ,
+                                 processType = HelperConvert.ConvertToString(r.Field<object>("processType")!)
+                                 ,
+                                 processReason = HelperConvert.ConvertToString(r.Field<object>("processReason")!)
+                                 ,
+                                 employeeId = HelperConvert.ConvertToString(r.Field<object>("employeeId")!)
+                                 ,
+                                 employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
+                                 ,
+                                 employeeType = HelperConvert.ConvertToString(r.Field<object>("employeeType")!)
+                                 ,
+                                 employeeDesc = HelperConvert.ConvertToString(r.Field<object>("employeeDesc")!)
+                                 ,
+                                 email = HelperConvert.ConvertToString(r.Field<object>("email")!)
+                                 ,
+                                 ext = HelperConvert.ConvertToString(r.Field<object>("ext")!)
+                                 ,
+                                 phone_office = HelperConvert.ConvertToString(r.Field<object>("phone_office")!)
+                                 ,
+                                 departmentCode = HelperConvert.ConvertToString(r.Field<object>("departmentCode")!)
+                                 ,
+                                 departmentDesc = HelperConvert.ConvertToString(r.Field<object>("departmentDesc")!)
+                                 ,
+                                 positionCode = HelperConvert.ConvertToString(r.Field<object>("positionCode")!)
+                                 ,
+                                 positionDesc = HelperConvert.ConvertToString(r.Field<object>("positionDesc")!)
+                                 ,
+                                 levelCode = HelperConvert.ConvertToString(r.Field<object>("levelCode")!)
+                                 ,
+                                 levelDesc = HelperConvert.ConvertToString(r.Field<object>("levelDesc")!)
+                                 ,
+                                 grade = HelperConvert.ConvertToString(r.Field<object>("grade")!)
+                                 ,
+                                 join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
+                                 ,
+                                 probration_end_date = HelperConvert.ConvertToString(r.Field<object>("probration_end_date")!)
+                                 ,
+                                 probration_day = HelperConvert.ConvertToInt(r.Field<object>("probration_day")!)
+                                 ,
+                                 supervisorId = HelperConvert.ConvertToString(r.Field<object>("supervisorId")!)
+                                 ,
+                                 supervisorName = HelperConvert.ConvertToString(r.Field<object>("supervisorName")!)
+                                 ,
+                                 supervisorPosition = HelperConvert.ConvertToString(r.Field<object>("supervisorPosition")!)
+                                 ,
+                                 supervisorDepartment = HelperConvert.ConvertToString(r.Field<object>("supervisorDepartment")!)
+                                 ,
+                                 location = HelperConvert.ConvertToString(r.Field<object>("location")!)
+                                 ,
+                                 locationDesc = HelperConvert.ConvertToString(r.Field<object>("locationDesc")!)
+                                 ,
+                                 sso = HelperConvert.ConvertToString(r.Field<object>("sso")!)
+                                 ,
+                                 ssoDesc = HelperConvert.ConvertToString(r.Field<object>("ssoDesc")!)
+                                 ,
+                                 workMode = HelperConvert.ConvertToString(r.Field<object>("workMode")!)
+                                 ,
+                                 workModeDesc = HelperConvert.ConvertToString(r.Field<object>("workModeDesc")!)
+                                 ,
+                                 workTime = HelperConvert.ConvertToString(r.Field<object>("workTime")!)
+                                 ,
+                                 workTimeDesc = HelperConvert.ConvertToString(r.Field<object>("workTimeDesc")!)
+                                 ,
+                                 otMode = HelperConvert.ConvertToString(r.Field<object>("otMode")!)
+                                 ,
+                                 otModeDesc = HelperConvert.ConvertToString(r.Field<object>("otModeDesc")!)
+                                 ,
+                                 status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                             }).FirstOrDefault()!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return iData;
+        }
+        #endregion
 
         public List<ServiceEducationModels> UserEducation(UserModels iProp)
         {
@@ -376,78 +746,6 @@ namespace APIEmpHub.Models
             return lData;
         }
 
-        public ServiceEmployeeModels UserEmployee(UserModels iProp)
-        {
-            String query = "up_user_employee_detail";
-            ServiceEmployeeModels iData = new ServiceEmployeeModels();
-
-            try
-            {
-                iSql.Open(connectionString);
-                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
-                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
-                    , iSql.SqlCom_Parameter("@can_view", SqlDbType.Int, ParameterDirection.Output)
-                    , iSql.SqlCom_Parameter("@can_edit", SqlDbType.Int, ParameterDirection.Output)
-                );
-
-                iProp.can_view = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_view"].Value);
-                iProp.can_edit = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_edit"].Value);
-
-                if (dtData != null && dtData.Rows.Count > 0)
-                {
-
-                    iData = (from r in dtData.AsEnumerable()
-                             select new ServiceEmployeeModels
-                             {
-                                 refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
-                                 ,
-                                 employeeId = HelperConvert.ConvertToString(r.Field<object>("employeeId")!)
-                                 ,
-                                 employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
-                                 ,
-                                 employeeType = HelperConvert.ConvertToString(r.Field<object>("employeeType")!)
-                                 ,
-                                 employeeDesc = HelperConvert.ConvertToString(r.Field<object>("employeeDesc")!)
-                                 ,
-                                 email = HelperConvert.ConvertToString(r.Field<object>("email")!)
-                                 ,
-                                 ext = HelperConvert.ConvertToString(r.Field<object>("ext")!)
-                                 ,
-                                 departmentCode = HelperConvert.ConvertToString(r.Field<object>("departmentCode")!)
-                                 ,
-                                 departmentDesc = HelperConvert.ConvertToString(r.Field<object>("departmentDesc")!)
-                                 ,
-                                 positionCode = HelperConvert.ConvertToString(r.Field<object>("positionCode")!)
-                                 ,
-                                 positionDesc = HelperConvert.ConvertToString(r.Field<object>("positionDesc")!)
-                                 ,
-                                 join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
-                                 ,
-                                 supervisorId = HelperConvert.ConvertToString(r.Field<object>("supervisorId")!)
-                                 ,
-                                 supervisorName = HelperConvert.ConvertToString(r.Field<object>("supervisorName")!)
-                                 ,
-                                 supervisorPosition = HelperConvert.ConvertToString(r.Field<object>("supervisorPosition")!)
-                                 ,
-                                 supervisorDepartment = HelperConvert.ConvertToString(r.Field<object>("supervisorDepartment")!)
-                                 ,
-                                 status = HelperConvert.ConvertToString(r.Field<object>("status")!)
-                             }).FirstOrDefault()!;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex.InnerException);
-            }
-            finally
-            {
-                iSql.Close();
-            }
-
-            return iData;
-        }
-
         public List<ServiceJobExperienceModels> UserJobExperience(UserModels iProp)
         {
             String query = "up_user_job_experience_sel";
@@ -500,70 +798,6 @@ namespace APIEmpHub.Models
             }
 
             return lData;
-        }
-
-        public ServicePersonalModels UserPersonal(UserModels iProp)
-        {
-            String query = "up_user_personal_detail";
-            ServicePersonalModels iData = new ServicePersonalModels();
-
-            try
-            {
-                iSql.Open(connectionString);
-                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
-                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
-                    , iSql.SqlCom_Parameter("@can_view", SqlDbType.Int, ParameterDirection.Output)
-                    , iSql.SqlCom_Parameter("@can_edit", SqlDbType.Int, ParameterDirection.Output)
-                );
-
-                iProp.can_view = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_view"].Value);
-                iProp.can_edit = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@can_edit"].Value);
-
-                if (dtData != null && dtData.Rows.Count > 0)
-                {
-
-                    iData = (from r in dtData.AsEnumerable()
-                             select new ServicePersonalModels
-                             {
-                                 refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
-                                 ,
-                                 personalId = HelperConvert.ConvertToString(r.Field<object>("personalId")!)
-                                 ,
-                                 firstname_th = HelperConvert.ConvertToString(r.Field<object>("firstname_th")!)
-                                 ,
-                                 lastname_th = HelperConvert.ConvertToString(r.Field<object>("lastname_th")!)
-                                 ,
-                                 firstname_en = HelperConvert.ConvertToString(r.Field<object>("firstname_en")!)
-                                 ,
-                                 lastname_en = HelperConvert.ConvertToString(r.Field<object>("lastname_en")!)
-                                 ,
-                                 nickname = HelperConvert.ConvertToString(r.Field<object>("nickname")!)
-                                 ,
-                                 sex = HelperConvert.ConvertToString(r.Field<object>("sex")!)
-                                 ,
-                                 birth_date = HelperConvert.ConvertToString(r.Field<object>("birth_date")!)
-                                 ,
-                                 maritalStatus = HelperConvert.ConvertToString(r.Field<object>("maritalStatus")!)
-                                 ,
-                                 email = HelperConvert.ConvertToString(r.Field<object>("email")!)
-                                 ,
-                                 phoneNo = HelperConvert.ConvertToString(r.Field<object>("phoneNo")!)
-                                 ,
-                                 status = HelperConvert.ConvertToString(r.Field<object>("status")!)
-                             }).FirstOrDefault()!;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex.InnerException);
-            }
-            finally
-            {
-                iSql.Close();
-            }
-
-            return iData;
         }
 
         public List<ServiceTrainingModels> UserTraining(UserModels iProp)

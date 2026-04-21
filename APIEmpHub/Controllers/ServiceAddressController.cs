@@ -55,23 +55,61 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.addressId
                     ,
-                    iData.home
+                    iData.registered_home
                     ,
-                    iData.road
+                    iData.registered_road
                     ,
-                    iData.subDistrictCode
+                    iData.registered_subDistrictCode
                     ,
-                    iData.subDistrictName
+                    iData.registered_subDistrictName
                     ,
-                    iData.districtCode
+                    iData.registered_districtCode
                     ,
-                    iData.districtName
+                    iData.registered_districtName
                     ,
-                    iData.provinceCode
+                    iData.registered_provinceCode
                     ,
-                    iData.provinceName
+                    iData.registered_provinceName
                     ,
-                    iData.postcode
+                    iData.registered_postcode
+
+                    ,
+                    iData.card_home
+                    ,
+                    iData.card_road
+                    ,
+                    iData.card_subDistrictCode
+                    ,
+                    iData.card_subDistrictName
+                    ,
+                    iData.card_districtCode
+                    ,
+                    iData.card_districtName
+                    ,
+                    iData.card_provinceCode
+                    ,
+                    iData.card_provinceName
+                    ,
+                    iData.card_postcode
+
+                    ,
+                    iData.live_home
+                    ,
+                    iData.live_road
+                    ,
+                    iData.live_subDistrictCode
+                    ,
+                    iData.live_subDistrictName
+                    ,
+                    iData.live_districtCode
+                    ,
+                    iData.live_districtName
+                    ,
+                    iData.live_provinceCode
+                    ,
+                    iData.live_provinceName
+                    ,
+                    iData.live_postcode
                     ,
                     iData.status
                 };

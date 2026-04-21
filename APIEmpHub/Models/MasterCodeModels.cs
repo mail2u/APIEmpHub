@@ -6,7 +6,7 @@ namespace APIEmpHub.Models
 {
     public class MasterCodeModels : baseModels<MasterCodeModels>
     {
-        public int id { get; set; }
+        public int id { get; set; } = 0;
         public string groupName { get; set; }
         public string code { get; set; }
         public string desc_th { get; set; }
