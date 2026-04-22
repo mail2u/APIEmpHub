@@ -243,6 +243,23 @@ namespace APIEmpHub.Controllers
             }
         }
 
+        #region Address
+        [HttpPost]
+        [Route("UserAddressSave")]
+        public IActionResult UserAddressSave(ServiceAddressModels iProp)
+        {
+            try
+            {
+                model.UserAddressSave(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("UserAddress")]
         public IActionResult UserAddress(UserModels iProp)
@@ -253,7 +270,7 @@ namespace APIEmpHub.Controllers
 
                 var vData = new
                 {
-                    iData.refId
+                    iData.userId
                     ,
                     iData.addressId
                     ,
@@ -321,6 +338,7 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
         [HttpPost]
         [Route("UserEducation")]
@@ -359,6 +377,23 @@ namespace APIEmpHub.Controllers
             }
         }
 
+        #region Employee
+        [HttpPost]
+        [Route("UserEmployeeSave")]
+        public IActionResult UserEmployeeSave(ServiceEmployeeModels iProp)
+        {
+            try
+            {
+                model.UserEmployeeSave(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("UserEmployee")]
         public IActionResult UserEmployee(UserModels iProp)
@@ -369,7 +404,7 @@ namespace APIEmpHub.Controllers
 
                 var vData = new
                 {
-                    iData.refId
+                    iData.userId
                     ,
                     iData.processType
                     ,
@@ -405,9 +440,9 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.join_date
                     ,
-                    iData.probration_end_date
+                    iData.probation_end_date
                     ,
-                    iData.probration_day
+                    iData.probation_day
                     ,
                     iData.supervisorId
                     ,
@@ -433,6 +468,18 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.otModeDesc
                     ,
+                    iData.employeeMode
+                    ,
+                    iData.calendarCode
+                    ,
+                    iData.salary
+                    ,
+                    iData.paymentChannel
+                    ,
+                    iData.bankCode
+                    ,
+                    iData.bookNo
+                    ,
                     iData.status
                 };
 
@@ -443,6 +490,7 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
         [HttpPost]
         [Route("UserJobExperience")]
@@ -481,6 +529,23 @@ namespace APIEmpHub.Controllers
             }
         }
 
+        #region Personal
+        [HttpPost]
+        [Route("UserPersonalSave")]
+        public IActionResult UserPersonalSave(ServicePersonalModels iProp)
+        {
+            try
+            {
+                model.UserPersonalSave(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("UserPersonal")]
         public IActionResult UserPersonal(UserModels iProp)
@@ -491,7 +556,7 @@ namespace APIEmpHub.Controllers
 
                 var vData = new
                 {
-                    iData.refId
+                    iData.userId
                     ,
                     iData.personalId
                     ,
@@ -525,6 +590,7 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
         [HttpPost]
         [Route("UserTraining")]

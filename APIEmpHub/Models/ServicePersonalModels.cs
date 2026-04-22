@@ -20,6 +20,7 @@ namespace APIEmpHub.Models
         public string sex { get; set; }
         public string birth_date { get; set; }
         public string age { get; set; }
+        public string idcard { get; set; }
         public string maritalStatus { get; set; }
         public string militaryStatus { get; set; }
         public string disabilityStatus { get; set; }

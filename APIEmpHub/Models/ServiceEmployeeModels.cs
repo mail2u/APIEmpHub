@@ -27,8 +27,8 @@ namespace APIEmpHub.Models
         public string levelDesc { get; set; }
         public string grade { get; set; }
         public string join_date { get; set; }
-        public string probration_end_date { get; set; }
-        public int probration_day { get; set; }
+        public string probation_end_date { get; set; }
+        public int probation_day { get; set; }
         public string supervisorId { get; set; }
         public string supervisorName { get; set; }
         public string supervisorPosition { get; set; }
@@ -46,6 +46,15 @@ namespace APIEmpHub.Models
         public string workTimeDesc { get; set; }
         public string otMode { get; set; }
         public string otModeDesc { get; set; }
+        public string employeeMode { get; set; }
+        public string employeeModeDesc { get; set; }
+        public string calendarCode { get; set; }
+        public string calendarDesc { get; set; }
+        public decimal salary { get; set; } = 0;
+        public string paymentChannel { get; set; }
+        public string bankCode { get; set; }
+        public string bankName { get; set; }
+        public string bookNo { get; set; }
         public string create_by { get; set; }
         public string update_by { get; set; }
 
@@ -70,8 +79,8 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@levelCode", HelperConvert.ConvertToString(iProp.levelCode))
                     , iSql.SqlCom_Parameter("@grade", HelperConvert.ConvertToString(iProp.grade))
                     , iSql.SqlCom_Parameter("@join_date", HelperConvert.ConvertToDate112(iProp.join_date))
-                    , iSql.SqlCom_Parameter("@probration_end_date", HelperConvert.ConvertToDate112(iProp.probration_end_date))
-                    , iSql.SqlCom_Parameter("@probration_day", iProp.probration_day)
+                    , iSql.SqlCom_Parameter("@probration_end_date", HelperConvert.ConvertToDate112(iProp.probation_end_date))
+                    , iSql.SqlCom_Parameter("@probration_day", iProp.probation_day)
                     , iSql.SqlCom_Parameter("@supervisorId", HelperConvert.ConvertToString(iProp.supervisorId))
                     , iSql.SqlCom_Parameter("@location", HelperConvert.ConvertToString(iProp.location))
                     , iSql.SqlCom_Parameter("@sso", HelperConvert.ConvertToString(iProp.sso))
@@ -146,9 +155,9 @@ namespace APIEmpHub.Models
                                  ,
                                  join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
                                  ,
-                                 probration_end_date = HelperConvert.ConvertToString(r.Field<object>("probration_end_date")!)
+                                 probation_end_date = HelperConvert.ConvertToString(r.Field<object>("probation_end_date")!)
                                  ,
-                                 probration_day = HelperConvert.ConvertToInt(r.Field<object>("probration_day")!)
+                                 probation_day = HelperConvert.ConvertToInt(r.Field<object>("probation_day")!)
                                  ,
                                  supervisorId = HelperConvert.ConvertToString(r.Field<object>("supervisorId")!)
                                  ,

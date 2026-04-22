@@ -270,7 +270,7 @@ namespace APIEmpHub.Models
             {
                 iSql.Open(connectionString);
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
                     , iSql.SqlCom_Parameter("@prefix_th", HelperConvert.ConvertToString(iProp.prefix_th))
                     , iSql.SqlCom_Parameter("@firstname_th", HelperConvert.ConvertToString(iProp.firstname_th))
                     , iSql.SqlCom_Parameter("@lastname_th", HelperConvert.ConvertToString(iProp.lastname_th))
@@ -281,6 +281,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@sex", HelperConvert.ConvertToString(iProp.sex))
                     , iSql.SqlCom_Parameter("@birth_date", HelperConvert.ConvertToString(iProp.birth_date))
                     , iSql.SqlCom_Parameter("@age", HelperConvert.ConvertToString(iProp.age))
+                    , iSql.SqlCom_Parameter("@idcard", HelperConvert.ConvertToString(iProp.idcard))
                     , iSql.SqlCom_Parameter("@email", HelperConvert.ConvertToString(iProp.email))
                     , iSql.SqlCom_Parameter("@phoneNo", HelperConvert.ConvertToString(iProp.phoneNo))
                     , iSql.SqlCom_Parameter("@mobile", HelperConvert.ConvertToString(iProp.mobile))
@@ -351,23 +352,25 @@ namespace APIEmpHub.Models
                                  ,
                                  age = HelperConvert.ConvertToString(r.Field<object>("age")!)
                                  ,
+                                 idcard = HelperConvert.ConvertToString(r.Field<object>("idcard")!)
+                                 ,
                                  email = HelperConvert.ConvertToString(r.Field<object>("email")!)
                                  ,
                                  phoneNo = HelperConvert.ConvertToString(r.Field<object>("phoneNo")!)
                                  ,
                                  mobile = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
                                  ,
-                                 nationality = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
+                                 nationality = HelperConvert.ConvertToString(r.Field<object>("nationality")!)
                                  ,
-                                 ethnicity = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
+                                 ethnicity = HelperConvert.ConvertToString(r.Field<object>("ethnicity")!)
                                  ,
-                                 religion = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
+                                 religion = HelperConvert.ConvertToString(r.Field<object>("religion")!)
                                  ,
                                  maritalStatus = HelperConvert.ConvertToString(r.Field<object>("maritalStatus")!)
                                  ,
-                                 militaryStatus = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
+                                 militaryStatus = HelperConvert.ConvertToString(r.Field<object>("militaryStatus")!)
                                  ,
-                                 disabilityStatus = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
+                                 disabilityStatus = HelperConvert.ConvertToString(r.Field<object>("disabilityStatus")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
                              }).FirstOrDefault()!;
@@ -462,7 +465,7 @@ namespace APIEmpHub.Models
                     iData = (from r in dtData.AsEnumerable()
                              select new ServiceAddressModels
                              {
-                                 userId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
+                                 userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
                                  ,
                                  addressId = HelperConvert.ConvertToString(r.Field<object>("addressId")!)
                                  ,
@@ -559,17 +562,20 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@levelCode", HelperConvert.ConvertToString(iProp.levelCode))
                     , iSql.SqlCom_Parameter("@grade", HelperConvert.ConvertToString(iProp.grade))
                     , iSql.SqlCom_Parameter("@join_date", HelperConvert.ConvertToDate112(iProp.join_date))
-                    , iSql.SqlCom_Parameter("@probration_end_date", HelperConvert.ConvertToDate112(iProp.probration_end_date))
-                    , iSql.SqlCom_Parameter("@probration_day", iProp.probration_day)
+                    , iSql.SqlCom_Parameter("@probation_end_date", HelperConvert.ConvertToDate112(iProp.probation_end_date))
+                    , iSql.SqlCom_Parameter("@probation_day", iProp.probation_day)
                     , iSql.SqlCom_Parameter("@supervisorId", HelperConvert.ConvertToString(iProp.supervisorId))
                     , iSql.SqlCom_Parameter("@location", HelperConvert.ConvertToString(iProp.location))
                     , iSql.SqlCom_Parameter("@sso", HelperConvert.ConvertToString(iProp.sso))
                     , iSql.SqlCom_Parameter("@workMode", HelperConvert.ConvertToString(iProp.workMode))
-                    , iSql.SqlCom_Parameter("@workModeDesc", HelperConvert.ConvertToString(iProp.workModeDesc))
                     , iSql.SqlCom_Parameter("@workTime", HelperConvert.ConvertToString(iProp.workTime))
-                    , iSql.SqlCom_Parameter("@workTimeDesc", HelperConvert.ConvertToString(iProp.workTimeDesc))
                     , iSql.SqlCom_Parameter("@otMode", HelperConvert.ConvertToString(iProp.otMode))
-                    , iSql.SqlCom_Parameter("@otModeDesc", HelperConvert.ConvertToString(iProp.otModeDesc))
+                    , iSql.SqlCom_Parameter("@employeeMode", HelperConvert.ConvertToString(iProp.employeeMode))
+                    , iSql.SqlCom_Parameter("@calendarCode", HelperConvert.ConvertToString(iProp.calendarCode))
+                    , iSql.SqlCom_Parameter("@salary", iProp.salary)
+                    , iSql.SqlCom_Parameter("@paymentChannel", HelperConvert.ConvertToString(iProp.paymentChannel))
+                    , iSql.SqlCom_Parameter("@bankCode", HelperConvert.ConvertToString(iProp.bankCode))
+                    , iSql.SqlCom_Parameter("@bookNo", HelperConvert.ConvertToString(iProp.bookNo))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
                     );
             }
@@ -643,9 +649,9 @@ namespace APIEmpHub.Models
                                  ,
                                  join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
                                  ,
-                                 probration_end_date = HelperConvert.ConvertToString(r.Field<object>("probration_end_date")!)
+                                 probation_end_date = HelperConvert.ConvertToString(r.Field<object>("probation_end_date")!)
                                  ,
-                                 probration_day = HelperConvert.ConvertToInt(r.Field<object>("probration_day")!)
+                                 probation_day = HelperConvert.ConvertToInt(r.Field<object>("probation_day")!)
                                  ,
                                  supervisorId = HelperConvert.ConvertToString(r.Field<object>("supervisorId")!)
                                  ,
@@ -674,6 +680,18 @@ namespace APIEmpHub.Models
                                  otMode = HelperConvert.ConvertToString(r.Field<object>("otMode")!)
                                  ,
                                  otModeDesc = HelperConvert.ConvertToString(r.Field<object>("otModeDesc")!)
+                                 ,
+                                 employeeMode = HelperConvert.ConvertToString(r.Field<object>("employeeMode")!)
+                                 ,
+                                 calendarCode = HelperConvert.ConvertToString(r.Field<object>("calendarCode")!)
+                                 ,
+                                 salary = HelperConvert.ConvertToDecimal(r.Field<object>("salary")!)
+                                 ,
+                                 paymentChannel = HelperConvert.ConvertToString(r.Field<object>("paymentChannel")!)
+                                 ,
+                                 bankCode = HelperConvert.ConvertToString(r.Field<object>("bankCode")!)
+                                 ,
+                                 bookNo = HelperConvert.ConvertToString(r.Field<object>("bookNo")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
                              }).FirstOrDefault()!;
