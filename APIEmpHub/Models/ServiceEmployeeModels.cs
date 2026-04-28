@@ -19,8 +19,12 @@ namespace APIEmpHub.Models
         public string email { get; set; }
         public string ext { get; set; }
         public string phone_office { get; set; }
+        public string divisionCode { get; set; }
+        public string divisionDesc { get; set; }
         public string departmentCode { get; set; }
         public string departmentDesc { get; set; }
+        public string sectionCode { get; set; }
+        public string sectionDesc { get; set; }
         public string positionCode { get; set; }
         public string positionDesc { get; set; }
         public string levelCode { get; set; }
@@ -57,6 +61,7 @@ namespace APIEmpHub.Models
         public string bookNo { get; set; }
         public string create_by { get; set; }
         public string update_by { get; set; }
+        public string update_date { get; set; }
 
         public void Save(ServiceEmployeeModels iProp)
         {

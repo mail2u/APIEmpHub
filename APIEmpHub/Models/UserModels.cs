@@ -27,6 +27,7 @@ namespace APIEmpHub.Models
         public string positionDesc { get; set; }
         public string levelCode { get; set; }
         public string authenCode { get; set; }
+        public string employeeCode { get; set; }
         public string employeeType { get; set; }
         public string create_by { get; set; }
         public string update_by { get; set; }
@@ -200,6 +201,8 @@ namespace APIEmpHub.Models
                                  ,
                                  username = HelperConvert.ConvertToString(r.Field<object>("username")!)
                                  ,
+                                 employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
+                                 ,
                                  firstname_en = HelperConvert.ConvertToString(r.Field<object>("firstname_en")!)
                                  ,
                                  lastname_en = HelperConvert.ConvertToString(r.Field<object>("lastname_en")!)
@@ -281,7 +284,12 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@sex", HelperConvert.ConvertToString(iProp.sex))
                     , iSql.SqlCom_Parameter("@birth_date", HelperConvert.ConvertToString(iProp.birth_date))
                     , iSql.SqlCom_Parameter("@age", HelperConvert.ConvertToString(iProp.age))
+                    , iSql.SqlCom_Parameter("@weight", iProp.weight)
+                    , iSql.SqlCom_Parameter("@height", iProp.height)
+                    , iSql.SqlCom_Parameter("@blood", HelperConvert.ConvertToString(iProp.blood))
                     , iSql.SqlCom_Parameter("@idcard", HelperConvert.ConvertToString(iProp.idcard))
+                    , iSql.SqlCom_Parameter("@passport", HelperConvert.ConvertToString(iProp.passport))
+                    , iSql.SqlCom_Parameter("@workPermitNo", HelperConvert.ConvertToString(iProp.workPermitNo))
                     , iSql.SqlCom_Parameter("@email", HelperConvert.ConvertToString(iProp.email))
                     , iSql.SqlCom_Parameter("@phoneNo", HelperConvert.ConvertToString(iProp.phoneNo))
                     , iSql.SqlCom_Parameter("@mobile", HelperConvert.ConvertToString(iProp.mobile))
@@ -352,7 +360,17 @@ namespace APIEmpHub.Models
                                  ,
                                  age = HelperConvert.ConvertToString(r.Field<object>("age")!)
                                  ,
+                                 weight = HelperConvert.ConvertToInt(r.Field<object>("weight")!)
+                                 ,
+                                 height = HelperConvert.ConvertToInt(r.Field<object>("height")!)
+                                 ,
+                                 blood = HelperConvert.ConvertToString(r.Field<object>("blood")!)
+                                 ,
                                  idcard = HelperConvert.ConvertToString(r.Field<object>("idcard")!)
+                                 ,
+                                 passport = HelperConvert.ConvertToString(r.Field<object>("passport")!)
+                                 ,
+                                 workPermitNo = HelperConvert.ConvertToString(r.Field<object>("workPermitNo")!)
                                  ,
                                  email = HelperConvert.ConvertToString(r.Field<object>("email")!)
                                  ,
@@ -373,6 +391,10 @@ namespace APIEmpHub.Models
                                  disabilityStatus = HelperConvert.ConvertToString(r.Field<object>("disabilityStatus")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                                 ,
+                                 update_by = HelperConvert.ConvertToString(r.Field<object>("update_by")!)
+                                 ,
+                                 update_date = HelperConvert.ConvertToString(r.Field<object>("update_date")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -524,6 +546,10 @@ namespace APIEmpHub.Models
                                  live_postcode = HelperConvert.ConvertToString(r.Field<object>("live_postcode")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                                 ,
+                                 update_by = HelperConvert.ConvertToString(r.Field<object>("update_by")!)
+                                 ,
+                                 update_date = HelperConvert.ConvertToString(r.Field<object>("update_date")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -557,7 +583,9 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@email", HelperConvert.ConvertToString(iProp.email))
                     , iSql.SqlCom_Parameter("@ext", HelperConvert.ConvertToString(iProp.ext))
                     , iSql.SqlCom_Parameter("@phone_office", HelperConvert.ConvertToString(iProp.phone_office))
+                    , iSql.SqlCom_Parameter("@divisionCode", HelperConvert.ConvertToString(iProp.divisionCode))
                     , iSql.SqlCom_Parameter("@departmentCode", HelperConvert.ConvertToString(iProp.departmentCode))
+                    , iSql.SqlCom_Parameter("@sectionCode", HelperConvert.ConvertToString(iProp.sectionCode))
                     , iSql.SqlCom_Parameter("@positionCode", HelperConvert.ConvertToString(iProp.positionCode))
                     , iSql.SqlCom_Parameter("@levelCode", HelperConvert.ConvertToString(iProp.levelCode))
                     , iSql.SqlCom_Parameter("@grade", HelperConvert.ConvertToString(iProp.grade))
@@ -633,9 +661,17 @@ namespace APIEmpHub.Models
                                  ,
                                  phone_office = HelperConvert.ConvertToString(r.Field<object>("phone_office")!)
                                  ,
+                                 divisionCode = HelperConvert.ConvertToString(r.Field<object>("divisionCode")!)
+                                 ,
+                                 divisionDesc = HelperConvert.ConvertToString(r.Field<object>("divisionDesc")!)
+                                 ,
                                  departmentCode = HelperConvert.ConvertToString(r.Field<object>("departmentCode")!)
                                  ,
                                  departmentDesc = HelperConvert.ConvertToString(r.Field<object>("departmentDesc")!)
+                                 ,
+                                 sectionCode = HelperConvert.ConvertToString(r.Field<object>("sectionCode")!)
+                                 ,
+                                 sectionDesc = HelperConvert.ConvertToString(r.Field<object>("sectionDesc")!)
                                  ,
                                  positionCode = HelperConvert.ConvertToString(r.Field<object>("positionCode")!)
                                  ,
@@ -694,6 +730,10 @@ namespace APIEmpHub.Models
                                  bookNo = HelperConvert.ConvertToString(r.Field<object>("bookNo")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                                 ,
+                                 update_by = HelperConvert.ConvertToString(r.Field<object>("update_by")!)
+                                 ,
+                                 update_date = HelperConvert.ConvertToString(r.Field<object>("update_date")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -749,6 +789,10 @@ namespace APIEmpHub.Models
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                                 ,
+                                 update_by = HelperConvert.ConvertToString(r.Field<object>("update_by")!)
+                                 ,
+                                 update_date = HelperConvert.ConvertToString(r.Field<object>("update_date")!)
                              }).ToList()!;
                 }
             }
@@ -803,6 +847,10 @@ namespace APIEmpHub.Models
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                                 ,
+                                 update_by = HelperConvert.ConvertToString(r.Field<object>("update_by")!)
+                                 ,
+                                 update_date = HelperConvert.ConvertToString(r.Field<object>("update_date")!)
                              }).ToList()!;
                 }
             }
@@ -857,6 +905,10 @@ namespace APIEmpHub.Models
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                                 ,
+                                 update_by = HelperConvert.ConvertToString(r.Field<object>("update_by")!)
+                                 ,
+                                 update_date = HelperConvert.ConvertToString(r.Field<object>("update_date")!)
                              }).ToList()!;
                 }
             }

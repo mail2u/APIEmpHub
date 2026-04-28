@@ -150,6 +150,8 @@ namespace APIEmpHub.Controllers
                     ,
                     x.username
                     ,
+                    x.employeeCode
+                    ,
                     x.firstname_en
                     ,
                     x.lastname_en
@@ -169,8 +171,6 @@ namespace APIEmpHub.Controllers
                     x.positionCode
                     ,
                     x.positionDesc
-                    ,
-                    x.employeeType
                 }).ToList();
 
                 return Ok(new { data = vData, total = iProp.total });
@@ -329,6 +329,10 @@ namespace APIEmpHub.Controllers
                     iData.live_postcode
                     ,
                     iData.status
+                    ,
+                    iData.update_by
+                    ,
+                    iData.update_date
                 };
 
                 return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
@@ -367,6 +371,10 @@ namespace APIEmpHub.Controllers
                     x.status
                     ,
                     x.mode
+                    ,
+                    x.update_by
+                    ,
+                    x.update_date
                 }).ToList();
 
                 return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
@@ -424,9 +432,17 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.phone_office
                     ,
+                    iData.divisionCode
+                    ,
+                    iData.divisionDesc
+                    ,
                     iData.departmentCode
                     ,
                     iData.departmentDesc
+                    ,
+                    iData.sectionCode
+                    ,
+                    iData.sectionDesc
                     ,
                     iData.positionCode
                     ,
@@ -481,6 +497,10 @@ namespace APIEmpHub.Controllers
                     iData.bookNo
                     ,
                     iData.status
+                    ,
+                    iData.update_by
+                    ,
+                    iData.update_date
                 };
 
                 return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
@@ -519,6 +539,10 @@ namespace APIEmpHub.Controllers
                     x.status
                     ,
                     x.mode
+                    ,
+                    x.update_by
+                    ,
+                    x.update_date
                 }).ToList();
 
                 return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
@@ -560,9 +584,13 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.personalId
                     ,
+                    iData.prefix_th
+                    ,
                     iData.firstname_th
                     ,
                     iData.lastname_th
+                    ,
+                    iData.prefix_en
                     ,
                     iData.firstname_en
                     ,
@@ -574,13 +602,33 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.birth_date
                     ,
-                    iData.maritalStatus
+                    iData.weight
+                    ,
+                    iData.height
+                    ,
+                    iData.blood
                     ,
                     iData.email
                     ,
                     iData.phoneNo
                     ,
+                    iData.nationality
+                    ,
+                    iData.ethnicity
+                    ,
+                    iData.religion
+                    ,
+                    iData.maritalStatus
+                    ,
+                    iData.militaryStatus
+                    ,
+                    iData.disabilityStatus
+                    ,
                     iData.status
+                    ,
+                    iData.update_by
+                    ,
+                    iData.update_date
                 };
 
                 return Ok(new { data = iData, iProp.can_edit, iProp.can_view });
@@ -619,6 +667,10 @@ namespace APIEmpHub.Controllers
                     x.status
                     ,
                     x.mode
+                    ,
+                    x.update_by
+                    ,
+                    x.update_date
                 }).ToList();
 
                 return Ok(new { data = vData, iProp.can_edit, iProp.can_view });

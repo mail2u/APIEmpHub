@@ -19,6 +19,7 @@ namespace APIEmpHub.Models
         public string userId { get; set; }
         public string create_by { get; set; }
         public string update_by { get; set; }
+        public string update_date { get; set; }
 
         public void Save(ServiceEducationModels iProp)
         {

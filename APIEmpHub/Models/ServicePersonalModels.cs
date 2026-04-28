@@ -20,7 +20,12 @@ namespace APIEmpHub.Models
         public string sex { get; set; }
         public string birth_date { get; set; }
         public string age { get; set; }
+        public int weight { get; set; }
+        public int height { get; set; }
+        public string blood { get; set; }
         public string idcard { get; set; }
+        public string passport { get; set; }
+        public string workPermitNo { get; set; }
         public string maritalStatus { get; set; }
         public string militaryStatus { get; set; }
         public string disabilityStatus { get; set; }
@@ -34,6 +39,7 @@ namespace APIEmpHub.Models
         public string userId { get; set; }
         public string create_by { get; set; }
         public string update_by { get; set; }
+        public string update_date { get; set; }
 
         public void Save(ServicePersonalModels iProp)
         {

@@ -1433,5 +1433,425 @@ namespace APIEmpHub.Controllers
             }
         }
         #endregion
+
+        #region FormUpdatePersonal
+        [HttpPost]
+        [Route("FormUpdatePersonalCreate")]
+        public IActionResult FormUpdatePersonalCreate(FormUpdatePersonalModels iProp)
+        {
+            this._logger.LogInformation("FormUpdatePersonal_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormUpdatePersonalCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormUpdatePersonal_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormUpdatePersonalDetail")]
+        public IActionResult FormUpdatePersonalDetail(FormUpdatePersonalModels iProp)
+        {
+            try
+            {
+                FormUpdatePersonalModels iData = model.FormUpdatePersonalDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.userId
+                    ,
+                    iData.prefix_th
+                    ,
+                    iData.firstname_th
+                    ,
+                    iData.lastname_th
+                    ,
+                    iData.prefix_en
+                    ,
+                    iData.firstname_en
+                    ,
+                    iData.lastname_en
+                    ,
+                    iData.nickname
+                    ,
+                    iData.sex
+                    ,
+                    iData.birth_date
+                    ,
+                    iData.weight
+                    ,
+                    iData.height
+                    ,
+                    iData.blood
+                    ,
+                    iData.nationality
+                    ,
+                    iData.ethnicity
+                    ,
+                    iData.religion
+                    ,
+                    iData.maritalStatus
+                    ,
+                    iData.militaryStatus
+                    ,
+                    iData.disabilityStatus
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormUpdateEmployee
+        [HttpPost]
+        [Route("FormUpdateEmployeeCreate")]
+        public IActionResult FormUpdateEmployeeCreate(FormUpdateEmployeeModels iProp)
+        {
+            this._logger.LogInformation("FormUpdateEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormUpdateEmployeeCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormUpdateEmployee_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormUpdateEmployeeDetail")]
+        public IActionResult FormUpdateEmployeeDetail(FormUpdateEmployeeModels iProp)
+        {
+            try
+            {
+                FormUpdateEmployeeModels iData = model.FormUpdateEmployeeDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.userId
+                    ,
+                    iData.join_date
+                    ,
+                    iData.employeeType
+                    ,
+                    iData.divisionCode
+                    ,
+                    iData.departmentCode
+                    ,
+                    iData.sectionCode
+                    ,
+                    iData.positionCode
+                    ,
+                    iData.levelCode
+                    ,
+                    iData.grade
+                    ,
+                    iData.supervisorId
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormUpdateCard
+        [HttpPost]
+        [Route("FormUpdateCardCreate")]
+        public IActionResult FormUpdateCardCreate(FormUpdateCardModels iProp)
+        {
+            this._logger.LogInformation("FormUpdateCard_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormUpdateCardCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormUpdateCard_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormUpdateCardDetail")]
+        public IActionResult FormUpdateCardDetail(FormUpdateCardModels iProp)
+        {
+            try
+            {
+                FormUpdateCardModels iData = model.FormUpdateCardDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.userId
+                    ,
+                    iData.employeeCode
+                    ,
+                    iData.idcard
+                    ,
+                    iData.passport
+                    ,
+                    iData.workPermitNo
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormUpdateContact
+        [HttpPost]
+        [Route("FormUpdateContactCreate")]
+        public IActionResult FormUpdateContactCreate(FormUpdateContactModels iProp)
+        {
+            this._logger.LogInformation("FormUpdateContact_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormUpdateContactCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormUpdateContact_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormUpdateContactDetail")]
+        public IActionResult FormUpdateContactDetail(FormUpdateContactModels iProp)
+        {
+            try
+            {
+                FormUpdateContactModels iData = model.FormUpdateContactDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.userId
+                    ,
+                    iData.registered_home
+                    ,
+                    iData.registered_road
+                    ,
+                    iData.registered_subDistrictCode
+                    ,
+                    iData.registered_subDistrictName
+                    ,
+                    iData.registered_districtCode
+                    ,
+                    iData.registered_districtName
+                    ,
+                    iData.registered_provinceCode
+                    ,
+                    iData.registered_provinceName
+                    ,
+                    iData.registered_postcode
+                    ,
+                    iData.card_home
+                    ,
+                    iData.card_road
+                    ,
+                    iData.card_subDistrictCode
+                    ,
+                    iData.card_subDistrictName
+                    ,
+                    iData.card_districtCode
+                    ,
+                    iData.card_districtName
+                    ,
+                    iData.card_provinceCode
+                    ,
+                    iData.card_provinceName
+                    ,
+                    iData.card_postcode
+                    ,
+                    iData.live_home
+                    ,
+                    iData.live_road
+                    ,
+                    iData.live_subDistrictCode
+                    ,
+                    iData.live_subDistrictName
+                    ,
+                    iData.live_districtCode
+                    ,
+                    iData.live_districtName
+                    ,
+                    iData.live_provinceCode
+                    ,
+                    iData.live_provinceName
+                    ,
+                    iData.live_postcode
+                    ,
+                    iData.mobile
+                    ,
+                    iData.email
+                    ,
+                    iData.phone
+                    ,
+                    iData.phone_office
+                    ,
+                    iData.email_office
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormUpdateTalent
+        [HttpPost]
+        [Route("FormUpdateTalentCreate")]
+        public IActionResult FormUpdateTalentCreate(FormUpdateTalentModels iProp)
+        {
+            this._logger.LogInformation("FormUpdateTalent_Create [Request] : " + JsonSerializer.Serialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormUpdateTalentCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormUpdateTalent_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormUpdateTalentDetail")]
+        public IActionResult FormUpdateTalentDetail(FormUpdateTalentModels iProp)
+        {
+            try
+            {
+                FormUpdateTalentModels iData = model.FormUpdateTalentDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.userId
+                    ,
+                    iData.registered_home
+                    ,
+                    iData.registered_road
+                    ,
+                    iData.registered_subDistrictCode
+                    ,
+                    iData.registered_subDistrictName
+                    ,
+                    iData.registered_districtCode
+                    ,
+                    iData.registered_districtName
+                    ,
+                    iData.registered_provinceCode
+                    ,
+                    iData.registered_provinceName
+                    ,
+                    iData.registered_postcode
+                    ,
+                    iData.card_home
+                    ,
+                    iData.card_road
+                    ,
+                    iData.card_subDistrictCode
+                    ,
+                    iData.card_subDistrictName
+                    ,
+                    iData.card_districtCode
+                    ,
+                    iData.card_districtName
+                    ,
+                    iData.card_provinceCode
+                    ,
+                    iData.card_provinceName
+                    ,
+                    iData.card_postcode
+                    ,
+                    iData.live_home
+                    ,
+                    iData.live_road
+                    ,
+                    iData.live_subDistrictCode
+                    ,
+                    iData.live_subDistrictName
+                    ,
+                    iData.live_districtCode
+                    ,
+                    iData.live_districtName
+                    ,
+                    iData.live_provinceCode
+                    ,
+                    iData.live_provinceName
+                    ,
+                    iData.live_postcode
+                    ,
+                    iData.mobile
+                    ,
+                    iData.email
+                    ,
+                    iData.phone
+                    ,
+                    iData.phone_office
+                    ,
+                    iData.email_office
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
     }
 }

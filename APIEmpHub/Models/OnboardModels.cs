@@ -7,8 +7,16 @@ namespace APIEmpHub.Models
     public class OnboardModels : baseModels<OnboardModels>
     {
         public string userId { get; set; }
-        public string firstname { get; set; }
-        public string lastname { get; set; }
+        public string idcard { get;set; }
+        public string employeeCode { get; set; }
+        public string prefix_th { get; set; }
+        public string firstname_th { get; set; }
+        public string lastname_th { get; set; }
+        public string firstname_en { get; set; }
+        public string lastname_en { get; set; }
+        public string position { get; set; }
+        public string department { get; set; }
+        public string join_date { get; set; }
         public string status { get; set; }
         public string create_by { get; set; }
         public string create_date { get; set; }
@@ -39,9 +47,77 @@ namespace APIEmpHub.Models
             }
         }
 
+        public void ExistsByIDCard(OnboardModels iProp)
+        {
+            String query = "up_user_onboard_exists_by_idcard";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@idcard", HelperConvert.ConvertToString(iProp.idcard))
+                    );
+
+                iProp.userId = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@userId"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
         public void Delete(OnboardModels iProp)
         {
             String query = "up_user_onboard_del";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@update_by", HelperConvert.ConvertToString(iProp.update_by))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void Cancel(OnboardModels iProp)
+        {
+            String query = "up_user_onboard_cancel_upd";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@update_by", HelperConvert.ConvertToString(iProp.update_by))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void Send(OnboardModels iProp)
+        {
+            String query = "up_user_onboard_send_upd";
 
             try
             {
@@ -83,6 +159,51 @@ namespace APIEmpHub.Models
             return dtData;
         }
 
+        public OnboardModels Detail(OnboardModels iProp)
+        {
+            String query = "up_user_onboard_detail";
+            iData = new OnboardModels();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    iData = (from r in dtData.AsEnumerable()
+                             select new OnboardModels
+                             {
+                                 userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
+                                 ,
+                                 status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
+                                 ,
+                                 create_date = HelperConvert.ConvertToString(r.Field<object>("create_date")!)
+                             }).FirstOrDefault()!;
+                }
+                else
+                {
+                    throw new Exception("userId invalid");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return iData;
+        }
+
         public List<OnboardModels> DataList(OnboardModels iProp)
         {
             String query = "up_user_onboard_sel";
@@ -92,7 +213,7 @@ namespace APIEmpHub.Models
             {
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@firstname", HelperConvert.ConvertToString(iProp.firstname))
+                    , iSql.SqlCom_Parameter("@firstname_th", HelperConvert.ConvertToString(iProp.firstname_th))
                     , iSql.SqlCom_Parameter("@status", HelperConvert.ConvertToString(iProp.status))
                     , iSql.SqlCom_Parameter("@page", iProp.page)
                     , iSql.SqlCom_Parameter("@row", iProp.row)
@@ -109,9 +230,23 @@ namespace APIEmpHub.Models
                              {
                                  userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
                                  ,
-                                 firstname = HelperConvert.ConvertToString(r.Field<object>("firstname")!)
+                                 employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
                                  ,
-                                 lastname = HelperConvert.ConvertToString(r.Field<object>("lastname")!)
+                                 prefix_th = HelperConvert.ConvertToString(r.Field<object>("prefix_th")!)
+                                 ,
+                                 firstname_th = HelperConvert.ConvertToString(r.Field<object>("firstname_th")!)
+                                 ,
+                                 lastname_th = HelperConvert.ConvertToString(r.Field<object>("lastname_th")!)
+                                 ,
+                                 firstname_en = HelperConvert.ConvertToString(r.Field<object>("firstname_en")!)
+                                 ,
+                                 lastname_en = HelperConvert.ConvertToString(r.Field<object>("lastname_en")!)
+                                 ,
+                                 position = HelperConvert.ConvertToString(r.Field<object>("position")!)
+                                 ,
+                                 department = HelperConvert.ConvertToString(r.Field<object>("department")!)
+                                 ,
+                                 join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
                                  ,

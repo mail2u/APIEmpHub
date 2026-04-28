@@ -42,6 +42,23 @@ namespace APIEmpHub.Controllers
         }
 
         [HttpPost]
+        [Route("ExistsByIDCard")]
+        public IActionResult ExistsByIDCard(OnboardModels iProp)
+        {
+            try
+            {
+                this._logger.LogInformation("Onboard ExistsByIDCard : " + JsonConvert.SerializeObject(iProp));
+                model.ExistsByIDCard(iProp);
+
+                return Ok(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
         [Route("Delete")]
         public IActionResult Delete(OnboardModels iProp)
         {
@@ -49,6 +66,40 @@ namespace APIEmpHub.Controllers
             {
                 this._logger.LogInformation("Onboard Delete : " + JsonConvert.SerializeObject(iProp));
                 model.Delete(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("Cancel")]
+        public IActionResult Cancel(OnboardModels iProp)
+        {
+            try
+            {
+                this._logger.LogInformation("Onboard Cancel : " + JsonConvert.SerializeObject(iProp));
+                model.Cancel(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("Send")]
+        public IActionResult Send(OnboardModels iProp)
+        {
+            try
+            {
+                this._logger.LogInformation("Onboard Send : " + JsonConvert.SerializeObject(iProp));
+                model.Send(iProp);
 
                 return Ok();
             }
@@ -75,6 +126,33 @@ namespace APIEmpHub.Controllers
         }
 
         [HttpPost]
+        [Route("Detail")]
+        public IActionResult Detail(OnboardModels iProp)
+        {
+            try
+            {
+                iData = model.Detail(iProp);
+
+                var vData = new
+                {
+                    iData.userId
+                    ,
+                    iData.status
+                    ,
+                    iData.create_by
+                    ,
+                    iData.create_date
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
         [Route("DataList")]
         public IActionResult DataList(OnboardModels iProp)
         {
@@ -86,9 +164,23 @@ namespace APIEmpHub.Controllers
                 {
                     x.userId
                     ,
-                    x.firstname
+                    x.employeeCode
                     ,
-                    x.lastname
+                    x.prefix_th
+                    ,
+                    x.firstname_th
+                    ,
+                    x.lastname_th
+                    ,
+                    x.firstname_en
+                    ,
+                    x.lastname_en
+                    ,
+                    x.position
+                    ,
+                    x.department
+                    ,
+                    x.join_date
                     ,
                     x.status
                     ,
