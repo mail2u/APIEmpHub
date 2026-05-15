@@ -23,6 +23,7 @@ namespace APIEmpHub.iBase
         public string sortBy { get; set; }
         public string orderDate1 { get; set; }
         public string orderDate2 { get; set; }
+        public string userId { get; set; }
         #endregion
 
         public baseModels()

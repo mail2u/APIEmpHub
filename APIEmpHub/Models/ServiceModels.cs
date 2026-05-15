@@ -41,6 +41,8 @@ namespace APIEmpHub.Models
         public int can_approve { get; set; }
         public int can_work { get; set; }
         public int can_assign { get; set; }
+        public int can_previous { get; set; }
+        public int can_edit { get; set; }
 
         public string actionDate { get; set; }
         public string userBy { get; set; }
@@ -50,6 +52,8 @@ namespace APIEmpHub.Models
         public string description { get; set; }
 
         public string search_create_by { get; set; }
+        public int year { get; set; }
+        public int month { get; set; }
 
         public List<ServiceModels> lUser { get; set; }
 
@@ -123,6 +127,10 @@ namespace APIEmpHub.Models
                              can_work = HelperConvert.ConvertToInt(r.Field<object>("can_work")!)
                              ,
                              can_assign = HelperConvert.ConvertToInt(r.Field<object>("can_assign")!)
+                             ,
+                             can_edit = HelperConvert.ConvertToInt(r.Field<object>("can_edit")!)
+                             ,
+                             can_previous = HelperConvert.ConvertToInt(r.Field<object>("can_previous")!)
                          }).FirstOrDefault()!;
             }
             catch (Exception ex)
@@ -691,5 +699,675 @@ namespace APIEmpHub.Models
             return dtData;
         }
 
+        #region Dashboard
+
+        public DataTable DashboardCategorySummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_category_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardUserCategorySummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_user_category_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardCategoryWait()
+        {
+            String query = "up_service_dashboard_category_wait";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardSubCategorySummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_subcategory_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardUserSubCategorySummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_user_subcategory_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardDepartmentSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_department_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardUserDepartmentSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_user_department_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardDepartmentWait()
+        {
+            String query = "up_service_dashboard_department_wait";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardStatusToday()
+        {
+            String query = "up_service_dashboard_status_today";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardStatusSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_status_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardUserStatusSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_user_status_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardStatusCurrent()
+        {
+            String query = "up_service_dashboard_status_current";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardYearSummary()
+        {
+            String query = "up_service_dashboard_year_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardUserYearSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_user_year_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardMonthSummary()
+        {
+            String query = "up_service_dashboard_month_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardDaySummary()
+        {
+            String query = "up_service_dashboard_day_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardWorkMonthSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_work_month_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                , iSql.SqlCom_Parameter("@month", iProp.month)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardWorkYearSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_work_year_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardWorkSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_work_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardApproveMonthSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_approve_month_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                , iSql.SqlCom_Parameter("@month", iProp.month)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardUserRequestWaitApproveSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_user_request_wait_approve_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardUserRequestWaitWorkSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_user_request_wait_work_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardApproveYearSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_approve_year_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable DashboardApproveSummary(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_approve_summary";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataSet DashboardWorkSLA(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_work_sla";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dsData = iSql.SqlCom_DataAdapterWithDataSet(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dsData;
+        }
+
+        public DataSet DashboardApproveSLA(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_approve_sla";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dsData = iSql.SqlCom_DataAdapterWithDataSet(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dsData;
+        }
+
+        public DataSet DashboardRequestNoClose(ServiceModels iProp)
+        {
+            String query = "up_service_dashboard_request_no_close";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dsData = iSql.SqlCom_DataAdapterWithDataSet(query, CommandType.StoredProcedure
+                , iSql.SqlCom_Parameter("@year", iProp.year)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dsData;
+        }
+
+        #endregion
     }
 }

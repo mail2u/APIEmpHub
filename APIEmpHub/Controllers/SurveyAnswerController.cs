@@ -1,21 +1,19 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
 using APIEmpHub.Utility.Helper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using System.Text.Json;
-using System.Xml.Linq;
 
 namespace APIEmpHub.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CateInRoleController : baseController<CateInRoleModels>
+    public class SurveyAnswerController : baseController<SurveyAnswerModels>
     {
-        public CateInRoleController(IConfiguration configuration
+        public SurveyAnswerController(IConfiguration configuration
            , IWebHostEnvironment hostingEnvironment
-            , ILogger<CateInRoleModels> logger)
+            , ILogger<SurveyAnswerModels> logger)
         {
             this._configuration = configuration;
             model.connection = this._configuration.GetSection("Connection").Get<ConnectionModels>();
@@ -27,9 +25,9 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create(CateInRoleModels iProp)
+        public IActionResult Create(SurveyAnswerModels iProp)
         {
-            this._logger.LogInformation("CateInRole_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+            this._logger.LogInformation("SurveyAnswer_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -39,72 +37,15 @@ namespace APIEmpHub.Controllers
             }
             catch (Exception ex)
             {
-                this._logger.LogError("CateInRole_Create [Error] : " + ex.Message);
+                this._logger.LogError("SurveyAnswer_Create [Error] : " + ex.Message);
 
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("Delete")]
-        public IActionResult Delete(CateInRoleModels iProp)
-        {
-            this._logger.LogInformation("CateInRole_Delete [Request] : " + HelperConvert.ConvertToSerialize(iProp));
-
-            try
-            {
-                model.Delete(iProp);
-
-                return Ok(iProp);
-            }
-            catch (Exception ex)
-            {
-                this._logger.LogError("CateInRole_Delete [Error] : " + ex.Message);
-
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("AllList")]
-        public IActionResult AllList(CateInRoleModels iProp)
-        {
-            try
-            {
-                lData = model.AllList(iProp);
-
-                var vData = lData.Select(x => new
-                {
-                    x.parentId
-                    ,
-                    x.cateId
-                    ,
-                    x.cateCode
-                    ,
-                    x.cateDesc
-                    ,
-                    x.description
-                    ,
-                    x.allow_every
-                    ,
-                    x.order_index
-                    ,
-                    x.is_authen
-                    ,
-                    x.lSub
-                }).ToList();
-
-                return Ok(vData);
-            }
-            catch (Exception ex)
-            {
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost]
         [Route("DataList")]
-        public IActionResult DataList(CateInRoleModels iProp)
+        public IActionResult DataList(SurveyAnswerModels iProp)
         {
             try
             {
@@ -112,13 +53,17 @@ namespace APIEmpHub.Controllers
 
                 var vData = lData.Select(x => new
                 {
-                    x.roleId
+                    x.id
                     ,
-                    x.cateId
+                    x.responseId
                     ,
-                    x.cateCode
+                    x.questionId
                     ,
-                    x.cateDesc
+                    x.choiceId
+                    ,
+                    x.choiceText
+                    ,
+                    x.answerText
                 }).ToList();
 
                 return Ok(vData);
@@ -129,5 +74,35 @@ namespace APIEmpHub.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("DataListBySurvey")]
+        public IActionResult DataListBySurvey(SurveyAnswerModels iProp)
+        {
+            try
+            {
+                lData = model.DataListBySurvey(iProp);
+
+                var vData = lData.Select(x => new
+                {
+                    x.surveyId
+                    ,
+                    x.responseId
+                    ,
+                    x.questionId
+                    ,
+                    x.choiceId
+                    ,
+                    x.choiceText
+                    ,
+                    x.answerText
+                }).ToList();
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

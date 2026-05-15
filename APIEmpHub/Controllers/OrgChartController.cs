@@ -276,5 +276,81 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpPost]
+        [Route("TeamMy")]
+        public IActionResult TeamMy(OrgChartModels iProp)
+        {
+            try
+            {
+                iData = model.TeamMy(iProp);
+
+                var vData = new
+                {
+                    iData.teamId
+                    ,
+                    iData.teamName
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("TeamMember")]
+        public IActionResult TeamMember(OrgChartModels iProp)
+        {
+            try
+            {
+                lData = model.TeamMember(iProp);
+
+                var vData = lData.Select(x => new
+                {
+                    x.empId
+                    ,
+                    x.name
+                    ,
+                    x.position
+                    ,
+                    x.hasChildTeam
+                });
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("EmployeeTeam")]
+        public IActionResult EmployeeTeam(OrgChartModels iProp)
+        {
+            try
+            {
+                lData = model.EmployeeTeam(iProp);
+
+                var vData = lData.Select(x => new
+                {
+                    x.teamId
+                    ,
+                    x.teamName
+                    ,
+                    x.hasChildTeam
+                });
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

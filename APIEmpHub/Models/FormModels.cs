@@ -408,7 +408,10 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@objectives", HelperConvert.ConvertToString(iProp.objectives))
                     , iSql.SqlCom_Parameter("@organization", HelperConvert.ConvertToString(iProp.organization))
                     , iSql.SqlCom_Parameter("@location", HelperConvert.ConvertToString(iProp.location))
-                    , iSql.SqlCom_Parameter("@dt", HelperConvert.ConvertToString(iProp.dt))
+                    , iSql.SqlCom_Parameter("@start_date", HelperConvert.ConvertToDate112(iProp.start_date))
+                    , iSql.SqlCom_Parameter("@end_date", HelperConvert.ConvertToDate112(iProp.end_date))
+                    , iSql.SqlCom_Parameter("@start_time", HelperConvert.ConvertToString(iProp.start_time))
+                    , iSql.SqlCom_Parameter("@end_time", HelperConvert.ConvertToString(iProp.end_time))
                     , iSql.SqlCom_Parameter("@price", iProp.price)
                     , iSql.SqlCom_Parameter("@net", iProp.net)
                     , iSql.SqlCom_Parameter("@option1", iProp.option1)
@@ -454,7 +457,13 @@ namespace APIEmpHub.Models
                                  ,
                                  position = HelperConvert.ConvertToString(r.Field<object>("position")!)
                                  ,
+                                 level = HelperConvert.ConvertToString(r.Field<object>("level")!)
+                                 ,
+                                 section = HelperConvert.ConvertToString(r.Field<object>("section")!)
+                                 ,
                                  department = HelperConvert.ConvertToString(r.Field<object>("department")!)
+                                 ,
+                                 division = HelperConvert.ConvertToString(r.Field<object>("division")!)
                                  ,
                                  license = HelperConvert.ConvertToString(r.Field<object>("license")!)
                                  ,
@@ -464,7 +473,13 @@ namespace APIEmpHub.Models
                                  ,
                                  location = HelperConvert.ConvertToString(r.Field<object>("location")!)
                                  ,
-                                 dt = HelperConvert.ConvertToString(r.Field<object>("dt")!)
+                                 start_date = HelperConvert.ConvertToString(r.Field<object>("start_date")!)
+                                 ,
+                                 end_date = HelperConvert.ConvertToString(r.Field<object>("end_date")!)
+                                 ,
+                                 start_time = HelperConvert.ConvertToString(r.Field<object>("start_time")!)
+                                 ,
+                                 end_time = HelperConvert.ConvertToString(r.Field<object>("end_time")!)
                                  ,
                                  price = HelperConvert.ConvertToDecimal(r.Field<object>("price")!)
                                  ,
@@ -1049,7 +1064,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@department", HelperConvert.ConvertToString(iProp.department))
                     , iSql.SqlCom_Parameter("@section", HelperConvert.ConvertToString(iProp.section))
                     , iSql.SqlCom_Parameter("@join_date", HelperConvert.ConvertToDate112(iProp.join_date))
-                    , iSql.SqlCom_Parameter("@age", iProp.age)
+                    , iSql.SqlCom_Parameter("@age", HelperConvert.ConvertToString(iProp.age))
                     , iSql.SqlCom_Parameter("@job_description", HelperConvert.ConvertToString(iProp.job_description))
                     , iSql.SqlCom_Parameter("@new_department", HelperConvert.ConvertToString(iProp.new_department))
                     , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
@@ -1095,7 +1110,7 @@ namespace APIEmpHub.Models
                                  ,
                                  join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
                                  ,
-                                 age = HelperConvert.ConvertToInt(r.Field<object>("age")!)
+                                 age = HelperConvert.ConvertToString(r.Field<object>("age")!)
                                  ,
                                  job_description = HelperConvert.ConvertToString(r.Field<object>("job_description")!)
                                  ,
@@ -1790,7 +1805,6 @@ namespace APIEmpHub.Models
         }
         #endregion
 
-
         #region FormIDP
         public void FormIDPCreate(FormIDPModels iProp)
         {
@@ -2136,6 +2150,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@idcard", HelperConvert.ConvertToString(iProp.idcard))
                     , iSql.SqlCom_Parameter("@passport", HelperConvert.ConvertToString(iProp.passport))
                     , iSql.SqlCom_Parameter("@workPermitNo", HelperConvert.ConvertToString(iProp.workPermitNo))
+                    , iSql.SqlCom_Parameter("@bookNo", HelperConvert.ConvertToString(iProp.bookNo))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
                     );
             }
@@ -2177,6 +2192,8 @@ namespace APIEmpHub.Models
                                  passport = HelperConvert.ConvertToString(r.Field<object>("passport")!)
                                  ,
                                  workPermitNo = HelperConvert.ConvertToString(r.Field<object>("workPermitNo")!)
+                                 ,
+                                 bookNo = HelperConvert.ConvertToString(r.Field<object>("bookNo")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -2355,7 +2372,7 @@ namespace APIEmpHub.Models
         #region FormUpdateTalent
         public void FormUpdateTalentCreate(FormUpdateTalentModels iProp)
         {
-            String query = "up_form_update_contact_ins";
+            String query = "up_form_update_talent_ins";
 
             try
             {
@@ -2363,9 +2380,9 @@ namespace APIEmpHub.Models
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
                     , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
-                    , iSql.SqlCom_Parameter("@registered_home", HelperConvert.ConvertToString(iProp.talentId))
-                    , iSql.SqlCom_Parameter("@registered_road", HelperConvert.ConvertToString(iProp.language))
-                    , iSql.SqlCom_Parameter("@registered_subDistrictCode", HelperConvert.ConvertToString(iProp.level))
+                    , iSql.SqlCom_Parameter("@talentId", HelperConvert.ConvertToString(iProp.talentId))
+                    , iSql.SqlCom_Parameter("@language", HelperConvert.ConvertToString(iProp.language))
+                    , iSql.SqlCom_Parameter("@level", HelperConvert.ConvertToString(iProp.level))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
                     );
             }
@@ -2379,10 +2396,10 @@ namespace APIEmpHub.Models
             }
         }
 
-        public FormUpdateTalentModels FormUpdateTalentDetail(FormUpdateTalentModels iProp)
+        public List<FormUpdateTalentModels> FormUpdateTalentDetail(FormUpdateTalentModels iProp)
         {
-            String query = "up_form_update_contact_detail";
-            FormUpdateTalentModels iData = new FormUpdateTalentModels();
+            String query = "up_form_update_talent_detail";
+            List<FormUpdateTalentModels> lData = new List<FormUpdateTalentModels>();
 
             try
             {
@@ -2393,7 +2410,7 @@ namespace APIEmpHub.Models
 
                 if (dtData != null && dtData.Rows.Count > 0)
                 {
-                    iData = (from r in dtData.AsEnumerable()
+                    lData = (from r in dtData.AsEnumerable()
                              select new FormUpdateTalentModels
                              {
                                  refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
@@ -2405,7 +2422,7 @@ namespace APIEmpHub.Models
                                  language = HelperConvert.ConvertToString(r.Field<object>("language")!)
                                  ,
                                  level = HelperConvert.ConvertToString(r.Field<object>("level")!)
-                             }).FirstOrDefault()!;
+                             }).ToList()!;
                 }
             }
             catch (Exception ex)
@@ -2417,7 +2434,78 @@ namespace APIEmpHub.Models
                 iSql.Close();
             }
 
-            return iData;
+            return lData;
+        }
+        #endregion
+
+        #region FormUpdateDocument
+        public void FormUpdateDocumentCreate(FormUpdateDocumentModels iProp)
+        {
+            String query = "up_form_update_document_ins";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@documentId", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@documentType", HelperConvert.ConvertToString(iProp.documentType))
+                    , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
+                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    );
+
+                iProp.documentId = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@documentId"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public List<FormUpdateDocumentModels> FormUpdateDocumentDetail(FormUpdateDocumentModels iProp)
+        {
+            String query = "up_form_update_document_detail";
+            List<FormUpdateDocumentModels> lData = new List<FormUpdateDocumentModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+                    lData = (from r in dtData.AsEnumerable()
+                             select new FormUpdateDocumentModels
+                             {
+                                 refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
+                                 ,
+                                 userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
+                                 ,
+                                 documentId = HelperConvert.ConvertToString(r.Field<object>("documentId")!)
+                                 ,
+                                 documentType = HelperConvert.ConvertToString(r.Field<object>("documentType")!)
+                                 ,
+                                 description = HelperConvert.ConvertToString(r.Field<object>("description")!)
+                             }).ToList()!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return lData;
         }
         #endregion
     }

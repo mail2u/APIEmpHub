@@ -1,4 +1,5 @@
-﻿using APIEmpHub.iBase;
+﻿using APIEmpHub.Extension;
+using APIEmpHub.iBase;
 using APIEmpHub.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -358,13 +359,21 @@ namespace APIEmpHub.Controllers
                     ,
                     x.educationId
                     ,
-                    x.levelCode
-                    ,
-                    x.levelName
-                    ,
                     x.institution
                     ,
+                    x.degreeCode
+                    ,
+                    x.degreeName
+                    ,
+                    x.programCode
+                    ,
+                    x.programName
+                    ,
+                    x.major
+                    ,
                     x.year
+                    ,
+                    x.grade
                     ,
                     x.description
                     ,
@@ -608,6 +617,12 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.blood
                     ,
+                    iData.idcard
+                    ,
+                    iData.passport
+                    ,
+                    iData.workPermitNo
+                    ,
                     iData.email
                     ,
                     iData.phoneNo
@@ -623,6 +638,10 @@ namespace APIEmpHub.Controllers
                     iData.militaryStatus
                     ,
                     iData.disabilityStatus
+                    ,
+                    iData.bankName
+                    ,
+                    iData.bookNo
                     ,
                     iData.status
                     ,
@@ -697,11 +716,27 @@ namespace APIEmpHub.Controllers
                     ,
                     x.employeeName
                     ,
+                    x.sectionCode
+                    ,
+                    x.sectionDesc
+                    ,
+                    x.departmentCode
+                    ,
                     x.departmentDesc
+                    ,
+                    x.divisionCode
+                    ,
+                    x.divisionDesc
+                    ,
+                    x.positionCode
                     ,
                     x.positionDesc
                     ,
-                    x.level
+                    x.levelCode
+                    ,
+                    x.levelDesc
+                    ,
+                    x.join_date
                 }).ToList();
 
                 return Ok(vData);
@@ -734,6 +769,58 @@ namespace APIEmpHub.Controllers
                     ,
                     x.level
                 }).ToList();
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("Detail")]
+        public IActionResult Detail(UserModels iProp)
+        {
+            try
+            {
+                iProp.create_by = User.UserId();
+
+                ServiceEmployeeModels iData = model.Detail(iProp);
+
+                var vData = new
+                {
+                    iData.userId
+                    ,
+                    iData.employeeCode
+                    ,
+                    iData.employeeName
+                    ,
+                    iData.sectionCode
+                    ,
+                    iData.sectionDesc
+                    ,
+                    iData.departmentCode
+                    ,
+                    iData.departmentDesc
+                    ,
+                    iData.divisionCode
+                    ,
+                    iData.divisionDesc
+                    ,
+                    iData.positionCode
+                    ,
+                    iData.positionDesc
+                    ,
+                    iData.levelCode
+                    ,
+                    iData.levelDesc
+                    ,
+                    iData.join_date
+                    ,
+                    iData.email
+                };
 
                 return Ok(vData);
             }

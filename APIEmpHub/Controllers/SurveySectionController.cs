@@ -1,21 +1,19 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
 using APIEmpHub.Utility.Helper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using System.Text.Json;
-using System.Xml.Linq;
 
 namespace APIEmpHub.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ServiceRelationController : baseController<ServiceRelationModels>
+    public class SurveySectionController : baseController<SurveySectionModels>
     {
-        public ServiceRelationController(IConfiguration configuration
+        public SurveySectionController(IConfiguration configuration
            , IWebHostEnvironment hostingEnvironment
-            , ILogger<ServiceRelationModels> logger)
+            , ILogger<SurveySectionModels> logger)
         {
             this._configuration = configuration;
             model.connection = this._configuration.GetSection("Connection").Get<ConnectionModels>();
@@ -25,54 +23,71 @@ namespace APIEmpHub.Controllers
             this._logger = logger;
         }
 
-        [Authorize("Admin")]
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create(ServiceRelationModels iProp)
+        public IActionResult Create(SurveySectionModels iProp)
         {
-            this._logger.LogInformation("ServiceRelation_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+            this._logger.LogInformation("SurveySection_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
                 model.Create(iProp);
 
-                return Ok();
+                return Ok(iProp);
             }
             catch (Exception ex)
             {
-                this._logger.LogError("ServiceRelation_Create [Error] : " + ex.Message);
+                this._logger.LogError("SurveySection_Create [Error] : " + ex.Message);
 
                 return BadRequest(ex.Message);
             }
         }
 
-        [Authorize("Admin")]
         [HttpPost]
-        [Route("Replace")]
-        public IActionResult Replace(ServiceRelationModels iProp)
+        [Route("Update")]
+        public IActionResult Update(SurveySectionModels iProp)
         {
-            this._logger.LogInformation("ServiceRelation_Replace [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+            this._logger.LogInformation("SurveySection_Update [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
-                model.Replace(iProp);
+                model.Update(iProp);
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                this._logger.LogError("ServiceRelation_Replace [Error] : " + ex.Message);
+                this._logger.LogError("SurveySection_Update [Error] : " + ex.Message);
 
                 return BadRequest(ex.Message);
             }
         }
 
-        [Authorize("Admin")]
+        [HttpPost]
+        [Route("Reorder")]
+        public IActionResult Reorder(SurveySectionModels iProp)
+        {
+            this._logger.LogInformation("SurveySection_Reorder [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+
+            try
+            {
+                model.Reorder(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("SurveySection_Reorder [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("Delete")]
-        public IActionResult Delete(ServiceRelationModels iProp)
+        public IActionResult Delete(SurveySectionModels iProp)
         {
-            this._logger.LogInformation("ServiceRelation_Delete [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+            this._logger.LogInformation("SurveySection_Delete [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -82,16 +97,15 @@ namespace APIEmpHub.Controllers
             }
             catch (Exception ex)
             {
-                this._logger.LogError("ServiceRelation_Delete [Error] : " + ex.Message);
+                this._logger.LogError("SurveySection_Delete [Error] : " + ex.Message);
 
                 return BadRequest(ex.Message);
             }
         }
 
-        [Authorize("Admin")]
         [HttpPost]
         [Route("DataList")]
-        public IActionResult DataList(ServiceRelationModels iProp)
+        public IActionResult DataList(SurveySectionModels iProp)
         {
             try
             {
@@ -99,45 +113,23 @@ namespace APIEmpHub.Controllers
 
                 var vData = lData.Select(x => new
                 {
-                    x.rn
+                    x.id
                     ,
-                    x.sysId
+                    x.surveyId
                     ,
-                    x.userId
+                    x.title
                     ,
-                    x.fullname
+                    x.description
                     ,
-                    x.status
-                    ,
-                    x.condition1
+                    x.order_index
                 }).ToList();
 
                 return Ok(vData);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("Report")]
-        public IActionResult Report()
-        {
-            try
-            {
-                dtData = model.Report();
-
-                return Ok(new
-                {
-                    data = Newtonsoft.Json.JsonConvert.SerializeObject(dtData)
-                });
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

@@ -26,6 +26,8 @@ namespace APIEmpHub.Models
         public string idcard { get; set; }
         public string passport { get; set; }
         public string workPermitNo { get; set; }
+        public string bankName { get; set; }
+        public string bookNo { get; set; }
         public string maritalStatus { get; set; }
         public string militaryStatus { get; set; }
         public string disabilityStatus { get; set; }

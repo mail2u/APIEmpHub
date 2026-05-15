@@ -1,5 +1,6 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
+using APIEmpHub.Utility.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
@@ -28,7 +29,7 @@ namespace APIEmpHub.Controllers
         [Route("Create")]
         public IActionResult Create(SubCategoryModels iProp)
         {
-            this._logger.LogInformation("SubCategory_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("SubCategory_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -48,7 +49,7 @@ namespace APIEmpHub.Controllers
         [Route("Update")]
         public IActionResult Update(SubCategoryModels iProp)
         {
-            this._logger.LogInformation("SubCategory_Update [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("SubCategory_Update [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -68,7 +69,7 @@ namespace APIEmpHub.Controllers
         [Route("Sort")]
         public IActionResult Sort(SubCategoryModels iProp)
         {
-            this._logger.LogInformation("SubCategory_Sort [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("SubCategory_Sort [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -88,7 +89,7 @@ namespace APIEmpHub.Controllers
         [Route("Delete")]
         public IActionResult Delete(SubCategoryModels iProp)
         {
-            this._logger.LogInformation("SubCategory_Delete [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("SubCategory_Delete [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {

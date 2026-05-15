@@ -48,9 +48,9 @@ namespace APIEmpHub.Controllers
             try
             {
                 this._logger.LogInformation("Onboard ExistsByIDCard : " + JsonConvert.SerializeObject(iProp));
-                model.ExistsByIDCard(iProp);
+                lData = model.ExistsByIDCard(iProp);
 
-                return Ok(iProp);
+                return Ok(lData);
             }
             catch (Exception ex)
             {

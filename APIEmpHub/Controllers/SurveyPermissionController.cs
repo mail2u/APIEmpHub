@@ -3,19 +3,19 @@ using APIEmpHub.Models;
 using APIEmpHub.Utility.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Reflection;
-using System.Text.Json;
-using System.Xml.Linq;
 
 namespace APIEmpHub.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class ServiceStepTemplateActionController : baseController<ServiceStepTemplateActionModels>
+    public class SurveyPermissionController : baseController<SurveyPermissionModels>
     {
-        public ServiceStepTemplateActionController(IConfiguration configuration
+        public SurveyPermissionController(IConfiguration configuration
            , IWebHostEnvironment hostingEnvironment
-            , ILogger<ServiceStepTemplateActionModels> logger)
+            , ILogger<SurveyPermissionModels> logger)
         {
             this._configuration = configuration;
             model.connection = this._configuration.GetSection("Connection").Get<ConnectionModels>();
@@ -26,20 +26,30 @@ namespace APIEmpHub.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
-        public IActionResult Create(ServiceStepTemplateActionModels iProp)
+        [Route("Save")]
+        public IActionResult Save(List<SurveyPermissionModels> lProp)
         {
-            this._logger.LogInformation("ServiceStepTemplateAction_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+            this._logger.LogInformation("SurveyPermission_Create [Request] : " + HelperConvert.ConvertToSerialize(lProp));
 
             try
             {
-                model.Create(iProp);
+                foreach(var iProp in lProp)
+                {
+                    if (String.IsNullOrEmpty(iProp.id))
+                    {
+                        model.Create(iProp);
+                    }
+                    else if(iProp.is_active == 0)
+                    {
+                        model.Delete(iProp);
+                    }
+                }
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                this._logger.LogError("ServiceStepTemplateAction_Create [Error] : " + ex.Message);
+                this._logger.LogError("SurveyPermission_Create [Error] : " + ex.Message);
 
                 return BadRequest(ex.Message);
             }
@@ -47,9 +57,9 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Delete")]
-        public IActionResult Delete(ServiceStepTemplateActionModels iProp)
+        public IActionResult Delete(SurveyPermissionModels iProp)
         {
-            this._logger.LogInformation("ServiceStepTemplateAction_Delete [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+            this._logger.LogInformation("SurveyPermission_Delete [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -59,7 +69,7 @@ namespace APIEmpHub.Controllers
             }
             catch (Exception ex)
             {
-                this._logger.LogError("ServiceStepTemplateAction_Delete [Error] : " + ex.Message);
+                this._logger.LogError("SurveyPermission_Delete [Error] : " + ex.Message);
 
                 return BadRequest(ex.Message);
             }
@@ -67,7 +77,7 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("DataList")]
-        public IActionResult DataList(ServiceStepTemplateActionModels iProp)
+        public IActionResult DataList(SurveyPermissionModels iProp)
         {
             try
             {
@@ -75,13 +85,17 @@ namespace APIEmpHub.Controllers
 
                 var vData = lData.Select(x => new
                 {
-                    x.rn
+                    x.id
                     ,
-                    x.stepId
+                    x.surveyId
                     ,
-                    x.actionBy
+                    x.permission_type
                     ,
-                    x.actionName
+                    x.refId
+                    ,
+                    x.description
+                    ,
+                    x.is_active
                 }).ToList();
 
                 return Ok(vData);

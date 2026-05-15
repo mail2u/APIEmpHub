@@ -6,6 +6,7 @@
         public string userId { get; set; }
         public string fullname { get; set; }
         public string position { get; set; }
+        public string level { get; set; }
         public string section { get; set; }
         public string department { get; set; }
         public string division { get; set; }
@@ -13,7 +14,10 @@
         public string objectives { get; set; }
         public string organization { get; set; }
         public string location { get; set; }
-        public string dt { get; set; }
+        public string start_date { get; set; }
+        public string end_date { get; set; }
+        public string start_time{ get; set; }
+        public string end_time { get; set; }
         public decimal price { get; set; } = 0;
         public decimal net { get; set; } = 0;
         public int option1 { get; set; } = 0;

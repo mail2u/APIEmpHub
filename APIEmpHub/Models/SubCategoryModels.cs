@@ -57,6 +57,7 @@ namespace APIEmpHub.Models
             {
                 iSql.Open(connectionString);
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@parentId", HelperConvert.ConvertToString(iProp.parentId))
                     , iSql.SqlCom_Parameter("@subCateId", HelperConvert.ConvertToString(iProp.subCateId))
                     , iSql.SqlCom_Parameter("@subCategoryCode", HelperConvert.ConvertToString(iProp.subCategoryCode))
                     , iSql.SqlCom_Parameter("@subCategoryDesc", HelperConvert.ConvertToString(iProp.subCategoryDesc))

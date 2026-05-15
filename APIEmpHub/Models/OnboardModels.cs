@@ -47,19 +47,44 @@ namespace APIEmpHub.Models
             }
         }
 
-        public void ExistsByIDCard(OnboardModels iProp)
+        public List<OnboardModels> ExistsByIDCard(OnboardModels iProp)
         {
             String query = "up_user_onboard_exists_by_idcard";
+            lData = new List<OnboardModels>();
 
             try
             {
                 iSql.Open(connectionString);
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
-                    , iSql.SqlCom_Parameter("@userId", SqlDbType.NVarChar, 50, ParameterDirection.Output)
                     , iSql.SqlCom_Parameter("@idcard", HelperConvert.ConvertToString(iProp.idcard))
                     );
 
-                iProp.userId = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@userId"].Value);
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    lData = (from r in dtData.AsEnumerable()
+                    select new OnboardModels
+                    {
+                        userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
+                        ,
+                        employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
+                        ,
+                        prefix_th = HelperConvert.ConvertToString(r.Field<object>("prefix_th")!)
+                        ,
+                        firstname_th = HelperConvert.ConvertToString(r.Field<object>("firstname_th")!)
+                        ,
+                        lastname_th = HelperConvert.ConvertToString(r.Field<object>("lastname_th")!)
+                        ,
+                        position = HelperConvert.ConvertToString(r.Field<object>("position")!)
+                        ,
+                        department = HelperConvert.ConvertToString(r.Field<object>("department")!)
+                        ,
+                        join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
+                        ,
+                        status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                    }).ToList();
+                }
             }
             catch (Exception ex)
             {
@@ -69,6 +94,8 @@ namespace APIEmpHub.Models
             {
                 iSql.Close();
             }
+
+            return lData;
         }
 
         public void Delete(OnboardModels iProp)

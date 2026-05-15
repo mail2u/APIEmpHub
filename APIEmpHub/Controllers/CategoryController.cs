@@ -1,5 +1,6 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
+using APIEmpHub.Utility.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
@@ -29,7 +30,7 @@ namespace APIEmpHub.Controllers
         [Route("Create")]
         public IActionResult Create(CategoryModels iProp)
         {
-            this._logger.LogInformation("Category_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("Category_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -50,7 +51,7 @@ namespace APIEmpHub.Controllers
         [Route("Update")]
         public IActionResult Update(CategoryModels iProp)
         {
-            this._logger.LogInformation("Category_Update [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("Category_Update [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -88,7 +89,7 @@ namespace APIEmpHub.Controllers
         [Route("Delete")]
         public IActionResult Delete(CategoryModels iProp)
         {
-            this._logger.LogInformation("Category_Delete [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("Category_Delete [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {

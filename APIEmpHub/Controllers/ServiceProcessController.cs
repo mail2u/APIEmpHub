@@ -1,6 +1,7 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
 using APIEmpHub.Models;
+using APIEmpHub.Utility.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
@@ -29,7 +30,7 @@ namespace APIEmpHub.Controllers
         [Route("Create")]
         public IActionResult Create(ServiceProcessModels iProp)
         {
-            this._logger.LogInformation("ServiceProcess_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("ServiceProcess_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -50,7 +51,7 @@ namespace APIEmpHub.Controllers
         [Route("Update")]
         public IActionResult Update(ServiceProcessModels iProp)
         {
-            this._logger.LogInformation("ServiceProcess_Update [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("ServiceProcess_Update [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -71,7 +72,7 @@ namespace APIEmpHub.Controllers
         [Route("Delete")]
         public IActionResult Delete(ServiceProcessModels iProp)
         {
-            this._logger.LogInformation("ServiceProcess_Delete [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("ServiceProcess_Delete [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {

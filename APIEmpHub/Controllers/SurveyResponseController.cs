@@ -1,21 +1,20 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
 using APIEmpHub.Utility.Helper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Reflection;
 using System.Text.Json;
-using System.Xml.Linq;
 
 namespace APIEmpHub.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CateInRoleController : baseController<CateInRoleModels>
+    public class SurveyResponseController : baseController<SurveyResponseModels>
     {
-        public CateInRoleController(IConfiguration configuration
+        public SurveyResponseController(IConfiguration configuration
            , IWebHostEnvironment hostingEnvironment
-            , ILogger<CateInRoleModels> logger)
+            , ILogger<SurveyResponseModels> logger)
         {
             this._configuration = configuration;
             model.connection = this._configuration.GetSection("Connection").Get<ConnectionModels>();
@@ -27,9 +26,9 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create(CateInRoleModels iProp)
+        public IActionResult Create(SurveyResponseModels iProp)
         {
-            this._logger.LogInformation("CateInRole_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+            this._logger.LogInformation("SurveyResponse_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -39,60 +38,35 @@ namespace APIEmpHub.Controllers
             }
             catch (Exception ex)
             {
-                this._logger.LogError("CateInRole_Create [Error] : " + ex.Message);
+                this._logger.LogError("SurveyResponse_Create [Error] : " + ex.Message);
 
                 return BadRequest(ex.Message);
             }
         }
 
-        [HttpPost]
-        [Route("Delete")]
-        public IActionResult Delete(CateInRoleModels iProp)
-        {
-            this._logger.LogInformation("CateInRole_Delete [Request] : " + HelperConvert.ConvertToSerialize(iProp));
-
-            try
-            {
-                model.Delete(iProp);
-
-                return Ok(iProp);
-            }
-            catch (Exception ex)
-            {
-                this._logger.LogError("CateInRole_Delete [Error] : " + ex.Message);
-
-                return BadRequest(ex.Message);
-            }
-        }
 
         [HttpPost]
-        [Route("AllList")]
-        public IActionResult AllList(CateInRoleModels iProp)
+        [Route("Detail")]
+        public IActionResult Detail(SurveyResponseModels iProp)
         {
             try
             {
-                lData = model.AllList(iProp);
+                iData = model.Detail(iProp);
 
-                var vData = lData.Select(x => new
+                var vData = new
                 {
-                    x.parentId
+                    iData.id
                     ,
-                    x.cateId
+                    iData.surveyId
                     ,
-                    x.cateCode
+                    iData.userId
                     ,
-                    x.cateDesc
+                    iData.create_date
                     ,
-                    x.description
+                    iData.device_name
                     ,
-                    x.allow_every
-                    ,
-                    x.order_index
-                    ,
-                    x.is_authen
-                    ,
-                    x.lSub
-                }).ToList();
+                    iData.ip_address
+                };
 
                 return Ok(vData);
             }
@@ -104,7 +78,7 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("DataList")]
-        public IActionResult DataList(CateInRoleModels iProp)
+        public IActionResult DataList(SurveyResponseModels iProp)
         {
             try
             {
@@ -112,13 +86,17 @@ namespace APIEmpHub.Controllers
 
                 var vData = lData.Select(x => new
                 {
-                    x.roleId
+                    x.id
                     ,
-                    x.cateId
+                    x.surveyId
                     ,
-                    x.cateCode
+                    x.userId
                     ,
-                    x.cateDesc
+                    x.create_date
+                    ,
+                    x.device_name
+                    ,
+                    x.ip_address
                 }).ToList();
 
                 return Ok(vData);
@@ -128,6 +106,5 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

@@ -62,13 +62,21 @@ namespace APIEmpHub.Controllers
                     ,
                     x.mode
                     ,
-                    x.levelCode
-                    ,
-                    x.levelName
-                    ,
                     x.institution
                     ,
+                    x.degreeCode
+                    ,
+                    x.degreeName
+                    ,
+                    x.programCode
+                    ,
+                    x.programName
+                    ,
+                    x.major
+                    ,
                     x.year
+                    ,
+                    x.grade
                     ,
                     x.description
                     ,

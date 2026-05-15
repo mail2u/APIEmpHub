@@ -1,6 +1,7 @@
 ﻿using APIEmpHub.Extension;
 using APIEmpHub.iBase;
 using APIEmpHub.Models;
+using APIEmpHub.Utility.Helper;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using System.Text.Json;
@@ -28,7 +29,7 @@ namespace APIEmpHub.Controllers
         [Route("FormNewCardCreate")]
         public IActionResult FormNewCardCreate(FormNewCardModels iProp)
         {
-            this._logger.LogInformation("FormNewCard_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormNewCard_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -76,7 +77,7 @@ namespace APIEmpHub.Controllers
         [Route("FormParkingStickerCreate")]
         public IActionResult FormParkingStickerCreate(FormParkingStickerModels iProp)
         {
-            this._logger.LogInformation("FormParkingSticker_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormParkingSticker_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -124,7 +125,7 @@ namespace APIEmpHub.Controllers
         [Route("FormBuyUniformCreate")]
         public IActionResult FormBuyUniformCreate(FormBuyUniformModels iProp)
         {
-            this._logger.LogInformation("FormBuyUniform_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormBuyUniform_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -174,7 +175,7 @@ namespace APIEmpHub.Controllers
         [Route("FormResetPasswordCreate")]
         public IActionResult FormResetPasswordCreate(FormResetPasswordModels iProp)
         {
-            this._logger.LogInformation("FormResetPassword_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormResetPassword_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -222,7 +223,7 @@ namespace APIEmpHub.Controllers
         [Route("FormSalaryCertificateCreate")]
         public IActionResult FormSalaryCertificateCreate(FormSalaryCertificateModels iProp)
         {
-            this._logger.LogInformation("FormSalaryCertificate_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormSalaryCertificate_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -272,7 +273,7 @@ namespace APIEmpHub.Controllers
         [Route("FormEmployeeCertificateCreate")]
         public IActionResult FormEmployeeCertificateCreate(FormEmployeeCertificateModels iProp)
         {
-            this._logger.LogInformation("FormEmployeeCertificate_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormEmployeeCertificate_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -322,7 +323,7 @@ namespace APIEmpHub.Controllers
         [Route("FormRequestTrainingCreate")]
         public IActionResult FormRequestTrainingCreate(FormRequestTrainingModels iProp)
         {
-            this._logger.LogInformation("FormRequestTraining_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormRequestTraining_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -357,6 +358,8 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.position
                     ,
+                    iData.level
+                    ,
                     iData.section
                     ,
                     iData.department
@@ -371,7 +374,13 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.location
                     ,
-                    iData.dt
+                    iData.start_date
+                    ,
+                    iData.end_date
+                    ,
+                    iData.start_time
+                    ,
+                    iData.end_time
                     ,
                     iData.price
                     ,
@@ -402,7 +411,7 @@ namespace APIEmpHub.Controllers
         [Route("FormManpowerCreate")]
         public IActionResult FormManpowerCreate(FormManpowerModels iProp)
         {
-            this._logger.LogInformation("FormManpower_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormManpower_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -496,7 +505,7 @@ namespace APIEmpHub.Controllers
         [Route("FormBenefitFundCreate")]
         public IActionResult FormBenefitFundCreate(FormBenefitFundModels iProp)
         {
-            this._logger.LogInformation("FormBenefitFund_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormBenefitFund_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -566,7 +575,7 @@ namespace APIEmpHub.Controllers
         [Route("FormBenefitInsuranceCreate")]
         public IActionResult FormBenefitInsuranceCreate(FormBenefitInsuranceModels iProp)
         {
-            this._logger.LogInformation("FormBenefitInsurance_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormBenefitInsurance_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -654,7 +663,7 @@ namespace APIEmpHub.Controllers
         [Route("FormPerformanceLv2Create")]
         public IActionResult FormPerformanceLv2Create(FormPerformanceLv2Models iProp)
         {
-            this._logger.LogInformation("FormPerformanceLv2_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormPerformanceLv2_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -675,7 +684,7 @@ namespace APIEmpHub.Controllers
         [Route("FormPerformanceLv2Approve1")]
         public IActionResult FormPerformanceLv2Approve1(FormPerformanceLv2Models iProp)
         {
-            this._logger.LogInformation("FormPerformanceLv2_Approve1 [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormPerformanceLv2_Approve1 [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -696,7 +705,7 @@ namespace APIEmpHub.Controllers
         [Route("FormPerformanceLv2Approve2")]
         public IActionResult FormPerformanceLv2Approve2(FormPerformanceLv2Models iProp)
         {
-            this._logger.LogInformation("FormPerformanceLv2_Approve2 [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormPerformanceLv2_Approve2 [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -798,7 +807,7 @@ namespace APIEmpHub.Controllers
         [Route("FormMoveEmployeeCreate")]
         public IActionResult FormMoveEmployeeCreate(FormMoveEmployeeModels iProp)
         {
-            this._logger.LogInformation("FormMoveEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormMoveEmployee_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -860,7 +869,7 @@ namespace APIEmpHub.Controllers
         [Route("FormHiringEmployeeCreate")]
         public IActionResult FormHiringEmployeeCreate(FormHiringEmployeeModels iProp)
         {
-            this._logger.LogInformation("FormHiringEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormHiringEmployee_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -922,7 +931,7 @@ namespace APIEmpHub.Controllers
         [Route("FormPdpaEmployeeCreate")]
         public IActionResult FormPdpaEmployeeCreate(FormPdpaEmployeeModels iProp)
         {
-            this._logger.LogInformation("FormPdpaEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormPdpaEmployee_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -978,7 +987,7 @@ namespace APIEmpHub.Controllers
         [Route("FormWfhEmployeeCreate")]
         public IActionResult FormWfhEmployeeCreate(FormWfhEmployeeModels iProp)
         {
-            this._logger.LogInformation("FormWfhEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormWfhEmployee_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -1032,7 +1041,7 @@ namespace APIEmpHub.Controllers
         [Route("FormAgreementEmployeeCreate")]
         public IActionResult FormAgreementEmployeeCreate(FormAgreementEmployeeModels iProp)
         {
-            this._logger.LogInformation("FormAgreementEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormAgreementEmployee_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -1084,7 +1093,7 @@ namespace APIEmpHub.Controllers
         [Route("FormPrepareEmployeeCreate")]
         public IActionResult FormPrepareEmployeeCreate(FormPrepareEmployeeModels iProp)
         {
-            this._logger.LogInformation("FormPrepareEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormPrepareEmployee_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -1209,7 +1218,7 @@ namespace APIEmpHub.Controllers
         [Route("FormProbationReportCreate")]
         public IActionResult FormProbationReportCreate(FormProbationReportModels iProp)
         {
-            this._logger.LogInformation("FormProbationReport_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormProbationReport_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -1281,7 +1290,7 @@ namespace APIEmpHub.Controllers
         [Route("FormPromoteEmployeeCreate")]
         public IActionResult FormPromoteEmployeeCreate(FormPromoteEmployeeModels iProp)
         {
-            this._logger.LogInformation("FormPromoteEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormPromoteEmployee_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -1351,7 +1360,7 @@ namespace APIEmpHub.Controllers
         [Route("FormIDPCreate")]
         public IActionResult FormIDPCreate(FormIDPModels iProp)
         {
-            this._logger.LogInformation("FormIDP_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormIDP_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -1439,7 +1448,7 @@ namespace APIEmpHub.Controllers
         [Route("FormUpdatePersonalCreate")]
         public IActionResult FormUpdatePersonalCreate(FormUpdatePersonalModels iProp)
         {
-            this._logger.LogInformation("FormUpdatePersonal_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormUpdatePersonal_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -1521,7 +1530,7 @@ namespace APIEmpHub.Controllers
         [Route("FormUpdateEmployeeCreate")]
         public IActionResult FormUpdateEmployeeCreate(FormUpdateEmployeeModels iProp)
         {
-            this._logger.LogInformation("FormUpdateEmployee_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormUpdateEmployee_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -1554,6 +1563,8 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.join_date
                     ,
+                    iData.probation_end_date
+                    ,
                     iData.employeeType
                     ,
                     iData.divisionCode
@@ -1585,7 +1596,7 @@ namespace APIEmpHub.Controllers
         [Route("FormUpdateCardCreate")]
         public IActionResult FormUpdateCardCreate(FormUpdateCardModels iProp)
         {
-            this._logger.LogInformation("FormUpdateCard_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormUpdateCard_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -1623,6 +1634,8 @@ namespace APIEmpHub.Controllers
                     iData.passport
                     ,
                     iData.workPermitNo
+                    ,
+                    iData.bookNo
                 };
 
                 return Ok(vData);
@@ -1639,7 +1652,7 @@ namespace APIEmpHub.Controllers
         [Route("FormUpdateContactCreate")]
         public IActionResult FormUpdateContactCreate(FormUpdateContactModels iProp)
         {
-            this._logger.LogInformation("FormUpdateContact_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormUpdateContact_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {
@@ -1747,14 +1760,17 @@ namespace APIEmpHub.Controllers
         #region FormUpdateTalent
         [HttpPost]
         [Route("FormUpdateTalentCreate")]
-        public IActionResult FormUpdateTalentCreate(FormUpdateTalentModels iProp)
+        public IActionResult FormUpdateTalentCreate(List<FormUpdateTalentModels> lProp)
         {
-            this._logger.LogInformation("FormUpdateTalent_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("FormUpdateTalent_Create [Request] : " + JsonSerializer.Serialize(lProp));
 
             try
             {
-                iProp.create_by = User.UserId();
-                model.FormUpdateTalentCreate(iProp);
+                foreach (FormUpdateTalentModels iProp in lProp)
+                {
+                    iProp.create_by = User.UserId();
+                    model.FormUpdateTalentCreate(iProp);
+                }
 
                 return Ok();
             }
@@ -1772,78 +1788,72 @@ namespace APIEmpHub.Controllers
         {
             try
             {
-                FormUpdateTalentModels iData = model.FormUpdateTalentDetail(iProp);
+                List<FormUpdateTalentModels> lData = model.FormUpdateTalentDetail(iProp);
 
-                var vData = new
+                var vData = lData.Select(x=>new 
                 {
-                    iData.refId
+                    x.refId
                     ,
-                    iData.userId
+                    x.userId
                     ,
-                    iData.registered_home
+                    x.talentId
                     ,
-                    iData.registered_road
+                    x.language
                     ,
-                    iData.registered_subDistrictCode
+                    x.level
+                }).ToList();
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormUpdateDocument
+        [HttpPost]
+        [Route("FormUpdateDocumentCreate")]
+        public IActionResult FormUpdateDocumentCreate(FormUpdateDocumentModels iProp)
+        {
+            this._logger.LogInformation("FormUpdateDocument_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormUpdateDocumentCreate(iProp);
+
+                return Ok(iProp);
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormUpdateDocument_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormUpdateDocumentDetail")]
+        public IActionResult FormUpdateDocumentDetail(FormUpdateDocumentModels iProp)
+        {
+            try
+            {
+                List<FormUpdateDocumentModels> lData = model.FormUpdateDocumentDetail(iProp);
+
+                var vData = lData.Select(x => new
+                {
+                    x.refId
                     ,
-                    iData.registered_subDistrictName
+                    x.userId
                     ,
-                    iData.registered_districtCode
+                    x.documentId
                     ,
-                    iData.registered_districtName
+                    x.documentType
                     ,
-                    iData.registered_provinceCode
-                    ,
-                    iData.registered_provinceName
-                    ,
-                    iData.registered_postcode
-                    ,
-                    iData.card_home
-                    ,
-                    iData.card_road
-                    ,
-                    iData.card_subDistrictCode
-                    ,
-                    iData.card_subDistrictName
-                    ,
-                    iData.card_districtCode
-                    ,
-                    iData.card_districtName
-                    ,
-                    iData.card_provinceCode
-                    ,
-                    iData.card_provinceName
-                    ,
-                    iData.card_postcode
-                    ,
-                    iData.live_home
-                    ,
-                    iData.live_road
-                    ,
-                    iData.live_subDistrictCode
-                    ,
-                    iData.live_subDistrictName
-                    ,
-                    iData.live_districtCode
-                    ,
-                    iData.live_districtName
-                    ,
-                    iData.live_provinceCode
-                    ,
-                    iData.live_provinceName
-                    ,
-                    iData.live_postcode
-                    ,
-                    iData.mobile
-                    ,
-                    iData.email
-                    ,
-                    iData.phone
-                    ,
-                    iData.phone_office
-                    ,
-                    iData.email_office
-                };
+                    x.description
+                }).ToList();
 
                 return Ok(vData);
             }

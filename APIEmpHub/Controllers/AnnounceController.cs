@@ -1,5 +1,6 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Models;
+using APIEmpHub.Utility.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -27,7 +28,7 @@ namespace APIEmpHub.Controllers
         [Route("Create")]
         public IActionResult Create(AnnounceModels iProp)
         {
-            this._logger.LogInformation("Announce_Create [Request] : " + JsonSerializer.Serialize(iProp));
+            this._logger.LogInformation("Announce_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
 
             try
             {

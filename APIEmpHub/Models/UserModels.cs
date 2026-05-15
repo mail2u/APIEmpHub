@@ -21,8 +21,12 @@ namespace APIEmpHub.Models
         public string status { get; set; }
         public string statusDesc { get; set; }
         public string email { get; set; }
+        public string sectionCode { get; set; }
+        public string sectionDesc { get; set; }
         public string departmentCode { get; set; }
         public string departmentDesc { get; set; }
+        public string divisionCode { get; set; }
+        public string divisionDesc { get; set; }
         public string positionCode { get; set; }
         public string positionDesc { get; set; }
         public string levelCode { get; set; }
@@ -371,6 +375,10 @@ namespace APIEmpHub.Models
                                  passport = HelperConvert.ConvertToString(r.Field<object>("passport")!)
                                  ,
                                  workPermitNo = HelperConvert.ConvertToString(r.Field<object>("workPermitNo")!)
+                                 ,
+                                 bankName = HelperConvert.ConvertToString(r.Field<object>("bankName")!)
+                                 ,
+                                 bookNo = HelperConvert.ConvertToString(r.Field<object>("bookNo")!)
                                  ,
                                  email = HelperConvert.ConvertToString(r.Field<object>("email")!)
                                  ,
@@ -778,13 +786,21 @@ namespace APIEmpHub.Models
                                  ,
                                  educationId = HelperConvert.ConvertToString(r.Field<object>("educationId")!)
                                  ,
-                                 levelCode = HelperConvert.ConvertToString(r.Field<object>("levelCode")!)
-                                 ,
-                                 levelName = HelperConvert.ConvertToString(r.Field<object>("levelName")!)
-                                 ,
                                  institution = HelperConvert.ConvertToString(r.Field<object>("institution")!)
                                  ,
+                                 degreeCode = HelperConvert.ConvertToString(r.Field<object>("degreeCode")!)
+                                 ,
+                                 degreeName = HelperConvert.ConvertToString(r.Field<object>("degreeName")!)
+                                 ,
+                                 programCode = HelperConvert.ConvertToString(r.Field<object>("programCode")!)
+                                 ,
+                                 programName = HelperConvert.ConvertToString(r.Field<object>("programName")!)
+                                 ,
+                                 major = HelperConvert.ConvertToString(r.Field<object>("major")!)
+                                 ,
                                  year = HelperConvert.ConvertToInt(r.Field<object>("year")!)
+                                 ,
+                                 grade = HelperConvert.ConvertToDecimal(r.Field<object>("grade")!)
                                  ,
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
                                  ,
@@ -948,11 +964,27 @@ namespace APIEmpHub.Models
                                  ,
                                  employeeName = HelperConvert.ConvertToString(r.Field<object>("employeeName")!)
                                  ,
+                                 sectionCode = HelperConvert.ConvertToString(r.Field<object>("sectionCode")!)
+                                 ,
+                                 sectionDesc = HelperConvert.ConvertToString(r.Field<object>("sectionDesc")!)
+                                 ,
+                                 departmentCode = HelperConvert.ConvertToString(r.Field<object>("departmentCode")!)
+                                 ,
                                  departmentDesc = HelperConvert.ConvertToString(r.Field<object>("departmentDesc")!)
+                                 ,
+                                 divisionCode = HelperConvert.ConvertToString(r.Field<object>("divisionCode")!)
+                                 ,
+                                 divisionDesc = HelperConvert.ConvertToString(r.Field<object>("divisionDesc")!)
+                                 ,
+                                 positionCode = HelperConvert.ConvertToString(r.Field<object>("positionCode")!)
                                  ,
                                  positionDesc = HelperConvert.ConvertToString(r.Field<object>("positionDesc")!)
                                  ,
-                                 level = HelperConvert.ConvertToInt(r.Field<object>("level")!)
+                                 levelCode = HelperConvert.ConvertToString(r.Field<object>("levelCode")!)
+                                 ,
+                                 levelDesc = HelperConvert.ConvertToString(r.Field<object>("levelDesc")!)
+                                 ,
+                                 join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
                              }).ToList()!;
                 }
             }
@@ -1010,6 +1042,71 @@ namespace APIEmpHub.Models
             }
 
             return lData;
+        }
+
+        public ServiceEmployeeModels Detail(UserModels iProp)
+        {
+            String query = "up_user_detail";
+            ServiceEmployeeModels iData = new ServiceEmployeeModels();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    iData = (from r in dtData.AsEnumerable()
+                             select new ServiceEmployeeModels
+                             {
+                                 userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
+                                 ,
+                                 employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
+                                 ,
+                                 employeeName = HelperConvert.ConvertToString(r.Field<object>("employeeName")!)
+                                 ,
+                                 email = HelperConvert.ConvertToString(r.Field<object>("email")!)
+                                 ,
+                                 sectionCode = HelperConvert.ConvertToString(r.Field<object>("sectionCode")!)
+                                 ,
+                                 sectionDesc = HelperConvert.ConvertToString(r.Field<object>("sectionDesc")!)
+                                 ,
+                                 departmentCode = HelperConvert.ConvertToString(r.Field<object>("departmentCode")!)
+                                 ,
+                                 departmentDesc = HelperConvert.ConvertToString(r.Field<object>("departmentDesc")!)
+                                 ,
+                                 divisionCode = HelperConvert.ConvertToString(r.Field<object>("divisionCode")!)
+                                 ,
+                                 divisionDesc = HelperConvert.ConvertToString(r.Field<object>("divisionDesc")!)
+                                 ,
+                                 positionCode = HelperConvert.ConvertToString(r.Field<object>("positionCode")!)
+                                 ,
+                                 positionDesc = HelperConvert.ConvertToString(r.Field<object>("positionDesc")!)
+                                 ,
+                                 levelCode = HelperConvert.ConvertToString(r.Field<object>("levelCode")!)
+                                 ,
+                                 levelDesc = HelperConvert.ConvertToString(r.Field<object>("levelDesc")!)
+                                 ,
+                                 join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
+                                 ,
+                                 employeeType = HelperConvert.ConvertToString(r.Field<object>("employeeType")!)
+                             }).FirstOrDefault()!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return iData;
         }
     }
 }

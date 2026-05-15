@@ -7,7 +7,9 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Text.Encodings.Web;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace APIEmpHub.Utility.Helper
 {
@@ -199,6 +201,31 @@ namespace APIEmpHub.Utility.Helper
             }
 
             return table;
+        }
+        public static String ConvertToSerialize(Object obj)
+        {
+            String strTemp = String.Empty;
+            if (obj != null)
+            {
+                try
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+                ,
+                        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                ,
+                        WriteIndented = true
+                    };
+
+                    strTemp = JsonSerializer.Serialize(obj, options);
+                }
+                catch (Exception ex)
+                {
+                    return strTemp;
+                }
+            }
+            return strTemp;
         }
         #endregion
     }

@@ -10,10 +10,14 @@ namespace APIEmpHub.Models
         public string refId { get; set; }
         public string educationId { get; set; }
         public string mode { get; set; } = "";
-        public string levelCode { get; set; }
-        public string levelName { get; set; }
         public string institution { get; set; }
+        public string degreeCode { get; set; }
+        public string degreeName { get; set; }
+        public string programCode { get; set; }
+        public string programName { get; set; }
+        public string major { get; set; }
         public int year { get; set; } = 0;
+        public decimal grade { get; set; }
         public string description { get; set; }
         public string status { get; set; }
         public string userId { get; set; }
@@ -31,10 +35,14 @@ namespace APIEmpHub.Models
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
                     , iSql.SqlCom_Parameter("@educationId", HelperConvert.ConvertToString(iProp.educationId))
-                    , iSql.SqlCom_Parameter("@levelCode", HelperConvert.ConvertToString(iProp.levelCode))
-                    , iSql.SqlCom_Parameter("@levelName", HelperConvert.ConvertToString(iProp.levelName))
                     , iSql.SqlCom_Parameter("@institution", HelperConvert.ConvertToString(iProp.institution))
+                    , iSql.SqlCom_Parameter("@degreeCode", HelperConvert.ConvertToString(iProp.degreeCode))
+                    , iSql.SqlCom_Parameter("@degreeName", HelperConvert.ConvertToString(iProp.degreeName))
+                    , iSql.SqlCom_Parameter("@programCode", HelperConvert.ConvertToString(iProp.programCode))
+                    , iSql.SqlCom_Parameter("@programName", HelperConvert.ConvertToString(iProp.programName))
+                    , iSql.SqlCom_Parameter("@major", HelperConvert.ConvertToString(iProp.major))
                     , iSql.SqlCom_Parameter("@year", iProp.year)
+                    , iSql.SqlCom_Parameter("@grade", iProp.grade)
                     , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
                     , iSql.SqlCom_Parameter("@mode", HelperConvert.ConvertToString(iProp.mode))
@@ -74,13 +82,21 @@ namespace APIEmpHub.Models
                                  ,
                                  mode = HelperConvert.ConvertToString(r.Field<object>("mode")!)
                                  ,
-                                 levelCode = HelperConvert.ConvertToString(r.Field<object>("levelCode")!)
-                                 ,
-                                 levelName = HelperConvert.ConvertToString(r.Field<object>("levelName")!)
-                                 ,
                                  institution = HelperConvert.ConvertToString(r.Field<object>("institution")!)
                                  ,
+                                 degreeCode = HelperConvert.ConvertToString(r.Field<object>("degreeCode")!)
+                                 ,
+                                 degreeName = HelperConvert.ConvertToString(r.Field<object>("degreeName")!)
+                                 ,
+                                 programCode = HelperConvert.ConvertToString(r.Field<object>("programCode")!)
+                                 ,
+                                 programName = HelperConvert.ConvertToString(r.Field<object>("programName")!)
+                                 ,
+                                 major = HelperConvert.ConvertToString(r.Field<object>("major")!)
+                                 ,
                                  year = HelperConvert.ConvertToInt(r.Field<object>("year")!)
+                                 ,
+                                 grade = HelperConvert.ConvertToInt(r.Field<object>("grade")!)
                                  ,
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
                              }).ToList()!;

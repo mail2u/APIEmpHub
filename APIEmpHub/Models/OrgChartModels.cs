@@ -13,7 +13,10 @@ namespace APIEmpHub.Models
         public string chartId { get; set; }
         public string mode { get; set; }
         public string id { get; set; }
+        public string empId { get; set; }
         public string parentId { get; set; }
+        public string teamId { get; set; }
+        public string teamName { get; set; }
         public string title { get; set; }
         public string name { get; set; }
         public string description { get; set; }
@@ -35,6 +38,7 @@ namespace APIEmpHub.Models
         public string stroke { get; set; }
         public int stroke_width { get; set; }
         public int is_lock { get; set; } = 0;
+        public int hasChildTeam { get; set; }
         public string link { get; set; }
         public string create_by { get; set; }
         public string update_by { get; set; }
@@ -396,5 +400,119 @@ namespace APIEmpHub.Models
             return lData;
         }
 
+        public OrgChartModels TeamMy(OrgChartModels iProp)
+        {
+            String query = "up_orgchart_team_my";
+            iData = new OrgChartModels();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@empId", HelperConvert.ConvertToString(iProp.empId))
+                );
+
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    iData = (from r in dtData.AsEnumerable()
+                             select new OrgChartModels
+                             {
+                                 teamId = HelperConvert.ConvertToString(r.Field<object>("teamId")!)
+                                 ,
+                                 teamName = HelperConvert.ConvertToString(r.Field<object>("teamName")!)
+                             }).FirstOrDefault()!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return iData;
+        }
+
+        public List<OrgChartModels> TeamMember(OrgChartModels iProp)
+        {
+            String query = "up_orgchart_team_member";
+            lData = new List<OrgChartModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@teamId", HelperConvert.ConvertToString(iProp.teamId))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    lData = (from r in dtData.AsEnumerable()
+                             select new OrgChartModels
+                             {
+                                 empId = HelperConvert.ConvertToString(r.Field<object>("empId")!)
+                                 ,
+                                 name = HelperConvert.ConvertToString(r.Field<object>("name")!)
+                                 ,
+                                 position = HelperConvert.ConvertToString(r.Field<object>("position")!)
+                                 ,
+                                 hasChildTeam = HelperConvert.ConvertToInt(r.Field<object>("hasChildTeam")!)
+                             }).ToList()!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return lData;
+        }
+
+        public List<OrgChartModels> EmployeeTeam(OrgChartModels iProp)
+        {
+            String query = "up_orgchart_employee_team";
+            lData = new List<OrgChartModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@empId", HelperConvert.ConvertToString(iProp.empId))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    lData = (from r in dtData.AsEnumerable()
+                             select new OrgChartModels
+                             {
+                                 teamId = HelperConvert.ConvertToString(r.Field<object>("teamId")!)
+                                 ,
+                                 teamName = HelperConvert.ConvertToString(r.Field<object>("teamName")!)
+                                 ,
+                                 hasChildTeam = HelperConvert.ConvertToInt(r.Field<object>("hasChildTeam")!)
+                             }).ToList()!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return lData;
+        }
     }
 }
