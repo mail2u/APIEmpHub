@@ -595,11 +595,15 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.prefix_th
                     ,
+                    iData.prefix_th_desc
+                    ,
                     iData.firstname_th
                     ,
                     iData.lastname_th
                     ,
                     iData.prefix_en
+                    ,
+                    iData.prefix_en_desc
                     ,
                     iData.firstname_en
                     ,
@@ -608,6 +612,8 @@ namespace APIEmpHub.Controllers
                     iData.nickname
                     ,
                     iData.sex
+                    ,
+                    iData.sex_desc
                     ,
                     iData.birth_date
                     ,
@@ -629,15 +635,27 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.nationality
                     ,
+                    iData.nationalityDesc
+                    ,
                     iData.ethnicity
+                    ,
+                    iData.ethnicityDesc
                     ,
                     iData.religion
                     ,
+                    iData.religionDesc
+                    ,
                     iData.maritalStatus
+                    ,
+                    iData.maritalStatusDesc
                     ,
                     iData.militaryStatus
                     ,
+                    iData.militaryStatusDesc
+                    ,
                     iData.disabilityStatus
+                    ,
+                    iData.disabilityStatusDesc
                     ,
                     iData.bankName
                     ,

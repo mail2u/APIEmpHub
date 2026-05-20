@@ -9,6 +9,10 @@ namespace APIEmpHub.Models
         public string id { get; set; }
         public string surveyId { get; set; }
         public string userId { get; set; }
+        public string fullname { get; set; }
+        public string position { get; set; }
+        public string department { get; set; }
+        public string status { get; set; }
         public string device_name { get; set; }
         public string ip_address { get; set; }
         public string create_date { get; set; }
@@ -29,6 +33,28 @@ namespace APIEmpHub.Models
                     );
 
                 iProp.id = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@id"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void Cancel(SurveyResponseModels iProp)
+        {
+            String query = "up_survey_response_cancel_upd";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    );
             }
             catch (Exception ex)
             {
@@ -119,6 +145,52 @@ namespace APIEmpHub.Models
                                  device_name = HelperConvert.ConvertToString(r.Field<object>("device_name")!)
                                  ,
                                  ip_address = HelperConvert.ConvertToString(r.Field<object>("ip_address")!)
+                             }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return lData;
+        }
+
+        public List<SurveyResponseModels> HistoryList(SurveyResponseModels iProp)
+        {
+            String query = "up_survey_response_history_sel";
+            List<SurveyResponseModels> lData = new List<SurveyResponseModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@surveyId", HelperConvert.ConvertToString(iProp.surveyId))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    lData = (from r in dtData.AsEnumerable()
+                             select new SurveyResponseModels
+                             {
+                                 surveyId = HelperConvert.ConvertToString(r.Field<object>("surveyId")!)
+                                 ,
+                                 userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
+                                 ,
+                                 fullname = HelperConvert.ConvertToString(r.Field<object>("fullname")!)
+                                 ,
+                                 position = HelperConvert.ConvertToString(r.Field<object>("position")!)
+                                 ,
+                                 department = HelperConvert.ConvertToString(r.Field<object>("department")!)
+                                 ,
+                                 status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                                 ,
+                                 create_date = HelperConvert.ConvertToString(r.Field<object>("create_date")!)
                              }).ToList();
                 }
             }

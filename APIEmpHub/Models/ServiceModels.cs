@@ -203,6 +203,31 @@ namespace APIEmpHub.Models
             }
         }
 
+        public void RequestResend(ServiceModels iProp)
+        {
+            String query = "up_service_request_upd_resend";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@serviceNo", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    );
+
+                iProp.serviceNo = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@serviceNo"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
         public void Cancel(ServiceModels iProp)
         {
             String query = "up_service_cancel_upd";
@@ -275,6 +300,29 @@ namespace APIEmpHub.Models
         public void Work(ServiceModels iProp)
         {
             String query = "up_service_work_upd";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void Previous(ServiceModels iProp)
+        {
+            String query = "up_service_previous_upd";
 
             try
             {

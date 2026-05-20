@@ -12,6 +12,7 @@ namespace APIEmpHub.Models
         public string prefix_th { get; set; }
         public string firstname_th { get; set; }
         public string lastname_th { get; set; }
+        public string prefix_en { get; set; }
         public string firstname_en { get; set; }
         public string lastname_en { get; set; }
         public string position { get; set; }
@@ -264,6 +265,8 @@ namespace APIEmpHub.Models
                                  firstname_th = HelperConvert.ConvertToString(r.Field<object>("firstname_th")!)
                                  ,
                                  lastname_th = HelperConvert.ConvertToString(r.Field<object>("lastname_th")!)
+                                 ,
+                                 prefix_en = HelperConvert.ConvertToString(r.Field<object>("prefix_en")!)
                                  ,
                                  firstname_en = HelperConvert.ConvertToString(r.Field<object>("firstname_en")!)
                                  ,

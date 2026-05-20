@@ -346,11 +346,15 @@ namespace APIEmpHub.Models
                                  ,
                                  prefix_th = HelperConvert.ConvertToString(r.Field<object>("prefix_th")!)
                                  ,
+                                 prefix_th_desc = HelperConvert.ConvertToString(r.Field<object>("prefix_th_desc")!)
+                                 ,
                                  firstname_th = HelperConvert.ConvertToString(r.Field<object>("firstname_th")!)
                                  ,
                                  lastname_th = HelperConvert.ConvertToString(r.Field<object>("lastname_th")!)
                                  ,
                                  prefix_en = HelperConvert.ConvertToString(r.Field<object>("prefix_en")!)
+                                 ,
+                                 prefix_en_desc = HelperConvert.ConvertToString(r.Field<object>("prefix_en_desc")!)
                                  ,
                                  firstname_en = HelperConvert.ConvertToString(r.Field<object>("firstname_en")!)
                                  ,
@@ -359,6 +363,8 @@ namespace APIEmpHub.Models
                                  nickname = HelperConvert.ConvertToString(r.Field<object>("nickname")!)
                                  ,
                                  sex = HelperConvert.ConvertToString(r.Field<object>("sex")!)
+                                 ,
+                                 sex_desc = HelperConvert.ConvertToString(r.Field<object>("sex_desc")!)
                                  ,
                                  birth_date = HelperConvert.ConvertToString(r.Field<object>("birth_date")!)
                                  ,
@@ -388,15 +394,27 @@ namespace APIEmpHub.Models
                                  ,
                                  nationality = HelperConvert.ConvertToString(r.Field<object>("nationality")!)
                                  ,
+                                 nationalityDesc = HelperConvert.ConvertToString(r.Field<object>("nationalityDesc")!)
+                                 ,
                                  ethnicity = HelperConvert.ConvertToString(r.Field<object>("ethnicity")!)
+                                 ,
+                                 ethnicityDesc = HelperConvert.ConvertToString(r.Field<object>("ethnicityDesc")!)
                                  ,
                                  religion = HelperConvert.ConvertToString(r.Field<object>("religion")!)
                                  ,
+                                 religionDesc = HelperConvert.ConvertToString(r.Field<object>("religionDesc")!)
+                                 ,
                                  maritalStatus = HelperConvert.ConvertToString(r.Field<object>("maritalStatus")!)
+                                 ,
+                                 maritalStatusDesc = HelperConvert.ConvertToString(r.Field<object>("maritalStatusDesc")!)
                                  ,
                                  militaryStatus = HelperConvert.ConvertToString(r.Field<object>("militaryStatus")!)
                                  ,
+                                 militaryStatusDesc = HelperConvert.ConvertToString(r.Field<object>("militaryStatusDesc")!)
+                                 ,
                                  disabilityStatus = HelperConvert.ConvertToString(r.Field<object>("disabilityStatus")!)
+                                 ,
+                                 disabilityStatusDesc = HelperConvert.ConvertToString(r.Field<object>("disabilityStatusDesc")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
                                  ,

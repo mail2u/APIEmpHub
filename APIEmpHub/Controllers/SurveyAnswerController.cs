@@ -25,15 +25,18 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create(SurveyAnswerModels iProp)
+        public IActionResult Create(List<SurveyAnswerModels> lProp)
         {
-            this._logger.LogInformation("SurveyAnswer_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+            this._logger.LogInformation("SurveyAnswer_Create [Request] : " + HelperConvert.ConvertToSerialize(lProp));
 
             try
             {
-                model.Create(iProp);
+                foreach (var iProp in lProp)
+                {
+                    model.Create(iProp);
+                }
 
-                return Ok(iProp);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -84,17 +87,13 @@ namespace APIEmpHub.Controllers
 
                 var vData = lData.Select(x => new
                 {
-                    x.surveyId
-                    ,
-                    x.responseId
-                    ,
                     x.questionId
                     ,
                     x.choiceId
                     ,
-                    x.choiceText
-                    ,
                     x.answerText
+                    ,
+                    x.total
                 }).ToList();
 
                 return Ok(vData);

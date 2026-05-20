@@ -44,6 +44,27 @@ namespace APIEmpHub.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("Cancel")]
+        public IActionResult Cancel(SurveyResponseModels iProp)
+        {
+            this._logger.LogInformation("SurveyResponse_Cancel [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+
+            try
+            {
+                model.Cancel(iProp);
+
+                return Ok(iProp);
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("SurveyResponse_Cancel [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+
 
         [HttpPost]
         [Route("Detail")]
@@ -97,6 +118,39 @@ namespace APIEmpHub.Controllers
                     x.device_name
                     ,
                     x.ip_address
+                }).ToList();
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("HistoryList")]
+        public IActionResult HistoryList(SurveyResponseModels iProp)
+        {
+            try
+            {
+                lData = model.HistoryList(iProp);
+
+                var vData = lData.Select(x => new
+                {
+                    x.surveyId
+                    ,
+                    x.userId
+                    ,
+                    x.fullname
+                    ,
+                    x.position
+                    ,
+                    x.department
+                    ,
+                    x.status
+                    ,
+                    x.create_date
                 }).ToList();
 
                 return Ok(vData);

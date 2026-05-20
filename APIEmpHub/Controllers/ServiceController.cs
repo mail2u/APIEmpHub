@@ -135,6 +135,22 @@ namespace APIEmpHub.Controllers
         }
 
         [HttpPost]
+        [Route("RequestResend")]
+        public IActionResult RequestResend(ServiceModels iProp)
+        {
+            try
+            {
+                model.RequestResend(iProp);
+
+                return Ok(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
         [Route("Cancel")]
         public IActionResult Cancel(ServiceModels iProp)
         {
@@ -189,6 +205,22 @@ namespace APIEmpHub.Controllers
             try
             {
                 model.Work(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("Previous")]
+        public IActionResult Previous(ServiceModels iProp)
+        {
+            try
+            {
+                model.Previous(iProp);
             }
             catch (Exception ex)
             {

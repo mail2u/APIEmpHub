@@ -85,7 +85,7 @@ namespace APIEmpHub.Models
 
         public List<SurveyAnswerModels> DataListBySurvey(SurveyAnswerModels iProp)
         {
-            String query = "up_survey_answer_sel";
+            String query = "up_survey_answer_summary";
             List<SurveyAnswerModels> lData = new List<SurveyAnswerModels>();
 
             try
@@ -101,15 +101,13 @@ namespace APIEmpHub.Models
                     lData = (from r in dtData.AsEnumerable()
                              select new SurveyAnswerModels
                              {
-                                 surveyId = HelperConvert.ConvertToString(r.Field<object>("surveyId")!)
-                                 ,
-                                 responseId = HelperConvert.ConvertToString(r.Field<object>("responseId")!)
-                                 ,
                                  questionId = HelperConvert.ConvertToString(r.Field<object>("questionId")!)
                                  ,
                                  choiceId = HelperConvert.ConvertToString(r.Field<object>("choiceId")!)
                                  ,
                                  answerText = HelperConvert.ConvertToString(r.Field<object>("answerText")!)
+                                 ,
+                                 total = HelperConvert.ConvertToInt(r.Field<object>("total")!)
                              }).ToList();
                 }
             }

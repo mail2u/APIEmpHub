@@ -11,13 +11,16 @@ namespace APIEmpHub.Models
         public string personalId { get; set; }
         public string mode { get; set; }
         public string prefix_th { get; set; }
+        public string prefix_th_desc { get; set; }
         public string firstname_th { get; set; }
         public string lastname_th { get; set; }
         public string prefix_en { get; set; }
+        public string prefix_en_desc { get; set; }
         public string firstname_en { get; set; }
         public string lastname_en { get; set; }
         public string nickname { get; set; }
         public string sex { get; set; }
+        public string sex_desc { get; set; }
         public string birth_date { get; set; }
         public string age { get; set; }
         public int weight { get; set; }
@@ -29,14 +32,20 @@ namespace APIEmpHub.Models
         public string bankName { get; set; }
         public string bookNo { get; set; }
         public string maritalStatus { get; set; }
+        public string maritalStatusDesc { get; set; }
         public string militaryStatus { get; set; }
+        public string militaryStatusDesc { get; set; }
         public string disabilityStatus { get; set; }
+        public string disabilityStatusDesc { get; set; }
         public string email { get; set; }
         public string phoneNo { get; set; }
         public string mobile { get; set; }
         public string nationality { get; set; }
+        public string nationalityDesc { get; set; }
         public string ethnicity { get; set; }
+        public string ethnicityDesc { get; set; }
         public string religion { get; set; }
+        public string religionDesc { get; set; }
         public string status { get; set; }
         public string userId { get; set; }
         public string create_by { get; set; }
@@ -108,11 +117,15 @@ namespace APIEmpHub.Models
                                  ,
                                  prefix_th = HelperConvert.ConvertToString(r.Field<object>("prefix_th")!)
                                  ,
+                                 prefix_th_desc = HelperConvert.ConvertToString(r.Field<object>("prefix_th_desc")!)
+                                 ,
                                  firstname_th = HelperConvert.ConvertToString(r.Field<object>("firstname_th")!)
                                  ,
                                  lastname_th = HelperConvert.ConvertToString(r.Field<object>("lastname_th")!)
                                  ,
                                  prefix_en = HelperConvert.ConvertToString(r.Field<object>("prefix_en")!)
+                                 ,
+                                 prefix_en_desc = HelperConvert.ConvertToString(r.Field<object>("prefix_en_desc")!)
                                  ,
                                  firstname_en = HelperConvert.ConvertToString(r.Field<object>("firstname_en")!)
                                  ,
@@ -121,6 +134,8 @@ namespace APIEmpHub.Models
                                  nickname = HelperConvert.ConvertToString(r.Field<object>("nickname")!)
                                  ,
                                  sex = HelperConvert.ConvertToString(r.Field<object>("sex")!)
+                                 ,
+                                 sex_desc = HelperConvert.ConvertToString(r.Field<object>("sex_desc")!)
                                  ,
                                  birth_date = HelperConvert.ConvertToString(r.Field<object>("birth_date")!)
                                  ,

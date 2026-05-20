@@ -3,7 +3,10 @@ using APIEmpHub.iBase;
 using APIEmpHub.Models;
 using APIEmpHub.Utility.Helper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Buffers.Text;
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 
 namespace APIEmpHub.Controllers
@@ -12,6 +15,7 @@ namespace APIEmpHub.Controllers
     [Route("api/[controller]")]
     public class FormController : baseController<FormModels>
     {
+        public WebAPIModels webAPI = new WebAPIModels();
         public FormController(IConfiguration configuration
            , IWebHostEnvironment hostingEnvironment
             , ILogger<FormModels> logger)
@@ -22,6 +26,7 @@ namespace APIEmpHub.Controllers
             this._webhost = hostingEnvironment;
             model.webRoot = this._webhost.WebRootPath ?? this._webhost.ContentRootPath;
             this._logger = logger;
+            this._configuration.GetSection("WebAPI").Bind(webAPI);
         }
 
         #region FormNewCard
@@ -404,6 +409,26 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("FormRequestTrainingPDF")]
+        public async Task<IActionResult> FormRequestTrainingPDF(FormRequestTrainingModels iProp)
+        {
+            try
+            {
+                FormRequestTrainingModels iData = model.FormRequestTrainingDetail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormRequestTraining", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes,"application/pdf","download.pdf");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region FormManpower
@@ -568,6 +593,26 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("FormBenefitFundPDF")]
+        public async Task<IActionResult> FormBenefitFundPDF(FormBenefitFundModels iProp)
+        {
+            try
+            {
+                FormBenefitFundModels iData = model.FormBenefitFundDetail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormBenefitFund", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region FormBenefitInsurance
@@ -650,6 +695,26 @@ namespace APIEmpHub.Controllers
                 };
 
                 return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormBenefitInsurancePDF")]
+        public async Task<IActionResult> FormBenefitInsurancePDF(FormBenefitInsuranceModels iProp)
+        {
+            try
+            {
+                FormBenefitInsuranceModels iData = model.FormBenefitInsuranceDetail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormBenefitInsurance", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
             }
             catch (Exception ex)
             {
@@ -800,6 +865,46 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("FormPerformanceLv2PDF")]
+        public async Task<IActionResult> FormPerformanceLv2PDF(FormPerformanceLv2Models iProp)
+        {
+            try
+            {
+                FormPerformanceLv2Models iData = model.FormPerformanceLv2Detail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormPerformanceLv2", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormPerformanceLv1PDF")]
+        public async Task<IActionResult> FormPerformanceLv1PDF(FormPerformanceLv2Models iProp)
+        {
+            try
+            {
+                FormPerformanceLv2Models iData = model.FormPerformanceLv2Detail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormPerformanceLv1", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region FormMoveEmployee
@@ -856,6 +961,26 @@ namespace APIEmpHub.Controllers
                 };
 
                 return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormMoveEmployeePDF")]
+        public async Task<IActionResult> FormMoveEmployeePDF(FormMoveEmployeeModels iProp)
+        {
+            try
+            {
+                FormMoveEmployeeModels iData = model.FormMoveEmployeeDetail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormMoveEmployee", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
             }
             catch (Exception ex)
             {
@@ -924,6 +1049,26 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("FormHiringEmployeePDF")]
+        public async Task<IActionResult> FormHiringEmployeePDF(FormHiringEmployeeModels iProp)
+        {
+            try
+            {
+                FormHiringEmployeeModels iData = model.FormHiringEmployeeDetail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormHiringEmployee", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region FormPdpaEmployee
@@ -974,6 +1119,26 @@ namespace APIEmpHub.Controllers
                 };
 
                 return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormPdpaEmployeePDF")]
+        public async Task<IActionResult> FormPdpaEmployeePDF(FormPdpaEmployeeModels iProp)
+        {
+            try
+            {
+                FormPdpaEmployeeModels iData = model.FormPdpaEmployeeDetail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormPdpaEmployee", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
             }
             catch (Exception ex)
             {
@@ -1034,6 +1199,26 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("FormWfhEmployeePDF")]
+        public async Task<IActionResult> FormWfhEmployeePDF(FormWfhEmployeeModels iProp)
+        {
+            try
+            {
+                FormWfhEmployeeModels iData = model.FormWfhEmployeeDetail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormWfhEmployee", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region FormAgreementEmployee
@@ -1080,6 +1265,26 @@ namespace APIEmpHub.Controllers
                 };
 
                 return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormAgreementEmployeePDF")]
+        public async Task<IActionResult> FormAgreementEmployeePDF(FormAgreementEmployeeModels iProp)
+        {
+            try
+            {
+                FormAgreementEmployeeModels iData = model.FormAgreementEmployeeDetail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormAgreementEmployee", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
             }
             catch (Exception ex)
             {
@@ -1210,8 +1415,27 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
+        [HttpPost]
+        [Route("FormPrepareEmployeePDF")]
+        public async Task<IActionResult> FormPrepareEmployeePDF(FormPrepareEmployeeModels iProp)
+        {
+            try
+            {
+                FormPrepareEmployeeModels iData = model.FormPrepareEmployeeDetail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormPrepareEmployee", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
 
         #region FormProbationReport
         [HttpPost]
@@ -1283,6 +1507,26 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("FormProbationReportPDF")]
+        public async Task<IActionResult> FormProbationReportPDF(FormProbationReportModels iProp)
+        {
+            try
+            {
+                FormProbationReportModels iData = model.FormProbationReportDetail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormProbationReport", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region FormPromoteEmployee
@@ -1347,6 +1591,26 @@ namespace APIEmpHub.Controllers
                 };
 
                 return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormPromoteEmployeePDF")]
+        public async Task<IActionResult> FormPromoteEmployeePDF(FormPromoteEmployeeModels iProp)
+        {
+            try
+            {
+                FormPromoteEmployeeModels iData = model.FormPromoteEmployeeDetail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormPromoteEmployee", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
             }
             catch (Exception ex)
             {
@@ -1435,6 +1699,26 @@ namespace APIEmpHub.Controllers
                 };
 
                 return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormIDPPDF")]
+        public async Task<IActionResult> FormIDPPDF(FormIDPModels iProp)
+        {
+            try
+            {
+                FormIDPModels iData = model.FormIDPDetail(iProp);
+
+                PDFModels pdf = await LoadPDF("FormIDP", iData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
             }
             catch (Exception ex)
             {
@@ -1762,7 +2046,7 @@ namespace APIEmpHub.Controllers
         [Route("FormUpdateTalentCreate")]
         public IActionResult FormUpdateTalentCreate(List<FormUpdateTalentModels> lProp)
         {
-            this._logger.LogInformation("FormUpdateTalent_Create [Request] : " + JsonSerializer.Serialize(lProp));
+            this._logger.LogInformation("FormUpdateTalent_Create [Request] : " + HelperConvert.ConvertToSerialize(lProp));
 
             try
             {
@@ -1863,5 +2147,38 @@ namespace APIEmpHub.Controllers
             }
         }
         #endregion
+
+        private async Task<PDFModels> LoadPDF(string projectName, object dataRequest)
+        {
+            PDFModels iPDF = new PDFModels();
+
+            WebAPIModels webAPI = new WebAPIModels();
+            this._configuration.GetSection("WebAPI").Bind(webAPI);
+
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(dataRequest), Encoding.UTF8, "application/json");
+
+                var authenticationString = String.Format("{0}:{1}", webAPI.APIPDF_username, webAPI.APIPDF_password);
+                var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authenticationString));
+                httpClient.DefaultRequestHeaders.Add("Authorization", $"Basic {base64EncodedAuthenticationString}");
+
+                using (var response = await httpClient.PostAsync(webAPI.APIPDF + $"/Service/CoreHR/{projectName}/base64", content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        iPDF = JsonConvert.DeserializeObject<PDFModels>(apiResponse);
+                    }
+                    else
+                    {
+                        throw new Exception(apiResponse);
+                    }
+                }
+            }
+
+            return iPDF;
+        }
     }
 }

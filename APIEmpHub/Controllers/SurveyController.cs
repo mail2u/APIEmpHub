@@ -216,6 +216,43 @@ namespace APIEmpHub.Controllers
         }
 
         [HttpPost]
+        [Route("MyDetail")]
+        public IActionResult MyDetail(SurveyModels iProp)
+        {
+            try
+            {
+                iData = model.MyDetail(iProp);
+
+                var vData = new
+                {
+                    iData.id
+                    ,
+                    iData.title
+                    ,
+                    iData.description
+                    ,
+                    iData.start_date
+                    ,
+                    iData.end_date
+                    ,
+                    iData.mode
+                    ,
+                    iData.status
+                    ,
+                    iData.create_by
+                    ,
+                    iData.create_date
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
         [Route("MyList")]
         public IActionResult MyList(SurveyModels iProp)
         {
@@ -261,6 +298,63 @@ namespace APIEmpHub.Controllers
             try
             {
                 dtData = model.MySummary(iProp);
+
+                return Ok(JsonConvert.SerializeObject(dtData));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("InquireList")]
+        public IActionResult InquireList(SurveyModels iProp)
+        {
+            try
+            {
+                lData = model.InquireList(iProp);
+
+                var vData = lData.Select(x => new
+                {
+                    x.id
+                    ,
+                    x.title
+                    ,
+                    x.description
+                    ,
+                    x.start_date
+                    ,
+                    x.end_date
+                    ,
+                    x.total
+                    ,
+                    x.participants
+                    ,
+                    x.mode
+                    ,
+                    x.status
+                    ,
+                    x.create_by
+                    ,
+                    x.create_date
+                }).ToList();
+
+                return Ok(new { data = vData, total = iProp.total });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("InquireSummary")]
+        public IActionResult InquireSummary(SurveyModels iProp)
+        {
+            try
+            {
+                dtData = model.InquireSummary(iProp);
 
                 return Ok(JsonConvert.SerializeObject(dtData));
             }

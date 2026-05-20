@@ -172,6 +172,8 @@ namespace APIEmpHub.Controllers
                     ,
                     x.lastname_th
                     ,
+                    x.prefix_en
+                    ,
                     x.firstname_en
                     ,
                     x.lastname_en
