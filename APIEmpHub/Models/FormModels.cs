@@ -494,6 +494,16 @@ namespace APIEmpHub.Models
                                  option4 = HelperConvert.ConvertToInt(r.Field<object>("option4")!)
                                  ,
                                  option4_desc = HelperConvert.ConvertToString(r.Field<object>("option4_desc")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
+                                 ,
+                                 approve1_by = HelperConvert.ConvertToString(r.Field<object>("approve1_by")!)
+                                 ,
+                                 approve2_by = HelperConvert.ConvertToString(r.Field<object>("approve2_by")!)
+                                 ,
+                                 approve3_by = HelperConvert.ConvertToString(r.Field<object>("approve3_by")!)
+                                 ,
+                                 approve4_by = HelperConvert.ConvertToString(r.Field<object>("approve4_by")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -722,6 +732,8 @@ namespace APIEmpHub.Models
                                  benefitrelation3 = HelperConvert.ConvertToString(r.Field<object>("benefitrelation3")!)
                                  ,
                                  benefitpercent3 = HelperConvert.ConvertToDecimal(r.Field<object>("benefitpercent3")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -770,6 +782,10 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@benefitage4", iProp.benefitage4)
                     , iSql.SqlCom_Parameter("@benefitrelation4", HelperConvert.ConvertToString(iProp.benefitrelation4))
                     , iSql.SqlCom_Parameter("@benefitpercent4", iProp.benefitpercent4)
+                    , iSql.SqlCom_Parameter("@benefitname5", HelperConvert.ConvertToString(iProp.benefitname5))
+                    , iSql.SqlCom_Parameter("@benefitage5", iProp.benefitage5)
+                    , iSql.SqlCom_Parameter("@benefitrelation5", HelperConvert.ConvertToString(iProp.benefitrelation5))
+                    , iSql.SqlCom_Parameter("@benefitpercent5", iProp.benefitpercent5)
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
                     );
             }
@@ -810,6 +826,14 @@ namespace APIEmpHub.Models
                                  ,
                                  birth_date = HelperConvert.ConvertToString(r.Field<object>("birth_date")!)
                                  ,
+                                 birth_date_day = HelperConvert.ConvertToString(r.Field<object>("birth_date_day")!)
+                                 ,
+                                 birth_date_month = HelperConvert.ConvertToString(r.Field<object>("birth_date_month")!)
+                                 ,
+                                 birth_date_year = HelperConvert.ConvertToString(r.Field<object>("birth_date_year")!)
+                                 ,
+                                 birth_date_age = HelperConvert.ConvertToString(r.Field<object>("birth_date_age")!)
+                                 ,
                                  age = HelperConvert.ConvertToInt(r.Field<object>("age")!)
                                  ,
                                  join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
@@ -847,6 +871,16 @@ namespace APIEmpHub.Models
                                  benefitrelation4 = HelperConvert.ConvertToString(r.Field<object>("benefitrelation4")!)
                                  ,
                                  benefitpercent4 = HelperConvert.ConvertToDecimal(r.Field<object>("benefitpercent4")!)
+                                 ,
+                                 benefitname5 = HelperConvert.ConvertToString(r.Field<object>("benefitname5")!)
+                                 ,
+                                 benefitage5 = HelperConvert.ConvertToInt(r.Field<object>("benefitage5")!)
+                                 ,
+                                 benefitrelation5 = HelperConvert.ConvertToString(r.Field<object>("benefitrelation5")!)
+                                 ,
+                                 benefitpercent5 = HelperConvert.ConvertToDecimal(r.Field<object>("benefitpercent5")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -957,6 +991,131 @@ namespace APIEmpHub.Models
             }
         }
 
+        public FormPerformanceLv2Models FormPerformanceLv1Detail(FormPerformanceLv2Models iProp)
+        {
+            String query = "up_form_performance_lv1_detail";
+            FormPerformanceLv2Models iData = new FormPerformanceLv2Models();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+                    iData = (from r in dtData.AsEnumerable()
+                             select new FormPerformanceLv2Models
+                             {
+                                 refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
+                                 ,
+                                 fullname = HelperConvert.ConvertToString(r.Field<object>("fullname")!)
+                                 ,
+                                 position = HelperConvert.ConvertToString(r.Field<object>("position")!)
+                                 ,
+                                 section = HelperConvert.ConvertToString(r.Field<object>("section")!)
+                                 ,
+                                 department = HelperConvert.ConvertToString(r.Field<object>("department")!)
+                                 ,
+                                 join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
+                                 ,
+                                 probation_start_date = HelperConvert.ConvertToString(r.Field<object>("probation_start_date")!)
+                                 ,
+                                 probation_end_date = HelperConvert.ConvertToString(r.Field<object>("probation_end_date")!)
+                                 ,
+                                 late = HelperConvert.ConvertToInt(r.Field<object>("late")!)
+                                 ,
+                                 personal_leave = HelperConvert.ConvertToInt(r.Field<object>("personal_leave")!)
+                                 ,
+                                 sick_leave = HelperConvert.ConvertToInt(r.Field<object>("sick_leave")!)
+                                 ,
+                                 absence = HelperConvert.ConvertToInt(r.Field<object>("absence")!)
+                                 ,
+                                 warning = HelperConvert.ConvertToInt(r.Field<object>("warning")!)
+                                 ,
+                                 answer1 = HelperConvert.ConvertToInt(r.Field<object>("answer1")!)
+                                 ,
+                                 answer2 = HelperConvert.ConvertToInt(r.Field<object>("answer2")!)
+                                 ,
+                                 answer3 = HelperConvert.ConvertToInt(r.Field<object>("answer3")!)
+                                 ,
+                                 answer4 = HelperConvert.ConvertToInt(r.Field<object>("answer4")!)
+                                 ,
+                                 answer5 = HelperConvert.ConvertToInt(r.Field<object>("answer5")!)
+                                 ,
+                                 answer6 = HelperConvert.ConvertToInt(r.Field<object>("answer6")!)
+                                 ,
+                                 answer7 = HelperConvert.ConvertToInt(r.Field<object>("answer7")!)
+                                 ,
+                                 answer8 = HelperConvert.ConvertToInt(r.Field<object>("answer8")!)
+                                 ,
+                                 answer9 = HelperConvert.ConvertToInt(r.Field<object>("answer9")!)
+                                 ,
+                                 answer10 = HelperConvert.ConvertToInt(r.Field<object>("answer10")!)
+                                 ,
+                                 score1 = HelperConvert.ConvertToInt(r.Field<object>("score1")!)
+                                 ,
+                                 score2 = HelperConvert.ConvertToInt(r.Field<object>("score2")!)
+                                 ,
+                                 score3 = HelperConvert.ConvertToInt(r.Field<object>("score3")!)
+                                 ,
+                                 score4 = HelperConvert.ConvertToInt(r.Field<object>("score4")!)
+                                 ,
+                                 score5 = HelperConvert.ConvertToInt(r.Field<object>("score5")!)
+                                 ,
+                                 score6 = HelperConvert.ConvertToInt(r.Field<object>("score6")!)
+                                 ,
+                                 score7 = HelperConvert.ConvertToInt(r.Field<object>("score7")!)
+                                 ,
+                                 score8 = HelperConvert.ConvertToInt(r.Field<object>("score8")!)
+                                 ,
+                                 score9 = HelperConvert.ConvertToInt(r.Field<object>("score9")!)
+                                 ,
+                                 score10 = HelperConvert.ConvertToInt(r.Field<object>("score10")!)
+                                 ,
+                                 total = HelperConvert.ConvertToInt(r.Field<object>("total")!)
+                                 ,
+                                 grade = HelperConvert.ConvertToString(r.Field<object>("grade")!)
+                                 ,
+                                 suitability_mode = HelperConvert.ConvertToString(r.Field<object>("suitability_mode")!)
+                                 ,
+                                 suitability_desc = HelperConvert.ConvertToString(r.Field<object>("suitability_desc")!)
+                                 ,
+                                 strengths_desc = HelperConvert.ConvertToString(r.Field<object>("strengths_desc")!)
+                                 ,
+                                 improvement_desc = HelperConvert.ConvertToString(r.Field<object>("improvement_desc")!)
+                                 ,
+                                 top_supervisor_comment = HelperConvert.ConvertToString(r.Field<object>("top_supervisor_comment")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
+                                 ,
+                                 create_date = HelperConvert.ConvertToString(r.Field<object>("create_date")!)
+                                 ,
+                                 approve1_by = HelperConvert.ConvertToString(r.Field<object>("approve1_by")!)
+                                 ,
+                                 approve1_position = HelperConvert.ConvertToString(r.Field<object>("approve1_position")!)
+                                 ,
+                                 approve1_date = HelperConvert.ConvertToString(r.Field<object>("approve1_date")!)
+                                 ,
+                                 approve2_by = HelperConvert.ConvertToString(r.Field<object>("approve2_by")!)
+                                 ,
+                                 approve2_date = HelperConvert.ConvertToString(r.Field<object>("approve2_date")!)
+                             }).FirstOrDefault()!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return iData;
+        }
+
         public FormPerformanceLv2Models FormPerformanceLv2Detail(FormPerformanceLv2Models iProp)
         {
             String query = "up_form_performance_lv2_detail";
@@ -1020,6 +1179,26 @@ namespace APIEmpHub.Models
                                  ,
                                  answer10 = HelperConvert.ConvertToInt(r.Field<object>("answer10")!)
                                  ,
+                                 score1 = HelperConvert.ConvertToInt(r.Field<object>("score1")!)
+                                 ,
+                                 score2 = HelperConvert.ConvertToInt(r.Field<object>("score2")!)
+                                 ,
+                                 score3 = HelperConvert.ConvertToInt(r.Field<object>("score3")!)
+                                 ,
+                                 score4 = HelperConvert.ConvertToInt(r.Field<object>("score4")!)
+                                 ,
+                                 score5 = HelperConvert.ConvertToInt(r.Field<object>("score5")!)
+                                 ,
+                                 score6 = HelperConvert.ConvertToInt(r.Field<object>("score6")!)
+                                 ,
+                                 score7 = HelperConvert.ConvertToInt(r.Field<object>("score7")!)
+                                 ,
+                                 score8 = HelperConvert.ConvertToInt(r.Field<object>("score8")!)
+                                 ,
+                                 score9 = HelperConvert.ConvertToInt(r.Field<object>("score9")!)
+                                 ,
+                                 score10 = HelperConvert.ConvertToInt(r.Field<object>("score10")!)
+                                 ,
                                  total = HelperConvert.ConvertToInt(r.Field<object>("total")!)
                                  ,
                                  grade = HelperConvert.ConvertToString(r.Field<object>("grade")!)
@@ -1033,6 +1212,20 @@ namespace APIEmpHub.Models
                                  improvement_desc = HelperConvert.ConvertToString(r.Field<object>("improvement_desc")!)
                                  ,
                                  top_supervisor_comment = HelperConvert.ConvertToString(r.Field<object>("top_supervisor_comment")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
+                                 ,
+                                 create_date = HelperConvert.ConvertToString(r.Field<object>("create_date")!)
+                                 ,
+                                 approve1_by = HelperConvert.ConvertToString(r.Field<object>("approve1_by")!)
+                                 ,
+                                 approve1_position = HelperConvert.ConvertToString(r.Field<object>("approve1_position")!)
+                                 ,
+                                 approve1_date = HelperConvert.ConvertToString(r.Field<object>("approve1_date")!)
+                                 ,
+                                 approve2_by = HelperConvert.ConvertToString(r.Field<object>("approve2_by")!)
+                                 ,
+                                 approve2_date = HelperConvert.ConvertToString(r.Field<object>("approve2_date")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -1117,6 +1310,46 @@ namespace APIEmpHub.Models
                                  new_department = HelperConvert.ConvertToString(r.Field<object>("new_department")!)
                                  ,
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
+                                 ,
+                                 create_date = HelperConvert.ConvertToString(r.Field<object>("create_date")!)
+                                 ,
+                                 approve1_by = HelperConvert.ConvertToString(r.Field<object>("approve1_by")!)
+                                 ,
+                                 approve1_position = HelperConvert.ConvertToString(r.Field<object>("approve1_position")!)
+                                 ,
+                                 approve1_date = HelperConvert.ConvertToString(r.Field<object>("approve1_date")!)
+                                 ,
+                                 approve2_by = HelperConvert.ConvertToString(r.Field<object>("approve2_by")!)
+                                 ,
+                                 approve2_position = HelperConvert.ConvertToString(r.Field<object>("approve2_position")!)
+                                 ,
+                                 approve2_date = HelperConvert.ConvertToString(r.Field<object>("approve2_date")!)
+                                 ,
+                                 approve3_by = HelperConvert.ConvertToString(r.Field<object>("approve3_by")!)
+                                 ,
+                                 approve3_position = HelperConvert.ConvertToString(r.Field<object>("approve3_position")!)
+                                 ,
+                                 approve3_date = HelperConvert.ConvertToString(r.Field<object>("approve3_date")!)
+                                 ,
+                                 approve4_by = HelperConvert.ConvertToString(r.Field<object>("approve4_by")!)
+                                 ,
+                                 approve4_position = HelperConvert.ConvertToString(r.Field<object>("approve4_position")!)
+                                 ,
+                                 approve4_date = HelperConvert.ConvertToString(r.Field<object>("approve4_date")!)
+                                 ,
+                                 approve5_by = HelperConvert.ConvertToString(r.Field<object>("approve5_by")!)
+                                 ,
+                                 approve5_position = HelperConvert.ConvertToString(r.Field<object>("approve5_position")!)
+                                 ,
+                                 approve5_date = HelperConvert.ConvertToString(r.Field<object>("approve5_date")!)
+                                 ,
+                                 approve6_by = HelperConvert.ConvertToString(r.Field<object>("approve6_by")!)
+                                 ,
+                                 approve6_position = HelperConvert.ConvertToString(r.Field<object>("approve6_position")!)
+                                 ,
+                                 approve6_date = HelperConvert.ConvertToString(r.Field<object>("approve6_date")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -1789,6 +2022,12 @@ namespace APIEmpHub.Models
                                  department_new = HelperConvert.ConvertToString(r.Field<object>("department_new")!)
                                  ,
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
+                                 ,
+                                 approve1_by = HelperConvert.ConvertToString(r.Field<object>("approve1_by")!)
+                                 ,
+                                 approve2_by = HelperConvert.ConvertToString(r.Field<object>("approve2_by")!)
+                                 ,
+                                 approve3_by = HelperConvert.ConvertToString(r.Field<object>("approve3_by")!)
                              }).FirstOrDefault()!;
                 }
             }

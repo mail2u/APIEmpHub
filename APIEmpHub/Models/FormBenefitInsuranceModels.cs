@@ -7,6 +7,10 @@
         public string employeeCode { get; set; }
         public string fullname { get; set; }
         public string birth_date { get; set; }
+        public string birth_date_day { get; set; }
+        public string birth_date_month { get; set; }
+        public string birth_date_year { get; set; }
+        public string birth_date_age { get; set; }
         public int age { get; set; }
         public string join_date { get; set; }
         public string position { get; set; }
@@ -26,6 +30,10 @@
         public int benefitage4 { get; set; }
         public string benefitrelation4 { get; set; }
         public decimal benefitpercent4 { get; set; }
+        public string benefitname5 { get; set; }
+        public int benefitage5 { get; set; }
+        public string benefitrelation5 { get; set; }
+        public decimal benefitpercent5 { get; set; }
         public string create_by { get; set; }
     }
 }

@@ -25,6 +25,16 @@
         public int answer8 { get; set; }
         public int answer9 { get; set; }
         public int answer10 { get; set; }
+        public int score1 { get; set; }
+        public int score2 { get; set; }
+        public int score3 { get; set; }
+        public int score4 { get; set; }
+        public int score5 { get; set; }
+        public int score6 { get; set; }
+        public int score7 { get; set; }
+        public int score8 { get; set; }
+        public int score9 { get; set; }
+        public int score10 { get; set; }
         public int total { get; set; }
         public string grade { get; set; }
         public string suitability_mode { get; set; }
@@ -33,5 +43,11 @@
         public string improvement_desc { get; set; }
         public string top_supervisor_comment { get; set; }
         public string create_by { get; set; }
+        public string create_date { get; set; }
+        public string approve1_by { get; set; }
+        public string approve1_position { get; set; }
+        public string approve1_date { get; set; }
+        public string approve2_by { get; set; }
+        public string approve2_date { get; set; }
     }
 }

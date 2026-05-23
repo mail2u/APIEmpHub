@@ -418,7 +418,83 @@ namespace APIEmpHub.Controllers
             {
                 FormRequestTrainingModels iData = model.FormRequestTrainingDetail(iProp);
 
-                PDFModels pdf = await LoadPDF("FormRequestTraining", iData);
+                if(iData.start_date == iData.end_date)
+                {
+                    iData.location += $" วันที่ {iData.start_date}";
+                }
+                else
+                {
+                    iData.location += $" วันที่ {iData.start_date} ถึง {iData.end_date}";
+                }
+
+                iData.location += $" เวลา {iData.start_time} - {iData.end_time}";
+
+                var vData = new
+                {
+                    create_date = ""
+                    ,
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.section
+                    ,
+                    iData.department
+                    ,
+                    iData.division
+                    ,
+                    iData.license
+                    ,
+                    objectives = new string(' ', 55) + iData.objectives
+                    ,
+                    iData.organization
+                    ,
+                    location = new string(' ', 50) + iData.location
+                    ,
+                    iData.price
+                    ,
+                    iData.net
+                    ,
+                    option1 = iData.option1 == 1 ? "√" : ""
+                    ,
+                    option2 = iData.option2 == 1 ? "√" : ""
+                    ,
+                    option3 = iData.option3 == 1 ? "√" : ""
+                    ,
+                    option4 = iData.option4 == 1 ? "√" : ""
+                    ,
+                    iData.option4_desc
+                    ,
+                    iData.create_by
+                    ,
+                    approve1_y = "√"
+                    ,
+                    approve1_n = ""
+                    ,
+                    approve1_by = ""
+                    ,
+                    approve1_position = ""
+                    ,
+                    approve2_y = "√"
+                    ,
+                    approve2_n = ""
+                    ,
+                    approve2_by = ""
+                    ,
+                    approve3_y = "√"
+                    ,
+                    approve3_n = ""
+                    ,
+                    approve3_by = ""
+                    ,
+                    approve4_y = "√"
+                    ,
+                    approve4_n = ""
+                    ,
+                    approve4_by = ""
+                };
+
+                PDFModels pdf = await LoadPDF("FormRequestTraining", vData);
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file
@@ -602,7 +678,40 @@ namespace APIEmpHub.Controllers
             {
                 FormBenefitFundModels iData = model.FormBenefitFundDetail(iProp);
 
-                PDFModels pdf = await LoadPDF("FormBenefitFund", iData);
+                var vDate = new
+                {
+                    create_date = ""
+                    ,
+                    iData.fullname
+                    ,
+                    iData.idcard
+                    ,
+                    mode_1 = iData.mode == "new" ? "√" : ""
+                    ,
+                    mode_2 = iData.mode == "change" ? "√" : ""
+                    ,
+                    iData.benefitname1
+                    ,
+                    iData.benefitname2
+                    ,
+                    iData.benefitname3
+                    ,
+                    iData.benefitrelation1
+                    ,
+                    iData.benefitrelation2
+                    ,
+                    iData.benefitrelation3
+                    ,
+                    benefitpercent1 = iData.benefitpercent1 > 0 ? iData.benefitpercent1.ToString("0.00") : ""
+                    ,
+                    benefitpercent2 = iData.benefitpercent2 > 0 ? iData.benefitpercent2.ToString("0.00") : ""
+                    ,
+                    benefitpercent3 = iData.benefitpercent3 > 0 ? iData.benefitpercent3.ToString("0.00") : ""
+                    ,
+                    iData.create_by
+                };
+
+                PDFModels pdf = await LoadPDF("FormBenefitFund", vDate);
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file
@@ -710,7 +819,263 @@ namespace APIEmpHub.Controllers
             {
                 FormBenefitInsuranceModels iData = model.FormBenefitInsuranceDetail(iProp);
 
-                PDFModels pdf = await LoadPDF("FormBenefitInsurance", iData);
+                var vDate = new
+                {
+                    create_date = ""
+                    ,
+                    iData.fullname
+                    ,
+                    iData.employeeCode
+                    ,
+                    iData.birth_date_day
+                    ,
+                    iData.birth_date_month
+                    ,
+                    iData.birth_date_year
+                    ,
+                    iData.birth_date_age
+                    ,
+                    iData.join_date
+                    ,
+                    iData.position
+                    ,
+                    iData.benefitname1
+                    ,
+                    iData.benefitname2
+                    ,
+                    iData.benefitname3
+                    ,
+                    iData.benefitname4
+                    ,
+                    iData.benefitname5
+                    ,
+                    benefitage1 = iData.benefitage1 > 0 ? iData.benefitage1.ToString("0") : ""
+                    ,
+                    benefitage2 = iData.benefitage2 > 0 ? iData.benefitage2.ToString("0") : ""
+                    ,
+                    benefitage3 = iData.benefitage3 > 0 ? iData.benefitage3.ToString("0") : ""
+                    ,
+                    benefitage4 = iData.benefitage4 > 0 ? iData.benefitage4.ToString("0") : ""
+                    ,
+                    benefitage5 = iData.benefitage5 > 0 ? iData.benefitage5.ToString("0") : ""
+                    ,
+                    iData.benefitrelation1
+                    ,
+                    iData.benefitrelation2
+                    ,
+                    iData.benefitrelation3
+                    ,
+                    iData.benefitrelation4
+                    ,
+                    iData.benefitrelation5
+                    ,
+                    benefitpercent1 = iData.benefitpercent1 > 0 ? iData.benefitpercent1.ToString("0.00") : ""
+                    ,
+                    benefitpercent2 = iData.benefitpercent2 > 0 ? iData.benefitpercent2.ToString("0.00") : ""
+                    ,
+                    benefitpercent3 = iData.benefitpercent3 > 0 ? iData.benefitpercent3.ToString("0.00") : ""
+                    ,
+                    benefitpercent4 = iData.benefitpercent4 > 0 ? iData.benefitpercent4.ToString("0.00") : ""
+                    ,
+                    benefitpercent5 = iData.benefitpercent5 > 0 ? iData.benefitpercent5.ToString("0.00") : ""
+                    ,
+                    iData.create_by
+                };
+
+                PDFModels pdf = await LoadPDF("FormBenefitInsurance", vDate);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormPerformanceLv1
+
+        [HttpPost]
+        [Route("FormPerformanceLv1Detail")]
+        public IActionResult FormPerformanceLv1Detail(FormPerformanceLv2Models iProp)
+        {
+            try
+            {
+                FormPerformanceLv2Models iData = model.FormPerformanceLv1Detail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.section
+                    ,
+                    iData.department
+                    ,
+                    iData.join_date
+                    ,
+                    iData.probation_start_date
+                    ,
+                    iData.probation_end_date
+                    ,
+                    iData.late
+                    ,
+                    iData.personal_leave
+                    ,
+                    iData.sick_leave
+                    ,
+                    iData.absence
+                    ,
+                    iData.warning
+                    ,
+                    iData.answer1
+                    ,
+                    iData.answer2
+                    ,
+                    iData.answer3
+                    ,
+                    iData.answer4
+                    ,
+                    iData.answer5
+                    ,
+                    iData.answer6
+                    ,
+                    iData.answer7
+                    ,
+                    iData.answer8
+                    ,
+                    iData.answer9
+                    ,
+                    iData.answer10
+                    ,
+                    iData.total
+                    ,
+                    iData.grade
+                    ,
+                    iData.suitability_mode
+                    ,
+                    iData.suitability_desc
+                    ,
+                    iData.strengths_desc
+                    ,
+                    iData.improvement_desc
+                    ,
+                    iData.top_supervisor_comment
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormPerformanceLv1PDF")]
+        public async Task<IActionResult> FormPerformanceLv1PDF(FormPerformanceLv2Models iProp)
+        {
+            try
+            {
+                FormPerformanceLv2Models iData = model.FormPerformanceLv1Detail(iProp);
+
+                var vData = new
+                {
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.department
+                    ,
+                    iData.section
+                    ,
+                    iData.join_date
+                    ,
+                    iData.probation_start_date
+                    ,
+                    iData.probation_end_date
+                    ,
+                    iData.late
+                    ,
+                    iData.absence
+                    ,
+                    iData.personal_leave
+                    ,
+                    iData.sick_leave
+                    ,
+                    iData.answer1
+                    ,
+                    iData.answer2
+                    ,
+                    iData.answer3
+                    ,
+                    iData.answer4
+                    ,
+                    iData.answer5
+                    ,
+                    iData.answer6
+                    ,
+                    iData.answer7
+                    ,
+                    iData.answer8
+                    ,
+                    iData.answer9
+                    ,
+                    iData.answer10
+                    ,
+                    iData.score1
+                    ,
+                    iData.score2
+                    ,
+                    iData.score3
+                    ,
+                    iData.score4
+                    ,
+                    iData.score5
+                    ,
+                    iData.score6
+                    ,
+                    iData.score7
+                    ,
+                    iData.score8
+                    ,
+                    iData.score9
+                    ,
+                    iData.score10
+                    ,
+                    iData.total
+                    ,
+                    iData.grade
+                    ,
+                    mode_1 = iData.suitability_mode == "" ? "" : ""
+                    ,
+                    mode_2 = iData.suitability_mode == "" ? "" : ""
+                    ,
+                    mode_3 = iData.suitability_mode == "" ? "" : ""
+                    ,
+                    iData.suitability_mode
+                    ,
+                    iData.create_by
+                    ,
+                    iData.create_date
+                    ,
+                    iData.approve1_by
+                    ,
+                    iData.approve1_position
+                    ,
+                    iData.approve1_date
+                    ,
+                    iData.approve2_by
+                    ,
+                    iData.approve2_date
+                };
+
+                PDFModels pdf = await LoadPDF("FormPerformanceLv1", iData);
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file
@@ -874,27 +1239,96 @@ namespace APIEmpHub.Controllers
             {
                 FormPerformanceLv2Models iData = model.FormPerformanceLv2Detail(iProp);
 
+                var vData = new
+                {
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.department
+                    ,
+                    iData.section
+                    ,
+                    iData.join_date
+                    ,
+                    iData.probation_start_date
+                    ,
+                    iData.probation_end_date
+                    ,
+                    iData.late
+                    ,
+                    iData.absence
+                    ,
+                    iData.personal_leave
+                    ,
+                    iData.sick_leave
+                    ,
+                    iData.answer1
+                    ,
+                    iData.answer2
+                    ,
+                    iData.answer3
+                    ,
+                    iData.answer4
+                    ,
+                    iData.answer5
+                    ,
+                    iData.answer6
+                    ,
+                    iData.answer7
+                    ,
+                    iData.answer8
+                    ,
+                    iData.answer9
+                    ,
+                    iData.answer10
+                    ,
+                    iData.score1
+                    ,
+                    iData.score2
+                    ,
+                    iData.score3
+                    ,
+                    iData.score4
+                    ,
+                    iData.score5
+                    ,
+                    iData.score6
+                    ,
+                    iData.score7
+                    ,
+                    iData.score8
+                    ,
+                    iData.score9
+                    ,
+                    iData.score10
+                    ,
+                    iData.total
+                    ,
+                    iData.grade
+                    ,
+                    mode_1 =  iData.suitability_mode == "" ? "" : ""
+                    ,
+                    mode_2 = iData.suitability_mode == "" ? "" : ""
+                    ,
+                    mode_3 = iData.suitability_mode == "" ? "" : ""
+                    ,
+                    iData.suitability_mode
+                    ,
+                    iData.create_by
+                    ,
+                    iData.approve1_by
+                    ,
+                    iData.approve1_position
+                    ,
+                    iData.approve1_date
+                    ,
+                    iData.approve2_by
+                    ,
+                    iData.approve2_date
+                };
+
                 PDFModels pdf = await LoadPDF("FormPerformanceLv2", iData);
-                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
-
-                // return file
-                return File(pdfBytes, "application/pdf", "download.pdf");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("FormPerformanceLv1PDF")]
-        public async Task<IActionResult> FormPerformanceLv1PDF(FormPerformanceLv2Models iProp)
-        {
-            try
-            {
-                FormPerformanceLv2Models iData = model.FormPerformanceLv2Detail(iProp);
-
-                PDFModels pdf = await LoadPDF("FormPerformanceLv1", iData);
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file
@@ -976,7 +1410,66 @@ namespace APIEmpHub.Controllers
             {
                 FormMoveEmployeeModels iData = model.FormMoveEmployeeDetail(iProp);
 
-                PDFModels pdf = await LoadPDF("FormMoveEmployee", iData);
+                var vData = new
+                {
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.section
+                    ,
+                    iData.department
+                    ,
+                    iData.join_date
+                    ,
+                    description = new string(' ', 25) + iData.description
+                    ,
+                    job_description = new string(' ', 35) + iData.job_description
+                    ,
+                    iData.new_department
+                    ,
+                    iData.create_by
+                    ,
+                    iData.create_date
+                    ,
+                    iData.approve1_by
+                    ,
+                    iData.approve1_position
+                    ,
+                    iData.approve1_date
+                    ,
+                    iData.approve2_by
+                    ,
+                    iData.approve2_position
+                    ,
+                    iData.approve2_date
+                    ,
+                    iData.approve3_by
+                    ,
+                    iData.approve3_position
+                    ,
+                    iData.approve3_date
+                    ,
+                    iData.approve4_by
+                    ,
+                    iData.approve4_position
+                    ,
+                    iData.approve4_date
+                    ,
+                    iData.approve5_by
+                    ,
+                    iData.approve5_position
+                    ,
+                    iData.approve5_date
+                    ,
+                    iData.approve6_by
+                    ,
+                    iData.approve6_position
+                    ,
+                    iData.approve6_date
+                };
+
+                PDFModels pdf = await LoadPDF("FormMoveEmployee", vData);
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file
@@ -1606,7 +2099,48 @@ namespace APIEmpHub.Controllers
             {
                 FormPromoteEmployeeModels iData = model.FormPromoteEmployeeDetail(iProp);
 
-                PDFModels pdf = await LoadPDF("FormPromoteEmployee", iData);
+                var vData = new
+                {
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.section
+                    ,
+                    iData.department
+                    ,
+                    iData.join_date
+                    ,
+                    iData.year
+                    ,
+                    iData.grade1
+                    ,
+                    iData.grade2
+                    ,
+                    iData.position_current
+                    ,
+                    iData.department_current
+                    ,
+                    iData.position_new
+                    ,
+                    iData.department_new
+                    ,
+                    iData.description
+                    ,
+                    iData.approve1_by
+                    ,
+                    iData.approve1_position
+                    ,
+                    iData.approve2_by
+                    ,
+                    iData.approve2_position
+                    ,
+                    iData.approve3_by
+                    ,
+                    iData.approve3_position
+                };
+
+                PDFModels pdf = await LoadPDF("FormPromoteEmployee", vData);
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file

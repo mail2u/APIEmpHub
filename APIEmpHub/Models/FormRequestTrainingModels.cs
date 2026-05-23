@@ -26,5 +26,9 @@
         public int option4 { get; set; } = 0;
         public string option4_desc { get; set; }
         public string create_by { get; set; }
+        public string approve1_by { get; set; }
+        public string approve2_by { get; set; }
+        public string approve3_by { get; set; }
+        public string approve4_by { get; set; }
     }
 }
