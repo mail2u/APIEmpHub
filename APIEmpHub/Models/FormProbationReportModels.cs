@@ -18,5 +18,9 @@
         public string answer6_fixed { get; set; }
         public string answer7 { get; set; }
         public string create_by { get; set; }
+        public string create_date { get; set; }
+        public string create_date_day { get; set; }
+        public string create_date_month { get; set; }
+        public string create_date_year { get; set; }
     }
 }

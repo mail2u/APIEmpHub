@@ -172,9 +172,45 @@ namespace APIEmpHub.Controllers
                     x.positionCode
                     ,
                     x.positionDesc
+                    ,
+                    x.have_signature
                 }).ToList();
 
                 return Ok(new { data = vData, total = iProp.total });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("UpdateSignature")]
+        public IActionResult UpdateSignature(UserModels iProp)
+        {
+            try
+            {
+                this._logger.LogInformation("User UpdateSignature : " + JsonConvert.SerializeObject(iProp));
+                model.UpdateSignature(iProp);
+
+                return Ok(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("DeleteSignature")]
+        public IActionResult DeleteSignature(UserModels iProp)
+        {
+            try
+            {
+                this._logger.LogInformation("User DeleteSignature : " + JsonConvert.SerializeObject(iProp));
+                model.DeleteSignature(iProp);
+
+                return Ok(iProp);
             }
             catch (Exception ex)
             {
@@ -234,6 +270,8 @@ namespace APIEmpHub.Controllers
                     x.positionDesc
                     ,
                     x.employeeType
+                    ,
+                    x.have_signature
                 }).ToList();
 
                 return Ok(new { data = vData, total = iProp.total });

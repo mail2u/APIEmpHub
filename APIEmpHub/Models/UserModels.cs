@@ -38,6 +38,8 @@ namespace APIEmpHub.Models
         public string ipaddress { get; set; }
         public string dateFrom { get; set; }
         public string dateTo { get; set; }
+        public int have_signature { get; set; }
+        public string base64 { get; set; }
 
         public void Register(UserModels iProp)
         {
@@ -102,6 +104,49 @@ namespace APIEmpHub.Models
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
                     , iSql.SqlCom_Parameter("@update_by", HelperConvert.ConvertToString(iProp.update_by))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void UpdateSignature(UserModels iProp)
+        {
+            String query = "up_signature_sync_upd";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@username", HelperConvert.ConvertToString(iProp.username))
+                    , iSql.SqlCom_Parameter("@base64", HelperConvert.ConvertToString(iProp.base64))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void DeleteSignature(UserModels iProp)
+        {
+            String query = "up_signature_sync_del";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@username", HelperConvert.ConvertToString(iProp.username))
                     );
             }
             catch (Exception ex)
@@ -228,6 +273,8 @@ namespace APIEmpHub.Models
                                  positionDesc = HelperConvert.ConvertToString(r.Field<object>("positionDesc")!)
                                  ,
                                  employeeType = HelperConvert.ConvertToString(r.Field<object>("employeeType")!)
+                                 ,
+                                 have_signature = HelperConvert.ConvertToInt(r.Field<object>("have_signature")!)
                              }).ToList();
                 }
             }

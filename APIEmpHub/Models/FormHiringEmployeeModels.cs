@@ -13,5 +13,13 @@
         public decimal salary { get; set; }
         public string description { get; set; }
         public string create_by { get; set; }
+        public string create_date { get; set; }
+        public string create_position { get; set; }
+        public string approve1_by { get; set; }
+        public string approve1_date { get; set; }
+        public string approve1_position { get; set; }
+        public string approve2_by { get; set; }
+        public string approve2_date { get; set; }
+        public string approve2_position { get; set; }
     }
 }

@@ -44,5 +44,7 @@
         public string other_desc { get; set; }
         public string description { get; set; }
         public string create_by { get; set; }
+        public string create_date { get; set; }
+        public string create_position { get; set; }
     }
 }

@@ -1434,6 +1434,24 @@ namespace APIEmpHub.Models
                                  salary = HelperConvert.ConvertToDecimal(r.Field<object>("salary")!)
                                  ,
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
+                                 ,
+                                 create_date = HelperConvert.ConvertToString(r.Field<object>("create_date")!)
+                                 ,
+                                 create_position = HelperConvert.ConvertToString(r.Field<object>("create_position")!)
+                                 ,
+                                 approve1_by = HelperConvert.ConvertToString(r.Field<object>("approve1_by")!)
+                                 ,
+                                 approve1_date = HelperConvert.ConvertToString(r.Field<object>("approve1_date")!)
+                                 ,
+                                 approve1_position = HelperConvert.ConvertToString(r.Field<object>("approve1_position")!)
+                                 ,
+                                 approve2_by = HelperConvert.ConvertToString(r.Field<object>("approve2_by")!)
+                                 ,
+                                 approve2_date = HelperConvert.ConvertToString(r.Field<object>("approve2_date")!)
+                                 ,
+                                 approve2_position = HelperConvert.ConvertToString(r.Field<object>("approve2_position")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -1509,6 +1527,10 @@ namespace APIEmpHub.Models
                                  answer2 = HelperConvert.ConvertToString(r.Field<object>("answer2")!)
                                  ,
                                  answer3 = HelperConvert.ConvertToString(r.Field<object>("answer3")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
+                                 ,
+                                 create_date = HelperConvert.ConvertToString(r.Field<object>("create_date")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -1581,6 +1603,12 @@ namespace APIEmpHub.Models
                                  answer1 = HelperConvert.ConvertToString(r.Field<object>("answer1")!)
                                  ,
                                  answer2 = HelperConvert.ConvertToString(r.Field<object>("answer2")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
+                                 ,
+                                 create_date = HelperConvert.ConvertToString(r.Field<object>("create_date")!)
+                                 ,
+                                 approve1_by = HelperConvert.ConvertToString(r.Field<object>("approve1_by")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -1650,6 +1678,10 @@ namespace APIEmpHub.Models
                                  department = HelperConvert.ConvertToString(r.Field<object>("department")!)
                                  ,
                                  join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
+                                 ,
+                                 create_date = HelperConvert.ConvertToString(r.Field<object>("create_date")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -1827,6 +1859,12 @@ namespace APIEmpHub.Models
                                  other_system = HelperConvert.ConvertToString(r.Field<object>("other_system")!)
                                  ,
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
+                                 ,
+                                 create_date = HelperConvert.ConvertToString(r.Field<object>("create_date")!)
+                                 ,
+                                 create_position = HelperConvert.ConvertToString(r.Field<object>("create_position")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -1926,6 +1964,16 @@ namespace APIEmpHub.Models
                                  answer6_fixed = HelperConvert.ConvertToString(r.Field<object>("answer6_fixed")!)
                                  ,
                                  answer7 = HelperConvert.ConvertToString(r.Field<object>("answer7")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
+                                 ,
+                                 create_date = HelperConvert.ConvertToString(r.Field<object>("create_date")!)
+                                 ,
+                                 create_date_day = HelperConvert.ConvertToString(r.Field<object>("create_date_day")!)
+                                 ,
+                                 create_date_month = HelperConvert.ConvertToString(r.Field<object>("create_date_month")!)
+                                 ,
+                                 create_date_year = HelperConvert.ConvertToString(r.Field<object>("create_date_year")!)
                              }).FirstOrDefault()!;
                 }
             }

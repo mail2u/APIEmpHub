@@ -418,7 +418,7 @@ namespace APIEmpHub.Controllers
             {
                 FormRequestTrainingModels iData = model.FormRequestTrainingDetail(iProp);
 
-                if(iData.start_date == iData.end_date)
+                if (iData.start_date == iData.end_date)
                 {
                     iData.location += $" วันที่ {iData.start_date}";
                 }
@@ -498,7 +498,7 @@ namespace APIEmpHub.Controllers
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file
-                return File(pdfBytes,"application/pdf","download.pdf");
+                return File(pdfBytes, "application/pdf", "download.pdf");
             }
             catch (Exception ex)
             {
@@ -1307,7 +1307,7 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.grade
                     ,
-                    mode_1 =  iData.suitability_mode == "" ? "" : ""
+                    mode_1 = iData.suitability_mode == "" ? "" : ""
                     ,
                     mode_2 = iData.suitability_mode == "" ? "" : ""
                     ,
@@ -1551,7 +1551,48 @@ namespace APIEmpHub.Controllers
             {
                 FormHiringEmployeeModels iData = model.FormHiringEmployeeDetail(iProp);
 
-                PDFModels pdf = await LoadPDF("FormHiringEmployee", iData);
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.fullname
+                    ,
+                    iData.department
+                    ,
+                    iData.section
+                    ,
+                    iData.join_date
+                    ,
+                    iData.position
+                    ,
+                    iData.probation_salary
+                    ,
+                    iData.probation_period
+                    ,
+                    iData.salary
+                    ,
+                    iData.description
+                    ,
+                    iData.create_by
+                    ,
+                    iData.create_date
+                    ,
+                    iData.create_position
+                    ,
+                    iData.approve1_by
+                    ,
+                    iData.approve1_date
+                    ,
+                    iData.approve1_position
+                    ,
+                    iData.approve2_by
+                    ,
+                    iData.approve2_date
+                    ,
+                    iData.approve2_position
+                };
+
+                PDFModels pdf = await LoadPDF("FormHiringEmployee", vData);
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file
@@ -1627,7 +1668,34 @@ namespace APIEmpHub.Controllers
             {
                 FormPdpaEmployeeModels iData = model.FormPdpaEmployeeDetail(iProp);
 
-                PDFModels pdf = await LoadPDF("FormPdpaEmployee", iData);
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.firstname
+                    ,
+                    iData.lastname
+                    ,
+                    iData.idcard
+                    ,
+                    answer1_y = iData.answer1 == "Yes" ? "√" : ""
+                    ,
+                    answer1_n = iData.answer1 != "Yes" ? "√" : ""
+                    ,
+                    answer2_y = iData.answer2 == "Yes" ? "√" : ""
+                    ,
+                    answer2_n = iData.answer2 != "Yes" ? "√" : ""
+                    ,
+                    answer3_y = iData.answer3 == "Yes" ? "√" : ""
+                    ,
+                    answer3_n = iData.answer3 != "Yes" ? "√" : ""
+                    ,
+                    iData.create_by
+                    ,
+                    iData.create_date
+                };
+
+                PDFModels pdf = await LoadPDF("FormPdpaEmployee", vData);
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file
@@ -1701,7 +1769,32 @@ namespace APIEmpHub.Controllers
             {
                 FormWfhEmployeeModels iData = model.FormWfhEmployeeDetail(iProp);
 
-                PDFModels pdf = await LoadPDF("FormWfhEmployee", iData);
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.fullname
+                    ,
+                    iData.address
+                    ,
+                    iData.start_date
+                    ,
+                    answer1_y = iData.answer1 == "Yes" ? "√" : ""
+                    ,
+                    answer1_n = iData.answer1 != "Yes" ? "√" : ""
+                    ,
+                    answer2_y = iData.answer2 == "Yes" ? "√" : ""
+                    ,
+                    answer2_n = iData.answer2 != "Yes" ? "√" : ""
+                    ,
+                    iData.create_by
+                    ,
+                    iData.create_date
+                    ,
+                    iData.approve1_by
+                };
+
+                PDFModels pdf = await LoadPDF("FormWfhEmployee", vData);
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file
@@ -1773,7 +1866,24 @@ namespace APIEmpHub.Controllers
             {
                 FormAgreementEmployeeModels iData = model.FormAgreementEmployeeDetail(iProp);
 
-                PDFModels pdf = await LoadPDF("FormAgreementEmployee", iData);
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.department
+                    ,
+                    iData.join_date
+                    ,
+                    iData.create_by
+                    ,
+                    iData.create_date
+                };
+
+                PDFModels pdf = await LoadPDF("FormAgreementEmployee", vData);
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file
@@ -1917,7 +2027,116 @@ namespace APIEmpHub.Controllers
             {
                 FormPrepareEmployeeModels iData = model.FormPrepareEmployeeDetail(iProp);
 
-                PDFModels pdf = await LoadPDF("FormPrepareEmployee", iData);
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.prefix
+                    ,
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.join_date
+                    ,
+                    iData.phoneNo
+                    ,
+                    iData.username
+                    ,
+                    iData.email
+                    ,
+                    iData.sharedrive
+                    ,
+                    iData.speccomputer
+                    ,
+                    answer1_y = iData.answer1 == "Yes" ? "√" : ""
+                    ,
+                    answer1_n = iData.answer1 != "Yes" ? "√" : ""
+                    ,
+                    answer2_y = iData.answer2 == "Yes" ? "√" : ""
+                    ,
+                    answer2_n = iData.answer2 != "Yes" ? "√" : ""
+                    ,
+                    answer3_y = iData.answer3 == "Yes" ? "√" : ""
+                    ,
+                    answer3_n = iData.answer3 != "Yes" ? "√" : ""
+                    ,
+                    iData.answer3_desc
+                    ,
+                    answer4_y = iData.answer4 == "Yes" ? "√" : ""
+                    ,
+                    answer4_n = iData.answer4 != "Yes" ? "√" : ""
+                    ,
+                    iData.answer4_desc
+                    ,
+                    answer5_y = iData.answer5 == "Yes" ? "√" : ""
+                    ,
+                    answer5_n = iData.answer5 != "Yes" ? "√" : ""
+                    ,
+                    iData.answer5_desc
+                    ,
+                    answer6_y = iData.answer6 == "Yes" ? "√" : ""
+                    ,
+                    answer6_n = iData.answer6 != "Yes" ? "√" : ""
+                    ,
+                    iData.answer6_desc
+                    ,
+                    answer7_y = iData.answer7 == "Yes" ? "√" : ""
+                    ,
+                    answer7_n = iData.answer7 != "Yes" ? "√" : ""
+                    ,
+                    iData.answer7_desc
+                    ,
+                    answer8_y = iData.answer8 == "Yes" ? "√" : ""
+                    ,
+                    answer8_n = iData.answer8 != "Yes" ? "√" : ""
+                    ,
+                    iData.answer8_desc
+                    ,
+                    answer9_y = iData.answer9 == "Yes" ? "√" : ""
+                    ,
+                    answer9_n = iData.answer9 != "Yes" ? "√" : ""
+                    ,
+                    iData.answer9_desc
+                    ,
+                    iData.gls_desc
+                    ,
+                    gls_system = iData.gls_system == "Yes" ? "√" : ""
+                    ,
+                    iData.ls_desc
+                    ,
+                    ls_system =iData.ls_system == "Yes" ? "√" : ""
+                    ,
+                    iData.linet_desc
+                    ,
+                    linet_system = iData.linet_system == "Yes" ? "√" : ""
+                    ,
+                    iData.sun_desc
+                    ,
+                    sun_system =iData.sun_system == "Yes" ? "√" : ""
+                    ,
+                    iData.prophet_desc
+                    ,
+                    prophet_system = iData.prophet_system == "Yes" ? "√" : ""
+                    ,
+                    iData.bonunza_desc
+                    ,
+                    bonunza_system = iData.bonunza_system == "Yes" ? "√" : ""
+                    ,
+                    iData.other_desc
+                    ,
+                    other_system = iData.other_system == "Yes" ? "√" : ""
+                    ,
+                    iData.description
+                    ,
+                    iData.create_by
+                    ,
+                    iData.create_date
+                    ,
+                    iData.create_position
+                };
+
+                PDFModels pdf = await LoadPDF("FormPrepareEmployee", vData);
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file
@@ -2009,7 +2228,52 @@ namespace APIEmpHub.Controllers
             {
                 FormProbationReportModels iData = model.FormProbationReportDetail(iProp);
 
-                PDFModels pdf = await LoadPDF("FormProbationReport", iData);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.fullname
+                    ,
+                    iData.position
+                    ,
+                    iData.department
+                    ,
+                    iData.join_date
+                    ,
+                    iData.period
+                    ,
+                    iData.answer1
+                    ,
+                    iData.answer2
+                    ,
+                    iData.answer3
+                    ,
+                    iData.answer4
+                    ,
+                    iData.answer5
+                    ,
+                    iData.answer5_fixed
+                    ,
+                    iData.answer6
+                    ,
+                    iData.answer6_fixed
+                    ,
+                    iData.answer7
+                    ,
+                    iData.create_by
+                    ,
+                    iData.create_date
+                    ,
+                    iData.create_date_day
+                    ,
+                    iData.create_date_month
+                    ,
+                    iData.create_date_year
+                };
+
+
+                PDFModels pdf = await LoadPDF("FormProbationReport", vData);
                 byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
 
                 // return file
@@ -2608,7 +2872,7 @@ namespace APIEmpHub.Controllers
             {
                 List<FormUpdateTalentModels> lData = model.FormUpdateTalentDetail(iProp);
 
-                var vData = lData.Select(x=>new 
+                var vData = lData.Select(x => new
                 {
                     x.refId
                     ,
