@@ -292,5 +292,22 @@ namespace APIEmpHub.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpPost]
+        [Route("ReportAddress")]
+        public IActionResult ReportAddress(ReportModels iProp)
+        {
+            try
+            {
+                dtData = model.ReportAddress(iProp);
+
+                return Ok(new { data = JsonConvert.SerializeObject(dtData), total = iProp.total });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

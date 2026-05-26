@@ -9,6 +9,12 @@ namespace APIEmpHub.Models
         public string name { get; set; }
         public string position { get; set; }
         public string section { get; set; }
+        public string home { get; set; }
+        public string road { get; set; }
+        public string subDistrict { get; set; }
+        public string district { get; set; }
+        public string province { get; set; }
+        public string postcode { get; set; }
 
         public DataTable ReportWorkforceOverview(ReportModels iProp)
         {
@@ -449,6 +455,41 @@ namespace APIEmpHub.Models
             {
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@page", iProp.page)
+                    , iSql.SqlCom_Parameter("@row", iProp.row)
+                    , iSql.SqlCom_Parameter("@sortBy", HelperConvert.ConvertToString(iProp.sortBy))
+                    , iSql.SqlCom_Parameter("@total", SqlDbType.Int, ParameterDirection.Output)
+                );
+
+                iProp.total = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@total"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        public DataTable ReportAddress(ReportModels iProp)
+        {
+            String query = "up_report_address_sel";
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@name", HelperConvert.ConvertToString(iProp.name))
+                    , iSql.SqlCom_Parameter("@home", HelperConvert.ConvertToString(iProp.home))
+                    , iSql.SqlCom_Parameter("@road", HelperConvert.ConvertToString(iProp.road))
+                    , iSql.SqlCom_Parameter("@subDistrict", HelperConvert.ConvertToString(iProp.subDistrict))
+                    , iSql.SqlCom_Parameter("@district", HelperConvert.ConvertToString(iProp.district))
+                    , iSql.SqlCom_Parameter("@province", HelperConvert.ConvertToString(iProp.province))
+                    , iSql.SqlCom_Parameter("@postcode", HelperConvert.ConvertToString(iProp.postcode))
                     , iSql.SqlCom_Parameter("@page", iProp.page)
                     , iSql.SqlCom_Parameter("@row", iProp.row)
                     , iSql.SqlCom_Parameter("@sortBy", HelperConvert.ConvertToString(iProp.sortBy))
