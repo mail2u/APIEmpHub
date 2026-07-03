@@ -17,6 +17,10 @@ namespace APIEmpHub.Models
         public string update_by { get; set; }
         public int can_delete { get; set; }
 
+        public string mailId { get; set; }
+        public int is_send { get; set; }
+        public string ErrorMessage { get; set; }
+
         public void Create(CommentModels iProp)
         {
             String query = "up_comment_ins";
@@ -43,6 +47,57 @@ namespace APIEmpHub.Models
                 iSql.Close();
             }
         }
+
+
+        public void CommentMail(CommentModels iProp)
+        {
+            String query = "up_service_mail_comment";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@commentId", HelperConvert.ConvertToString(iProp.id))
+                    , iSql.SqlCom_Parameter("@id", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    );
+
+                iProp.mailId = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@id"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void MailResponse(CommentModels iProp)
+        {
+            if (String.IsNullOrEmpty(iProp.mailId)) { return; }
+
+            String query = "up_mail_upd_response";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.mailId))
+                    , iSql.SqlCom_Parameter("@is_send", iProp.is_send)
+                    , iSql.SqlCom_Parameter("@ErrorMessage", HelperConvert.ConvertToString(iProp.ErrorMessage))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
 
         public void Delete(CommentModels iProp)
         {

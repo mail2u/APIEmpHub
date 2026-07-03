@@ -22,7 +22,7 @@ namespace APIEmpHub.Controllers
             this._logger = logger;
         }
 
-        [Authorize("Admin")]
+        [Authorize("Setting")]
         [HttpPost]
         [Route("Create")]
         public IActionResult Create(MasterCodeModels iProp)
@@ -39,7 +39,7 @@ namespace APIEmpHub.Controllers
             return Ok();
         }
 
-        [Authorize("Admin")]
+        [Authorize("Setting")]
         [HttpPost]
         [Route("Update")]
         public IActionResult Update(MasterCodeModels iProp)
@@ -56,7 +56,7 @@ namespace APIEmpHub.Controllers
             return Ok();
         }
 
-        [Authorize("Admin")]
+        [Authorize("Setting")]
         [HttpPost]
         [Route("Delete")]
         public IActionResult Delete(MasterCodeModels iProp)

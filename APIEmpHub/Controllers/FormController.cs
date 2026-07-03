@@ -762,6 +762,8 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.policyNo
                     ,
+                    iData.prefix
+                    ,
                     iData.fullname
                     ,
                     iData.birth_date
@@ -1605,6 +1607,70 @@ namespace APIEmpHub.Controllers
         }
         #endregion
 
+        #region FormPermanentEmployee
+        [HttpPost]
+        [Route("FormPermanentEmployeeCreate")]
+        public IActionResult FormPermanentEmployeeCreate(FormPermanentEmployeeModels iProp)
+        {
+            this._logger.LogInformation("FormPermanentEmployee_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormPermanentEmployeeCreate(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormPermanentEmployee_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormPermanentEmployeeDetail")]
+        public IActionResult FormPermanentEmployeeDetail(FormPermanentEmployeeModels iProp)
+        {
+            try
+            {
+                FormPermanentEmployeeModels iData = model.FormPermanentEmployeeDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.letter_date
+                    ,
+                    iData.fullname
+                    ,
+                    iData.start_date
+                    ,
+                    iData.position
+                    ,
+                    iData.department
+                    ,
+                    iData.include_salary
+                    ,
+                    iData.salary
+                    ,
+                    iData.salary_text
+                    ,
+                    iData.effective_date
+                    ,
+                    iData.description
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
         #region FormPdpaEmployee
         [HttpPost]
         [Route("FormPdpaEmployeeCreate")]
@@ -1741,6 +1807,8 @@ namespace APIEmpHub.Controllers
                 var vData = new
                 {
                     iData.refId
+                    ,
+                    iData.prefix
                     ,
                     iData.fullname
                     ,
@@ -2936,6 +3004,144 @@ namespace APIEmpHub.Controllers
                     ,
                     x.description
                 }).ToList();
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormJobDescription
+        [HttpPost]
+        [Route("FormJobDescriptionCreate")]
+        public IActionResult FormJobDescriptionCreate(FormJobDescriptionModels iProp)
+        {
+            this._logger.LogInformation("FormJobDescription_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormJobDescriptionCreate(iProp);
+
+                return Ok(iProp);
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormJobDescription_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormJobDescriptionDetail")]
+        public IActionResult FormJobDescriptionDetail(FormJobDescriptionModels iProp)
+        {
+            try
+            {
+                FormJobDescriptionModels iData = model.FormJobDescriptionDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+     ,
+                    iData.positionName
+     ,
+                    iData.jobFunction
+     ,
+                    iData.departmentName
+     ,
+                    iData.sectionName
+     ,
+                    iData.position_description
+     ,
+                    iData.major_description
+     ,
+                    iData.education
+     ,
+                    iData.experience
+     ,
+                    iData.functional_competencies
+     ,
+                    iData.leadership_competencies
+     ,
+                    iData.financial
+     ,
+                    iData.customer_and_market
+     ,
+                    iData.process
+     ,
+                    iData.people_development
+     ,
+                    iData.internal_description
+     ,
+                    iData.internal_contact_description
+     ,
+                    iData.external_description
+     ,
+                    iData.external_contact_description
+                };
+
+                return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FormEmployeeData
+        [HttpPost]
+        [Route("FormEmployeeDataCreate")]
+        public IActionResult FormEmployeeDataCreate(FormEmployeeDataModels iProp)
+        {
+            this._logger.LogInformation("FormEmployeeData_Create [Request] : " + HelperConvert.ConvertToSerialize(iProp));
+
+            try
+            {
+                iProp.create_by = User.UserId();
+                model.FormEmployeeDataCreate(iProp);
+
+                return Ok(iProp);
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError("FormEmployeeData_Create [Error] : " + ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormEmployeeDataDetail")]
+        public IActionResult FormEmployeeDataDetail(FormEmployeeDataModels iProp)
+        {
+            try
+            {
+                FormEmployeeDataModels iData = model.FormEmployeeDataDetail(iProp);
+
+                var vData = new
+                {
+                    iData.refId
+     ,
+                    iData.is_username
+     ,
+                    iData.is_fullname_th
+     ,
+                    iData.is_fullname_en
+     ,
+                    iData.is_position
+     ,
+                    iData.is_department
+     ,
+                    iData.is_email
+                    ,
+                    iData.description
+                };
 
                 return Ok(vData);
             }

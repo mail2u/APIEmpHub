@@ -25,7 +25,7 @@ namespace APIEmpHub.Controllers
             this._logger = logger;
         }
 
-        [Authorize("Admin")]
+        [Authorize("Authorization")]
         [HttpPost]
         [Route("Create")]
         public IActionResult Create(UserInRoleModels iProp)
@@ -42,7 +42,7 @@ namespace APIEmpHub.Controllers
             return Ok();
         }
 
-        [Authorize("Admin")]
+        [Authorize("Authorization")]
         [HttpPost]
         [Route("Delete")]
         public IActionResult Delete(UserInRoleModels iProp)

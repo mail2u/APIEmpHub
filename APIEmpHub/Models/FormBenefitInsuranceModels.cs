@@ -5,6 +5,7 @@
         public string refId { get; set; }
         public string policyNo { get; set; }
         public string employeeCode { get; set; }
+        public string prefix { get; set; }
         public string fullname { get; set; }
         public string birth_date { get; set; }
         public string birth_date_day { get; set; }

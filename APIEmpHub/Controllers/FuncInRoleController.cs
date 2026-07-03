@@ -24,7 +24,7 @@ namespace APIEmpHub.Controllers
             this._logger = logger;
         }
 
-        [Authorize("Admin")]
+        [Authorize("Authorization")]
         [HttpPost]
         [Route("Create")]
         public IActionResult Create(FuncInRoleModels iProp)
@@ -41,7 +41,7 @@ namespace APIEmpHub.Controllers
             return Ok(iProp);
         }
 
-        [Authorize("Admin")]
+        [Authorize("Authorization")]
         [HttpPost]
         [Route("Delete")]
         public IActionResult Delete(FuncInRoleModels iProp)
@@ -58,7 +58,7 @@ namespace APIEmpHub.Controllers
             return Ok(iProp);
         }
 
-        [Authorize("Admin")]
+        [Authorize("Authorization")]
         [HttpPost]
         [Route("DataList")]
         public IActionResult DataList(FuncInRoleModels iProp)

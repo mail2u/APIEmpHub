@@ -25,7 +25,7 @@ namespace APIEmpHub.Controllers
             this._logger = logger;
         }
 
-        [Authorize("Admin")]
+        [Authorize("HRService")]
         [HttpPost]
         [Route("Create")]
         public IActionResult Create(ServiceProcessModels iProp)
@@ -46,7 +46,7 @@ namespace APIEmpHub.Controllers
             }
         }
 
-        [Authorize("Admin")]
+        [Authorize("HRService")]
         [HttpPost]
         [Route("Update")]
         public IActionResult Update(ServiceProcessModels iProp)
@@ -67,7 +67,7 @@ namespace APIEmpHub.Controllers
             }
         }
 
-        [Authorize("Admin")]
+        [Authorize("HRService")]
         [HttpPost]
         [Route("Delete")]
         public IActionResult Delete(ServiceProcessModels iProp)
@@ -88,7 +88,7 @@ namespace APIEmpHub.Controllers
             }
         }
 
-        [Authorize("Admin")]
+        [Authorize("HRService")]
         [HttpPost]
         [Route("DataList")]
         public IActionResult DataList(ServiceProcessModels iProp)

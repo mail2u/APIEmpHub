@@ -1,11 +1,14 @@
-﻿using APIEmpHub.iBase;
+﻿using APIEmpHub.Extension;
+using APIEmpHub.iBase;
 using APIEmpHub.Models;
 using APIEmpHub.Utility.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Reflection;
+using System.Text;
 
 namespace APIEmpHub.Controllers
 {
@@ -14,6 +17,7 @@ namespace APIEmpHub.Controllers
     [Route("api/[controller]")]
     public class ServiceController : baseController<ServiceModels>
     {
+        public WebAPIModels _webAPI = new WebAPIModels();
         public ServiceController(IConfiguration configuration
             , IWebHostEnvironment hostingEnvironment
             , ILogger<ServiceModels> logger)
@@ -25,6 +29,7 @@ namespace APIEmpHub.Controllers
             this._webhost = hostingEnvironment;
             model.webRoot = this._webhost.WebRootPath ?? this._webhost.ContentRootPath;
             this._logger = logger;
+            this._webAPI = this._configuration.GetSection("WebAPI").Get<WebAPIModels>();
         }
 
         [HttpPost]
@@ -33,6 +38,7 @@ namespace APIEmpHub.Controllers
         {
             try
             {
+                iProp.userBy = User.UserId();
                 iData = model.Detail(iProp);
 
                 var vData = new
@@ -108,6 +114,7 @@ namespace APIEmpHub.Controllers
         {
             try
             {
+                iProp.createBy = User.UserId();
                 model.Create(iProp);
 
                 return Ok(iProp);
@@ -120,11 +127,17 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Request")]
-        public IActionResult Request(ServiceModels iProp)
+        public async Task<IActionResult> Request(ServiceModels iProp)
         {
             try
             {
+                iProp.userBy = User.UserId();
                 model.Request(iProp);
+                model.ApproveMail(iProp);
+
+                await SendMail(iProp);
+
+                model.MailResponse(iProp);
 
                 return Ok(iProp);
             }
@@ -140,6 +153,7 @@ namespace APIEmpHub.Controllers
         {
             try
             {
+                iProp.userBy = User.UserId();
                 model.RequestResend(iProp);
 
                 return Ok(iProp);
@@ -156,6 +170,7 @@ namespace APIEmpHub.Controllers
         {
             try
             {
+                iProp.userBy = User.UserId();
                 model.Cancel(iProp);
             }
             catch (Exception ex)
@@ -168,11 +183,18 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Reject")]
-        public IActionResult Reject(ServiceModels iProp)
+        public async Task<IActionResult> Reject(ServiceModels iProp)
         {
             try
             {
+                iProp.userBy = User.UserId();
                 model.Reject(iProp);
+
+                //model.RejectMail(iProp);
+
+                //await SendMail(iProp);
+
+                //model.MailResponse(iProp);
             }
             catch (Exception ex)
             {
@@ -184,11 +206,29 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Approve")]
-        public IActionResult Approve(ServiceModels iProp)
+        public async Task<IActionResult> Approve(ServiceModels iProp)
         {
             try
             {
+                iProp.userBy = User.UserId();
                 model.Approve(iProp);
+
+                if(iProp.status.ToLower() == "complete")
+                {
+                    model.CompleteMail(iProp);
+
+                    if(iProp.subCategoryCode.ToLower() == "form_employee_data")
+                    {
+                        await SendMailEmployeeData(iProp);
+                    }
+                }
+                else
+                {
+                    model.ApproveMail(iProp);
+                }
+
+                await SendMail(iProp);
+                model.MailResponse(iProp);
             }
             catch (Exception ex)
             {
@@ -200,11 +240,25 @@ namespace APIEmpHub.Controllers
 
         [HttpPost]
         [Route("Work")]
-        public IActionResult Work(ServiceModels iProp)
+        public async Task<IActionResult> Work(ServiceModels iProp)
         {
             try
             {
+                iProp.userBy = User.UserId();
                 model.Work(iProp);
+
+                if (iProp.status.ToLower() == "complete")
+                {
+                    model.CompleteMail(iProp);
+
+                    await SendMail(iProp);
+                    model.MailResponse(iProp);
+
+                    if (iProp.subCategoryCode.ToLower() == "form_employee_data")
+                    {
+                        await SendMailEmployeeData(iProp);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -220,6 +274,7 @@ namespace APIEmpHub.Controllers
         {
             try
             {
+                iProp.userBy = User.UserId();
                 model.Previous(iProp);
             }
             catch (Exception ex)
@@ -236,6 +291,7 @@ namespace APIEmpHub.Controllers
         {
             try
             {
+                iProp.userBy = User.UserId();
                 lData = model.RequestList(iProp);
             }
             catch (Exception ex)
@@ -283,6 +339,7 @@ namespace APIEmpHub.Controllers
         {
             try
             {
+                iProp.userBy = User.UserId();
                 dtData = model.RequestSummary(iProp);
             }
             catch (Exception ex)
@@ -299,6 +356,7 @@ namespace APIEmpHub.Controllers
         {
             try
             {
+                iProp.userBy = User.UserId();
                 lData = model.ApproveList(iProp);
             }
             catch (Exception ex)
@@ -346,6 +404,7 @@ namespace APIEmpHub.Controllers
         {
             try
             {
+                iProp.userBy = User.UserId();
                 dtData = model.ApproveSummary(iProp);
             }
             catch (Exception ex)
@@ -362,6 +421,7 @@ namespace APIEmpHub.Controllers
         {
             try
             {
+                iProp.userBy = User.UserId();
                 lData = model.WorkList(iProp);
             }
             catch (Exception ex)
@@ -409,6 +469,7 @@ namespace APIEmpHub.Controllers
         {
             try
             {
+                iProp.userBy = User.UserId();
                 dtData = model.WorkSummary(iProp);
             }
             catch (Exception ex)
@@ -425,6 +486,7 @@ namespace APIEmpHub.Controllers
         {
             try
             {
+                iProp.userBy = User.UserId();
                 lData = model.InquireList(iProp);
             }
             catch (Exception ex)
@@ -467,11 +529,61 @@ namespace APIEmpHub.Controllers
         }
 
         [HttpPost]
+        [Route("RequiredDocumentList")]
+        public IActionResult RequiredDocumentList(ServiceModels iProp)
+        {
+            try
+            {
+                lData = model.RequiredDocumentList(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            var vData = lData.Select(x => new
+            {
+                x.id
+                ,
+                x.serviceNo
+                ,
+                x.categoryCode
+                ,
+                x.categoryDesc
+                ,
+                x.subCategoryCode
+                ,
+                x.subCategoryDesc
+                ,
+                x.title
+                ,
+                x.status
+                ,
+                x.statusDesc
+                ,
+                x.createBy
+                ,
+                x.createName
+                ,
+                x.createDate
+                ,
+                x.actionDate
+                ,
+                x.orderDate1
+                ,
+                x.orderDate2
+            }).ToList();
+
+            return Ok(new { data = vData });
+        }
+
+        [HttpPost]
         [Route("InquireSummary")]
         public IActionResult InquireSummary(ServiceModels iProp)
         {
             try
             {
+                iProp.userBy = User.UserId();
                 dtData = model.InquireSummary(iProp);
             }
             catch (Exception ex)
@@ -917,5 +1029,87 @@ namespace APIEmpHub.Controllers
 
         #endregion
 
+
+        #region SendMail
+        private async Task SendMail(ServiceModels iProp)
+        {
+            if (String.IsNullOrEmpty(iProp.mailId)) { return; }
+
+            using (var httpClient = new HttpClient())
+            {
+                var dataRequest = new
+                {
+                    id = iProp.mailId
+                };
+
+                StringContent content = new StringContent(System.Text.Json.JsonSerializer.Serialize(dataRequest), Encoding.UTF8, "application/json");
+
+                try
+                {
+                    using (var response = await httpClient.PostAsync(this._webAPI.APIWebDriverX + "/webhook/CoreHRSendMail", content))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+
+                        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            this._logger.LogInformation("Service_SendMail [Success] : " + apiResponse);
+                            iProp.is_send = 1;
+                        }
+                        else
+                        {
+                            this._logger.LogInformation("Service_SendMail [Fail] : " + apiResponse);
+                            iProp.is_send = 0;
+                            iProp.ErrorMessage = apiResponse;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this._logger.LogInformation("Service_SendMail [Error] : " + ex.Message);
+
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
+
+
+        private async Task SendMailEmployeeData(ServiceModels iProp)
+        {
+            if (String.IsNullOrEmpty(iProp.id)) { return; }
+
+            using (var httpClient = new HttpClient())
+            {
+                var dataRequest = new
+                {
+                    id = iProp.id
+                };
+
+                StringContent content = new StringContent(System.Text.Json.JsonSerializer.Serialize(dataRequest), Encoding.UTF8, "application/json");
+
+                try
+                {
+                    using (var response = await httpClient.PostAsync(this._webAPI.APIWebDriverX + "/webhook/CoreHRSendMailEmployeeData", content))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+
+                        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            this._logger.LogInformation("Service_SendMailEmployeeData [Success] : " + apiResponse);
+                        }
+                        else
+                        {
+                            this._logger.LogInformation("Service_SendMailEmployeeData [Fail] : " + apiResponse);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this._logger.LogInformation("Service_SendMailEmployeeData [Error] : " + ex.Message);
+
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
+        #endregion
     }
 }

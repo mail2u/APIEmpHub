@@ -6,6 +6,13 @@ namespace APIEmpHub.Models
 {
     public class FormModels : baseModels<FormModels>
     {
+        private static string GetOptionalString(DataRow row, string columnName)
+        {
+            return row.Table.Columns.Contains(columnName)
+                ? HelperConvert.ConvertToString(row.Field<object>(columnName)!)
+                : "";
+        }
+
         #region FormNewCard
         public void FormNewCardCreate(FormNewCardModels iProp)
         {
@@ -762,6 +769,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
                     , iSql.SqlCom_Parameter("@policyNo", HelperConvert.ConvertToString(iProp.policyNo))
                     , iSql.SqlCom_Parameter("@employeeCode", HelperConvert.ConvertToString(iProp.employeeCode))
+                    , iSql.SqlCom_Parameter("@prefix", HelperConvert.ConvertToString(iProp.prefix))
                     , iSql.SqlCom_Parameter("@fullname", HelperConvert.ConvertToString(iProp.fullname))
                     , iSql.SqlCom_Parameter("@birth_date", HelperConvert.ConvertToDate112(iProp.birth_date))
                     , iSql.SqlCom_Parameter("@join_date", HelperConvert.ConvertToDate112(iProp.join_date))
@@ -821,6 +829,8 @@ namespace APIEmpHub.Models
                                  policyNo = HelperConvert.ConvertToString(r.Field<object>("policyNo")!)
                                  ,
                                  employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
+                                 ,
+                                 prefix = HelperConvert.ConvertToString(r.Field<object>("prefix")!)
                                  ,
                                  fullname = HelperConvert.ConvertToString(r.Field<object>("fullname")!)
                                  ,
@@ -1468,6 +1478,97 @@ namespace APIEmpHub.Models
         }
         #endregion
 
+        #region FormPermanentEmployee
+        public void FormPermanentEmployeeCreate(FormPermanentEmployeeModels iProp)
+        {
+            String query = @"up_form_permanent_employee_ins";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                    , iSql.SqlCom_Parameter("@fullname", HelperConvert.ConvertToString(iProp.fullname))
+                    , iSql.SqlCom_Parameter("@position", HelperConvert.ConvertToString(iProp.position))
+                    , iSql.SqlCom_Parameter("@department", HelperConvert.ConvertToString(iProp.department))
+                    , iSql.SqlCom_Parameter("@start_date", HelperConvert.ConvertToString(iProp.start_date))
+                    , iSql.SqlCom_Parameter("@include_salary", iProp.include_salary)
+                    , iSql.SqlCom_Parameter("@salary", iProp.salary)
+                    , iSql.SqlCom_Parameter("@salary_text", HelperConvert.ConvertToString(iProp.salary_text))
+                    , iSql.SqlCom_Parameter("@effective_date", HelperConvert.ConvertToString(iProp.effective_date))
+                   // , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
+                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public FormPermanentEmployeeModels FormPermanentEmployeeDetail(FormPermanentEmployeeModels iProp)
+        {
+            String query = @"up_form_permanent_employee_detail";
+
+            FormPermanentEmployeeModels iData = new FormPermanentEmployeeModels();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+                    iData = (from r in dtData.AsEnumerable()
+                             select new FormPermanentEmployeeModels
+                             {
+                                 refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
+                                 ,
+                                 letter_date = HelperConvert.ConvertToString(r.Field<object>("letter_date")!)
+                                 ,
+                                 fullname = HelperConvert.ConvertToString(r.Field<object>("fullname")!)
+                                 ,
+                                 start_date = HelperConvert.ConvertToString(r.Field<object>("start_date")!)
+                                 ,
+                                 position = HelperConvert.ConvertToString(r.Field<object>("position")!)
+                                 ,
+                                 department = HelperConvert.ConvertToString(r.Field<object>("department")!)
+                                 ,
+                                 include_salary = HelperConvert.ConvertToInt(r.Field<object>("include_salary")!)
+                                 ,
+                                 salary = HelperConvert.ConvertToDecimal(r.Field<object>("salary")!)
+                                 ,
+                                 salary_text = HelperConvert.ConvertToString(r.Field<object>("salary_text")!)
+                                 ,
+                                 effective_date = HelperConvert.ConvertToString(r.Field<object>("effective_date")!)
+                                 ,
+                                 description = HelperConvert.ConvertToString(r.Field<object>("description")!)
+                                 ,
+                                 create_by = HelperConvert.ConvertToString(r.Field<object>("create_by")!)
+                                 ,
+                                 create_date = HelperConvert.ConvertToString(r.Field<object>("create_date")!)
+                             }).FirstOrDefault()!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return iData;
+        }
+        #endregion
+
         #region FormPdpaEmployee
         public void FormPdpaEmployeeCreate(FormPdpaEmployeeModels iProp)
         {
@@ -1557,6 +1658,7 @@ namespace APIEmpHub.Models
                 iSql.Open(connectionString);
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                    , iSql.SqlCom_Parameter("@prefix", HelperConvert.ConvertToString(iProp.prefix))
                     , iSql.SqlCom_Parameter("@fullname", HelperConvert.ConvertToString(iProp.fullname))
                     , iSql.SqlCom_Parameter("@address", HelperConvert.ConvertToString(iProp.address))
                     , iSql.SqlCom_Parameter("@start_date", HelperConvert.ConvertToDate112(iProp.start_date))
@@ -1593,6 +1695,8 @@ namespace APIEmpHub.Models
                              select new FormWfhEmployeeModels
                              {
                                  refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
+                                 ,
+                                 prefix = HelperConvert.ConvertToString(r.Field<object>("prefix")!)
                                  ,
                                  fullname = HelperConvert.ConvertToString(r.Field<object>("fullname")!)
                                  ,
@@ -1891,6 +1995,7 @@ namespace APIEmpHub.Models
                 iSql.Open(connectionString);
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                    , iSql.SqlCom_Parameter("@prefix", HelperConvert.ConvertToString(iProp.prefix))
                     , iSql.SqlCom_Parameter("@fullname", HelperConvert.ConvertToString(iProp.fullname))
                     , iSql.SqlCom_Parameter("@position", HelperConvert.ConvertToString(iProp.position))
                     , iSql.SqlCom_Parameter("@department", HelperConvert.ConvertToString(iProp.department))
@@ -1936,6 +2041,8 @@ namespace APIEmpHub.Models
                              select new FormProbationReportModels
                              {
                                  refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
+                                 ,
+                                 prefix = HelperConvert.ConvertToString(r.Field<object>("prefix")!)
                                  ,
                                  fullname = HelperConvert.ConvertToString(r.Field<object>("fullname")!)
                                  ,
@@ -2543,6 +2650,11 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@email", HelperConvert.ConvertToString(iProp.email))
                     , iSql.SqlCom_Parameter("@phone_office", HelperConvert.ConvertToString(iProp.phone_office))
                     , iSql.SqlCom_Parameter("@email_office", HelperConvert.ConvertToString(iProp.email_office))
+                    , iSql.SqlCom_Parameter("@emergency_fullname", HelperConvert.ConvertToString(iProp.emergency_fullname))
+                    , iSql.SqlCom_Parameter("@emergency_relation", HelperConvert.ConvertToString(iProp.emergency_relation))
+                    , iSql.SqlCom_Parameter("@emergency_phone", HelperConvert.ConvertToString(iProp.emergency_phone))
+                    , iSql.SqlCom_Parameter("@emergency_email", HelperConvert.ConvertToString(iProp.emergency_email))
+                    , iSql.SqlCom_Parameter("@emergency_address", HelperConvert.ConvertToString(iProp.emergency_address))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
                     );
             }
@@ -2640,6 +2752,16 @@ namespace APIEmpHub.Models
                                  phone_office = HelperConvert.ConvertToString(r.Field<object>("phone_office")!)
                                  ,
                                  email_office = HelperConvert.ConvertToString(r.Field<object>("email_office")!)
+                                 ,
+                                 emergency_fullname = GetOptionalString(r, "emergency_fullname")
+                                 ,
+                                 emergency_relation = GetOptionalString(r, "emergency_relation")
+                                 ,
+                                 emergency_phone = GetOptionalString(r, "emergency_phone")
+                                 ,
+                                 emergency_email = GetOptionalString(r, "emergency_email")
+                                 ,
+                                 emergency_address = GetOptionalString(r, "emergency_address")
                              }).FirstOrDefault()!;
                 }
             }
@@ -2793,6 +2915,205 @@ namespace APIEmpHub.Models
             }
 
             return lData;
+        }
+        #endregion
+
+        #region FormJobDescription
+        public void FormJobDescriptionCreate(FormJobDescriptionModels iProp)
+        {
+            String query = "up_form_jobdescription_ins";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+
+                    , iSql.SqlCom_Parameter("@positionName", HelperConvert.ConvertToString(iProp.positionName))
+                    , iSql.SqlCom_Parameter("@jobFunction", HelperConvert.ConvertToString(iProp.jobFunction))
+                    , iSql.SqlCom_Parameter("@departmentName", HelperConvert.ConvertToString(iProp.departmentName))
+                    , iSql.SqlCom_Parameter("@sectionName", HelperConvert.ConvertToString(iProp.sectionName))
+                    , iSql.SqlCom_Parameter("@position_description", HelperConvert.ConvertToString(iProp.position_description))
+
+                    , iSql.SqlCom_Parameter("@major_description", HelperConvert.ConvertToString(iProp.major_description))
+
+                    , iSql.SqlCom_Parameter("@education", HelperConvert.ConvertToString(iProp.education))
+                    , iSql.SqlCom_Parameter("@experience", HelperConvert.ConvertToString(iProp.experience))
+                    , iSql.SqlCom_Parameter("@functional_competencies", HelperConvert.ConvertToString(iProp.functional_competencies))
+                    , iSql.SqlCom_Parameter("@leadership_competencies", HelperConvert.ConvertToString(iProp.leadership_competencies))
+
+                    , iSql.SqlCom_Parameter("@financial", HelperConvert.ConvertToString(iProp.financial))
+                    , iSql.SqlCom_Parameter("@customer_and_market", HelperConvert.ConvertToString(iProp.customer_and_market))
+                    , iSql.SqlCom_Parameter("@process", HelperConvert.ConvertToString(iProp.process))
+                    , iSql.SqlCom_Parameter("@people_development", HelperConvert.ConvertToString(iProp.people_development))
+
+                    , iSql.SqlCom_Parameter("@internal_description", HelperConvert.ConvertToString(iProp.internal_description))
+                    , iSql.SqlCom_Parameter("@internal_contact_description", HelperConvert.ConvertToString(iProp.internal_contact_description))
+                    , iSql.SqlCom_Parameter("@external_description", HelperConvert.ConvertToString(iProp.external_description))
+                    , iSql.SqlCom_Parameter("@external_contact_description", HelperConvert.ConvertToString(iProp.external_contact_description))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public FormJobDescriptionModels FormJobDescriptionDetail(FormJobDescriptionModels iProp)
+        {
+            String query = "up_form_jobdescription_detail";
+            FormJobDescriptionModels iData = new FormJobDescriptionModels();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    iData = (from r in dtData.AsEnumerable()
+                             select new FormJobDescriptionModels
+                             {
+                                 refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
+                                 ,
+                                 positionName = HelperConvert.ConvertToString(r.Field<object>("positionName")!)
+                                 ,
+                                 jobFunction = HelperConvert.ConvertToString(r.Field<object>("jobFunction")!)
+                                 ,
+                                 departmentName = HelperConvert.ConvertToString(r.Field<object>("departmentName")!)
+                                 ,
+                                 sectionName = HelperConvert.ConvertToString(r.Field<object>("sectionName")!)
+                                 ,
+                                 position_description = HelperConvert.ConvertToString(r.Field<object>("position_description")!)
+                                 ,
+                                 major_description = HelperConvert.ConvertToString(r.Field<object>("major_description")!)
+                                 ,
+                                 education = HelperConvert.ConvertToString(r.Field<object>("education")!)
+                                 ,
+                                 experience = HelperConvert.ConvertToString(r.Field<object>("experience")!)
+                                 ,
+                                 functional_competencies = HelperConvert.ConvertToString(r.Field<object>("functional_competencies")!)
+                                 ,
+                                 leadership_competencies = HelperConvert.ConvertToString(r.Field<object>("leadership_competencies")!)
+                                 ,
+                                 financial = HelperConvert.ConvertToString(r.Field<object>("financial")!)
+                                 ,
+                                 customer_and_market = HelperConvert.ConvertToString(r.Field<object>("customer_and_market")!)
+                                 ,
+                                 process = HelperConvert.ConvertToString(r.Field<object>("process")!)
+                                 ,
+                                 people_development = HelperConvert.ConvertToString(r.Field<object>("people_development")!)
+                                 ,
+                                 internal_description = HelperConvert.ConvertToString(r.Field<object>("internal_description")!)
+                                 ,
+                                 internal_contact_description = HelperConvert.ConvertToString(r.Field<object>("internal_contact_description")!)
+                                 ,
+                                 external_description = HelperConvert.ConvertToString(r.Field<object>("external_description")!)
+                                 ,
+                                 external_contact_description = HelperConvert.ConvertToString(r.Field<object>("external_contact_description")!)
+                             }).FirstOrDefault()!;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return iData;
+        }
+        #endregion
+
+
+        #region FormEmployeeData
+        public void FormEmployeeDataCreate(FormEmployeeDataModels iProp)
+        {
+            String query = "up_form_employee_data_ins";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                    , iSql.SqlCom_Parameter("@is_username", iProp.is_username)
+                    , iSql.SqlCom_Parameter("@is_fullname_th", iProp.is_fullname_th)
+                    , iSql.SqlCom_Parameter("@is_fullname_en", iProp.is_fullname_en)
+                    , iSql.SqlCom_Parameter("@is_position", iProp.is_position)
+                    , iSql.SqlCom_Parameter("@is_department", iProp.is_department)
+                    , iSql.SqlCom_Parameter("@is_email", iProp.is_email)
+                    , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
+                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public FormEmployeeDataModels FormEmployeeDataDetail(FormEmployeeDataModels iProp)
+        {
+            String query = "up_form_employee_data_detail";
+            FormEmployeeDataModels iData = new FormEmployeeDataModels();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    iData = (from r in dtData.AsEnumerable()
+                             select new FormEmployeeDataModels
+                             {
+                                 refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
+                                 ,
+                                 is_username = HelperConvert.ConvertToInt(r.Field<object>("is_username")!)
+                                 ,
+                                 is_fullname_th = HelperConvert.ConvertToInt(r.Field<object>("is_fullname_th")!)
+                                 ,
+                                 is_fullname_en = HelperConvert.ConvertToInt(r.Field<object>("is_fullname_en")!)
+                                 ,
+                                 is_position = HelperConvert.ConvertToInt(r.Field<object>("is_position")!)
+                                 ,
+                                 is_department = HelperConvert.ConvertToInt(r.Field<object>("is_department")!)
+                                 ,
+                                 is_email = HelperConvert.ConvertToInt(r.Field<object>("is_email")!)
+                                 ,
+                                 description = HelperConvert.ConvertToString(r.Field<object>("description")!)
+                             }).FirstOrDefault()!;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return iData;
         }
         #endregion
     }

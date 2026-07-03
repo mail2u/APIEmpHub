@@ -55,6 +55,11 @@ namespace APIEmpHub.Models
         public int year { get; set; }
         public int month { get; set; }
 
+        public string mailId { get; set; }
+        public int is_send { get; set; }
+        public string ErrorMessage { get; set; }
+
+
         public List<ServiceModels> lUser { get; set; }
 
         public ServiceModels Detail(ServiceModels iProp)
@@ -262,7 +267,36 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
                     , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
                     , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
+                    , iSql.SqlCom_Parameter("@status", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@subCategoryCode", SqlDbType.NVarChar, 50, ParameterDirection.Output)
                     );
+
+                iProp.status = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@status"].Value);
+                iProp.subCategoryCode = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@subCategoryCode"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void ApproveMail(ServiceModels iProp)
+        {
+            String query = "up_service_mail_approve";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.id))
+                    , iSql.SqlCom_Parameter("@id", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    );
+
+                iProp.mailId = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@id"].Value);
             }
             catch (Exception ex)
             {
@@ -297,6 +331,30 @@ namespace APIEmpHub.Models
             }
         }
 
+        //public void RejectMail(ServiceModels iProp)
+        //{
+        //    String query = "up_service_mail_reject";
+
+        //    try
+        //    {
+        //        iSql.Open(connectionString);
+        //        iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+        //            , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.id))
+        //            , iSql.SqlCom_Parameter("@id", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+        //            );
+
+        //        iProp.mailId = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@id"].Value);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message, ex.InnerException);
+        //    }
+        //    finally
+        //    {
+        //        iSql.Close();
+        //    }
+        //}
+
         public void Work(ServiceModels iProp)
         {
             String query = "up_service_work_upd";
@@ -308,7 +366,12 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
                     , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
                     , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
+                    , iSql.SqlCom_Parameter("@status", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@subCategoryCode", SqlDbType.NVarChar, 50, ParameterDirection.Output)
                     );
+
+                iProp.status = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@status"].Value);
+                iProp.subCategoryCode = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@subCategoryCode"].Value);
             }
             catch (Exception ex)
             {
@@ -331,6 +394,55 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
                     , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
                     , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void CompleteMail(ServiceModels iProp)
+        {
+            String query = "up_service_mail_complete";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.id))
+                    , iSql.SqlCom_Parameter("@id", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    );
+
+                iProp.mailId = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@id"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void MailResponse(ServiceModels iProp)
+        {
+            if (String.IsNullOrEmpty(iProp.mailId)) { return; }
+
+            String query = "up_mail_upd_response";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.mailId))
+                    , iSql.SqlCom_Parameter("@is_send", iProp.is_send)
+                    , iSql.SqlCom_Parameter("@ErrorMessage", HelperConvert.ConvertToString(iProp.ErrorMessage))
                     );
             }
             catch (Exception ex)
@@ -690,6 +802,65 @@ namespace APIEmpHub.Models
                              status = HelperConvert.ConvertToString(r.Field<object>("status")!)
                              ,
                              statusCss = HelperConvert.ConvertToString(r.Field<object>("statusCss")!)
+                             ,
+                             statusDesc = HelperConvert.ConvertToString(r.Field<object>("statusDesc")!)
+                             ,
+                             createBy = HelperConvert.ConvertToString(r.Field<object>("createBy")!)
+                             ,
+                             createName = HelperConvert.ConvertToString(r.Field<object>("createName")!)
+                             ,
+                             createDate = HelperConvert.ConvertToString(r.Field<object>("createDate")!)
+                             ,
+                             actionDate = HelperConvert.ConvertToString(r.Field<object>("actionDate")!)
+                             ,
+                             orderDate1 = HelperConvert.ConvertToString(r.Field<object>("orderDate1")!)
+                             ,
+                             orderDate2 = HelperConvert.ConvertToString(r.Field<object>("orderDate2")!)
+                         }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return lData;
+        }
+
+        public List<ServiceModels> RequiredDocumentList(ServiceModels iProp)
+        {
+            String query = @"up_service_required_document_sel";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                );
+
+                lData = (from r in dtData.AsEnumerable()
+                         select new ServiceModels
+                         {
+                             id = HelperConvert.ConvertToString(r.Field<object>("id")!)
+                             ,
+                             serviceNo = HelperConvert.ConvertToString(r.Field<object>("serviceNo")!)
+                             ,
+                             categoryCode = HelperConvert.ConvertToString(r.Field<object>("categoryCode")!)
+                             ,
+                             categoryDesc = HelperConvert.ConvertToString(r.Field<object>("categoryDesc")!)
+                             ,
+                             subCategoryCode = HelperConvert.ConvertToString(r.Field<object>("subCategoryCode")!)
+                             ,
+                             subCategoryDesc = HelperConvert.ConvertToString(r.Field<object>("subCategoryDesc")!)
+                             ,
+                             title = HelperConvert.ConvertToString(r.Field<object>("title")!)
+                             ,
+                             status = HelperConvert.ConvertToString(r.Field<object>("status")!)
                              ,
                              statusDesc = HelperConvert.ConvertToString(r.Field<object>("statusDesc")!)
                              ,

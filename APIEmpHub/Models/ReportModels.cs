@@ -6,6 +6,7 @@ namespace APIEmpHub.Models
 {
     public class ReportModels : baseModels<ReportModels>
     {
+        public string employeeCode { get; set; }
         public string name { get; set; }
         public string position { get; set; }
         public string section { get; set; }
@@ -15,6 +16,25 @@ namespace APIEmpHub.Models
         public string district { get; set; }
         public string province { get; set; }
         public string postcode { get; set; }
+        public int year { get; set; }
+        public string department { get; set; }
+        public string reason { get; set; }
+        public string serviceNo { get; set; }
+        public string license { get; set; }
+        public string organization { get; set; }
+
+        private string ReportSort(string sortBy, Dictionary<string, string> columns, string defaultSort)
+        {
+            var isDesc = !string.IsNullOrEmpty(sortBy) && sortBy.StartsWith("-");
+            var key = isDesc ? sortBy.Substring(1) : sortBy;
+
+            if (string.IsNullOrEmpty(key) || !columns.ContainsKey(key))
+            {
+                return defaultSort;
+            }
+
+            return columns[key] + (isDesc ? " desc" : "");
+        }
 
         public DataTable ReportWorkforceOverview(ReportModels iProp)
         {
@@ -24,6 +44,7 @@ namespace APIEmpHub.Models
             {
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@employeeCode", HelperConvert.ConvertToString(iProp.employeeCode))
                     , iSql.SqlCom_Parameter("@name", HelperConvert.ConvertToString(iProp.name))
                     , iSql.SqlCom_Parameter("@position", HelperConvert.ConvertToString(iProp.position))
                     , iSql.SqlCom_Parameter("@section", HelperConvert.ConvertToString(iProp.section))
@@ -161,15 +182,15 @@ namespace APIEmpHub.Models
 
         public DataTable ReportHeadcountMovement(ReportModels iProp)
         {
-            String query = "up_report_headcount_movement_sel";
+            String query = @"up_report_headcount_movement_sel";
 
             try
             {
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@year", iProp.year)
                     , iSql.SqlCom_Parameter("@page", iProp.page)
                     , iSql.SqlCom_Parameter("@row", iProp.row)
-                    , iSql.SqlCom_Parameter("@sortBy", HelperConvert.ConvertToString(iProp.sortBy))
                     , iSql.SqlCom_Parameter("@total", SqlDbType.Int, ParameterDirection.Output)
                 );
 
@@ -189,15 +210,16 @@ namespace APIEmpHub.Models
 
         public DataTable ReportTurnoverAttrition(ReportModels iProp)
         {
-            String query = "up_report_turnover_attrition_sel";
+            String query = @"up_report_turnover_attrition_sel";
 
             try
             {
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@year", iProp.year)
+                    , iSql.SqlCom_Parameter("@department", HelperConvert.ConvertToString(iProp.department))
                     , iSql.SqlCom_Parameter("@page", iProp.page)
                     , iSql.SqlCom_Parameter("@row", iProp.row)
-                    , iSql.SqlCom_Parameter("@sortBy", HelperConvert.ConvertToString(iProp.sortBy))
                     , iSql.SqlCom_Parameter("@total", SqlDbType.Int, ParameterDirection.Output)
                 );
 
@@ -224,6 +246,7 @@ namespace APIEmpHub.Models
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@name", HelperConvert.ConvertToString(iProp.name))
+                    , iSql.SqlCom_Parameter("@serviceNo", HelperConvert.ConvertToString(iProp.serviceNo))
                     , iSql.SqlCom_Parameter("@position", HelperConvert.ConvertToString(iProp.position))
                     , iSql.SqlCom_Parameter("@section", HelperConvert.ConvertToString(iProp.section))
                     , iSql.SqlCom_Parameter("@page", iProp.page)
@@ -311,8 +334,9 @@ namespace APIEmpHub.Models
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@name", HelperConvert.ConvertToString(iProp.name))
-                    , iSql.SqlCom_Parameter("@position", HelperConvert.ConvertToString(iProp.position))
-                    , iSql.SqlCom_Parameter("@section", HelperConvert.ConvertToString(iProp.section))
+                    , iSql.SqlCom_Parameter("@serviceNo", HelperConvert.ConvertToString(iProp.serviceNo))
+                    , iSql.SqlCom_Parameter("@license", HelperConvert.ConvertToString(iProp.license))
+                    , iSql.SqlCom_Parameter("@organization", HelperConvert.ConvertToString(iProp.organization))
                     , iSql.SqlCom_Parameter("@page", iProp.page)
                     , iSql.SqlCom_Parameter("@row", iProp.row)
                     , iSql.SqlCom_Parameter("@sortBy", HelperConvert.ConvertToString(iProp.sortBy))

@@ -23,8 +23,7 @@ namespace APIEmpHub.Controllers
             model.webRoot = this._webhost.WebRootPath ?? this._webhost.ContentRootPath;
             this._logger = logger;
         }
-
-        [Authorize("Admin")]
+        
         [HttpPost]
         [Route("Create")]
         public IActionResult Create(DepartmentModels iProp)
@@ -58,7 +57,6 @@ namespace APIEmpHub.Controllers
             return Ok();
         }
 
-        [Authorize("Admin")]
         [HttpPost]
         [Route("Delete")]
         public IActionResult Delete(DepartmentModels iProp)
@@ -75,7 +73,6 @@ namespace APIEmpHub.Controllers
             return Ok();
         }
 
-        [Authorize("Admin")]
         [HttpPost]
         [Route("SetParent")]
         public IActionResult SetParent(DepartmentModels iProp)

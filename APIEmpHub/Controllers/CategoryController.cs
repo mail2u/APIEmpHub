@@ -25,7 +25,7 @@ namespace APIEmpHub.Controllers
             this._logger = logger;
         }
 
-        [Authorize("Admin")]
+        [Authorize("HRService")]
         [HttpPost]
         [Route("Create")]
         public IActionResult Create(CategoryModels iProp)
@@ -46,7 +46,7 @@ namespace APIEmpHub.Controllers
             }
         }
 
-        [Authorize("Admin")]
+        [Authorize("HRService")]
         [HttpPost]
         [Route("Update")]
         public IActionResult Update(CategoryModels iProp)
@@ -67,7 +67,7 @@ namespace APIEmpHub.Controllers
             }
         }
 
-        [Authorize("Admin")]
+        [Authorize("HRService")]
         [HttpPost]
         [Route("Sort")]
         public IActionResult Sort(CategoryModels iProp)
@@ -84,7 +84,7 @@ namespace APIEmpHub.Controllers
             }
         }
 
-        [Authorize("Admin")]
+        [Authorize("HRService")]
         [HttpPost]
         [Route("Delete")]
         public IActionResult Delete(CategoryModels iProp)
@@ -105,7 +105,7 @@ namespace APIEmpHub.Controllers
             }
         }
 
-        [Authorize("Admin")]
+        [Authorize("HRService")]
         [HttpPost]
         [Route("DataList")]
         public IActionResult DataList(CategoryModels iProp)
@@ -137,7 +137,7 @@ namespace APIEmpHub.Controllers
             }
         }
 
-        [Authorize("Admin")]
+        [Authorize("HRService")]
         [HttpPost]
         [Route("AllList")]
         public IActionResult AllList(CateInRoleModels iProp)

@@ -3,6 +3,7 @@
     public class FormWfhEmployeeModels
     {
         public string refId { get; set; }
+        public string prefix { get; set; }
         public string fullname { get; set; }
         public string address { get; set; }
         public string start_date { get; set; }

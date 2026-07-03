@@ -3,6 +3,7 @@
     public class FormProbationReportModels
     {
         public string refId { get; set; }
+        public string prefix { get; set; }
         public string fullname { get; set; }
         public string position { get; set; }
         public string department { get; set; }

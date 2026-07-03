@@ -241,6 +241,7 @@ namespace APIEmpHub.Models
             {
                 iSql.Open(connectionString);
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@employeeCode", HelperConvert.ConvertToString(iProp.employeeCode))
                     , iSql.SqlCom_Parameter("@firstname_th", HelperConvert.ConvertToString(iProp.firstname_th))
                     , iSql.SqlCom_Parameter("@status", HelperConvert.ConvertToString(iProp.status))
                     , iSql.SqlCom_Parameter("@page", iProp.page)

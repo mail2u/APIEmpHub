@@ -24,7 +24,7 @@ namespace APIEmpHub.Controllers
             this._logger = logger;
         }
 
-        [Authorize("Admin")]
+        [Authorize("Setting")]
         [HttpPost]
         [Route("Create")]
         public IActionResult Create(PositionModels iProp)
@@ -41,7 +41,7 @@ namespace APIEmpHub.Controllers
             return Ok();
         }
 
-        [Authorize("Admin")]
+        [Authorize("Setting")]
         [HttpPost]
         [Route("Update")]
         public IActionResult Update(PositionModels iProp)
@@ -58,7 +58,7 @@ namespace APIEmpHub.Controllers
             return Ok();
         }
 
-        [Authorize("Admin")]
+        [Authorize("Setting")]
         [HttpPost]
         [Route("Delete")]
         public IActionResult Delete(PositionModels iProp)

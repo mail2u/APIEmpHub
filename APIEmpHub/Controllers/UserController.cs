@@ -153,9 +153,13 @@ namespace APIEmpHub.Controllers
                     ,
                     x.employeeCode
                     ,
+                    x.prefix_en
+                    ,
                     x.firstname_en
                     ,
                     x.lastname_en
+                    ,
+                    x.prefix_th
                     ,
                     x.firstname_th
                     ,
@@ -234,7 +238,6 @@ namespace APIEmpHub.Controllers
             return Ok(JsonConvert.SerializeObject(dtData));
         }
 
-        [Authorize("Admin")]
         [HttpPost]
         [Route("FullList")]
         public IActionResult FullList(UserModels iProp)
@@ -671,6 +674,8 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.phoneNo
                     ,
+                    iData.mobile
+                    ,
                     iData.nationality
                     ,
                     iData.nationalityDesc
@@ -706,7 +711,48 @@ namespace APIEmpHub.Controllers
                     iData.update_date
                 };
 
-                return Ok(new { data = iData, iProp.can_edit, iProp.can_view });
+                return Ok(new { data = vData, iProp.can_edit, iProp.can_view });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Display
+        [HttpPost]
+        [Route("UserDisplaySave")]
+        public IActionResult UserDisplaySave(UserModels iProp)
+        {
+            try
+            {
+                model.UserDisplaySave(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("UserDisplay")]
+        public IActionResult UserDisplay(UserModels iProp)
+        {
+            try
+            {
+                UserModels iData = model.UserDisplay(iProp);
+
+                var vData = new
+                {
+                    iData.userId
+                    ,
+                    iData.display_base64
+                };
+
+                return Ok(vData);
             }
             catch (Exception ex)
             {

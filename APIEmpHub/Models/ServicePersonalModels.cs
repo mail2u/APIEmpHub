@@ -40,6 +40,11 @@ namespace APIEmpHub.Models
         public string email { get; set; }
         public string phoneNo { get; set; }
         public string mobile { get; set; }
+        public string emergency_fullname { get; set; }
+        public string emergency_relation { get; set; }
+        public string emergency_phone { get; set; }
+        public string emergency_email { get; set; }
+        public string emergency_address { get; set; }
         public string nationality { get; set; }
         public string nationalityDesc { get; set; }
         public string ethnicity { get; set; }

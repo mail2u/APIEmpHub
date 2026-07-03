@@ -8,9 +8,12 @@ namespace APIEmpHub.Models
     {
         public string userId { get; set; }
         public string role { get; set; }
+        public string display_base64 { get; set; }
         public string username { get; set; }
+        public string prefix_en { get; set; }
         public string firstname_en { get; set; }
         public string lastname_en { get; set; }
+        public string prefix_th { get; set; }
         public string firstname_th { get; set; }
         public string lastname_th { get; set; }
         public string nickname { get; set; }
@@ -40,6 +43,13 @@ namespace APIEmpHub.Models
         public string dateTo { get; set; }
         public int have_signature { get; set; }
         public string base64 { get; set; }
+
+        private static string GetOptionalString(DataRow row, string columnName)
+        {
+            return row.Table.Columns.Contains(columnName)
+                ? HelperConvert.ConvertToString(row.Field<object>(columnName)!)
+                : "";
+        }
 
         public void Register(UserModels iProp)
         {
@@ -252,9 +262,13 @@ namespace APIEmpHub.Models
                                  ,
                                  employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
                                  ,
+                                 prefix_en = HelperConvert.ConvertToString(r.Field<object>("prefix_en")!)
+                                 ,
                                  firstname_en = HelperConvert.ConvertToString(r.Field<object>("firstname_en")!)
                                  ,
                                  lastname_en = HelperConvert.ConvertToString(r.Field<object>("lastname_en")!)
+                                 ,
+                                 prefix_th = HelperConvert.ConvertToString(r.Field<object>("prefix_th")!)
                                  ,
                                  firstname_th = HelperConvert.ConvertToString(r.Field<object>("firstname_th")!)
                                  ,
@@ -438,6 +452,16 @@ namespace APIEmpHub.Models
                                  phoneNo = HelperConvert.ConvertToString(r.Field<object>("phoneNo")!)
                                  ,
                                  mobile = HelperConvert.ConvertToString(r.Field<object>("mobile")!)
+                                 ,
+                                 emergency_fullname = GetOptionalString(r, "emergency_fullname")
+                                 ,
+                                 emergency_relation = GetOptionalString(r, "emergency_relation")
+                                 ,
+                                 emergency_phone = GetOptionalString(r, "emergency_phone")
+                                 ,
+                                 emergency_email = GetOptionalString(r, "emergency_email")
+                                 ,
+                                 emergency_address = GetOptionalString(r, "emergency_address")
                                  ,
                                  nationality = HelperConvert.ConvertToString(r.Field<object>("nationality")!)
                                  ,
@@ -807,6 +831,67 @@ namespace APIEmpHub.Models
                                  update_by = HelperConvert.ConvertToString(r.Field<object>("update_by")!)
                                  ,
                                  update_date = HelperConvert.ConvertToString(r.Field<object>("update_date")!)
+                             }).FirstOrDefault()!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return iData;
+        }
+        #endregion
+
+        #region Display
+        public void UserDisplaySave(UserModels iProp)
+        {
+            String query = "up_user_display_ins";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@display_base64", HelperConvert.ConvertToString(iProp.display_base64))
+                    , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public UserModels UserDisplay(UserModels iProp)
+        {
+            String query = "up_user_display_detail";
+            UserModels iData = new UserModels();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+
+                    iData = (from r in dtData.AsEnumerable()
+                             select new UserModels
+                             {
+                                 userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
+                                 ,
+                                 display_base64 = GetOptionalString(r, "display_base64")
                              }).FirstOrDefault()!;
                 }
             }
