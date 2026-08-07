@@ -37,6 +37,7 @@ namespace APIEmpHub.Models
         public string militaryStatusDesc { get; set; }
         public string disabilityStatus { get; set; }
         public string disabilityStatusDesc { get; set; }
+        public string disabilityCardNo { get; set; }
         public string email { get; set; }
         public string phoneNo { get; set; }
         public string mobile { get; set; }
@@ -79,6 +80,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@maritalStatus", HelperConvert.ConvertToString(iProp.maritalStatus))
                     , iSql.SqlCom_Parameter("@militaryStatus", HelperConvert.ConvertToString(iProp.militaryStatus))
                     , iSql.SqlCom_Parameter("@disabilityStatus", HelperConvert.ConvertToString(iProp.disabilityStatus))
+                    , iSql.SqlCom_Parameter("@disabilityCardNo", HelperConvert.ConvertToString(iProp.disabilityCardNo))
                     , iSql.SqlCom_Parameter("@email", HelperConvert.ConvertToString(iProp.email))
                     , iSql.SqlCom_Parameter("@phoneNo", HelperConvert.ConvertToString(iProp.phoneNo))
                     , iSql.SqlCom_Parameter("@mobile", HelperConvert.ConvertToString(iProp.mobile))
@@ -151,6 +153,8 @@ namespace APIEmpHub.Models
                                  militaryStatus = HelperConvert.ConvertToString(r.Field<object>("militaryStatus")!)
                                  ,
                                  disabilityStatus = HelperConvert.ConvertToString(r.Field<object>("disabilityStatus")!)
+                                 ,
+                                 disabilityCardNo = HelperConvert.ConvertToString(r.Field<object>("disabilityCardNo")!)
                                  ,
                                  email = HelperConvert.ConvertToString(r.Field<object>("email")!)
                                  ,

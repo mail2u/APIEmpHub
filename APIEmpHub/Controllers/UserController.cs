@@ -169,9 +169,19 @@ namespace APIEmpHub.Controllers
                     ,
                     x.email
                     ,
+                    x.ext
+                    ,
                     x.departmentCode
                     ,
                     x.departmentDesc
+                    ,
+                    x.divisionCode
+                    ,
+                    x.divisionDesc
+                    ,
+                    x.functionCode
+                    ,
+                    x.functionDesc
                     ,
                     x.positionCode
                     ,
@@ -264,9 +274,19 @@ namespace APIEmpHub.Controllers
                     ,
                     x.email
                     ,
+                    x.ext
+                    ,
                     x.departmentCode
                     ,
                     x.departmentDesc
+                    ,
+                    x.divisionCode
+                    ,
+                    x.divisionDesc
+                    ,
+                    x.functionCode
+                    ,
+                    x.functionDesc
                     ,
                     x.positionCode
                     ,
@@ -482,6 +502,10 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.phone_office
                     ,
+                    iData.functionCode
+                    ,
+                    iData.functionDesc
+                    ,
                     iData.divisionCode
                     ,
                     iData.divisionDesc
@@ -658,6 +682,8 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.birth_date
                     ,
+                    iData.age
+                    ,
                     iData.weight
                     ,
                     iData.height
@@ -699,6 +725,8 @@ namespace APIEmpHub.Controllers
                     iData.disabilityStatus
                     ,
                     iData.disabilityStatusDesc
+                    ,
+                    iData.disabilityCardNo
                     ,
                     iData.bankName
                     ,
@@ -777,6 +805,8 @@ namespace APIEmpHub.Controllers
                     ,
                     x.license
                     ,
+                    x.certificateNo
+                    ,
                     x.organization
                     ,
                     x.issueDate
@@ -829,6 +859,10 @@ namespace APIEmpHub.Controllers
                     x.divisionCode
                     ,
                     x.divisionDesc
+                    ,
+                    x.functionCode
+                    ,
+                    x.functionDesc
                     ,
                     x.positionCode
                     ,
@@ -910,6 +944,10 @@ namespace APIEmpHub.Controllers
                     iData.divisionCode
                     ,
                     iData.divisionDesc
+                    ,
+                    iData.functionCode
+                    ,
+                    iData.functionDesc
                     ,
                     iData.positionCode
                     ,

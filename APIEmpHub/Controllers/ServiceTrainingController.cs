@@ -63,6 +63,8 @@ namespace APIEmpHub.Controllers
                     ,
                     x.license
                     ,
+                    x.certificateNo
+                    ,
                     x.organization
                     ,
                     x.issueDate

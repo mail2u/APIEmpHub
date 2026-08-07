@@ -1,6 +1,7 @@
 ﻿using APIEmpHub.iBase;
 using APIEmpHub.Utility.Helper;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace APIEmpHub.Models
 {
@@ -24,12 +25,15 @@ namespace APIEmpHub.Models
         public string status { get; set; }
         public string statusDesc { get; set; }
         public string email { get; set; }
+        public string ext { get; set; }
         public string sectionCode { get; set; }
         public string sectionDesc { get; set; }
         public string departmentCode { get; set; }
         public string departmentDesc { get; set; }
         public string divisionCode { get; set; }
         public string divisionDesc { get; set; }
+        public string functionCode { get; set; }
+        public string functionDesc { get; set; }
         public string positionCode { get; set; }
         public string positionDesc { get; set; }
         public string levelCode { get; set; }
@@ -49,6 +53,43 @@ namespace APIEmpHub.Models
             return row.Table.Columns.Contains(columnName)
                 ? HelperConvert.ConvertToString(row.Field<object>(columnName)!)
                 : "";
+        }
+
+        private HashSet<string> GetStoredProcedureParameterNames(string procedureName)
+        {
+            DataTable dtParameter = iSql.SqlCom_DataAdapterWithDataTable(@"
+SELECT  name
+FROM    sys.parameters
+WHERE   object_id = OBJECT_ID(@procedureName)
+", CommandType.Text
+                , iSql.SqlCom_Parameter("@procedureName", procedureName)
+            );
+
+            HashSet<string> supportedParameter = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            if (dtParameter == null || dtParameter.Rows.Count == 0)
+            {
+                return supportedParameter;
+            }
+
+            foreach (DataRow row in dtParameter.Rows)
+            {
+                supportedParameter.Add(HelperConvert.ConvertToString(row.Field<object>("name")!));
+            }
+
+            return supportedParameter;
+        }
+
+        private SqlParameter[] GetSupportedStoredProcedureParameters(HashSet<string> supportedParameter, params SqlParameter[] parameters)
+        {
+            if (supportedParameter == null || supportedParameter.Count == 0)
+            {
+                return parameters;
+            }
+
+            return parameters
+                .Where(p => supportedParameter.Contains(p.ParameterName))
+                .ToArray();
         }
 
         public void Register(UserModels iProp)
@@ -278,9 +319,19 @@ namespace APIEmpHub.Models
                                  ,
                                  email = HelperConvert.ConvertToString(r.Field<object>("email")!)
                                  ,
+                                 ext = HelperConvert.ConvertToString(r.Field<object>("ext")!)
+                                 ,
                                  departmentCode = HelperConvert.ConvertToString(r.Field<object>("departmentCode")!)
                                  ,
                                  departmentDesc = HelperConvert.ConvertToString(r.Field<object>("departmentDesc")!)
+                                 ,
+                                 divisionCode = HelperConvert.ConvertToString(r.Field<object>("divisionCode")!)
+                                 ,
+                                 divisionDesc = HelperConvert.ConvertToString(r.Field<object>("divisionDesc")!)
+                                 ,
+                                 functionCode = HelperConvert.ConvertToString(r.Field<object>("functionCode")!)
+                                 ,
+                                 functionDesc = HelperConvert.ConvertToString(r.Field<object>("functionDesc")!)
                                  ,
                                  positionCode = HelperConvert.ConvertToString(r.Field<object>("positionCode")!)
                                  ,
@@ -364,6 +415,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@maritalStatus", HelperConvert.ConvertToString(iProp.maritalStatus))
                     , iSql.SqlCom_Parameter("@militaryStatus", HelperConvert.ConvertToString(iProp.militaryStatus))
                     , iSql.SqlCom_Parameter("@disabilityStatus", HelperConvert.ConvertToString(iProp.disabilityStatus))
+                    , iSql.SqlCom_Parameter("@disabilityCardNo", HelperConvert.ConvertToString(iProp.disabilityCardNo))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
                     );
             }
@@ -486,6 +538,8 @@ namespace APIEmpHub.Models
                                  disabilityStatus = HelperConvert.ConvertToString(r.Field<object>("disabilityStatus")!)
                                  ,
                                  disabilityStatusDesc = HelperConvert.ConvertToString(r.Field<object>("disabilityStatusDesc")!)
+                                 ,
+                                 disabilityCardNo = HelperConvert.ConvertToString(r.Field<object>("disabilityCardNo")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
                                  ,
@@ -671,7 +725,24 @@ namespace APIEmpHub.Models
             try
             {
                 iSql.Open(connectionString);
-                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                HashSet<string> supportedParameter = GetStoredProcedureParameterNames(query);
+
+                string functionCode = HelperConvert.ConvertToString(iProp.functionCode);
+                string divisionCode = HelperConvert.ConvertToString(iProp.divisionCode);
+                string departmentCode = HelperConvert.ConvertToString(iProp.departmentCode);
+                string sectionCode = HelperConvert.ConvertToString(iProp.sectionCode);
+
+                if (supportedParameter.Count > 0
+                    && !supportedParameter.Contains("@functionCode")
+                    && supportedParameter.Contains("@departmentCode"))
+                {
+                    departmentCode = !String.IsNullOrEmpty(sectionCode) ? sectionCode
+                        : !String.IsNullOrEmpty(departmentCode) ? departmentCode
+                        : !String.IsNullOrEmpty(divisionCode) ? divisionCode
+                        : functionCode;
+                }
+
+                SqlParameter[] sqlParameter = GetSupportedStoredProcedureParameters(supportedParameter
                     , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
                     , iSql.SqlCom_Parameter("@processType", HelperConvert.ConvertToString(iProp.processType))
                     , iSql.SqlCom_Parameter("@processReason", HelperConvert.ConvertToString(iProp.processReason))
@@ -680,9 +751,10 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@email", HelperConvert.ConvertToString(iProp.email))
                     , iSql.SqlCom_Parameter("@ext", HelperConvert.ConvertToString(iProp.ext))
                     , iSql.SqlCom_Parameter("@phone_office", HelperConvert.ConvertToString(iProp.phone_office))
-                    , iSql.SqlCom_Parameter("@divisionCode", HelperConvert.ConvertToString(iProp.divisionCode))
-                    , iSql.SqlCom_Parameter("@departmentCode", HelperConvert.ConvertToString(iProp.departmentCode))
-                    , iSql.SqlCom_Parameter("@sectionCode", HelperConvert.ConvertToString(iProp.sectionCode))
+                    , iSql.SqlCom_Parameter("@functionCode", functionCode)
+                    , iSql.SqlCom_Parameter("@divisionCode", divisionCode)
+                    , iSql.SqlCom_Parameter("@departmentCode", departmentCode)
+                    , iSql.SqlCom_Parameter("@sectionCode", sectionCode)
                     , iSql.SqlCom_Parameter("@positionCode", HelperConvert.ConvertToString(iProp.positionCode))
                     , iSql.SqlCom_Parameter("@levelCode", HelperConvert.ConvertToString(iProp.levelCode))
                     , iSql.SqlCom_Parameter("@grade", HelperConvert.ConvertToString(iProp.grade))
@@ -703,6 +775,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@bookNo", HelperConvert.ConvertToString(iProp.bookNo))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
                     );
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure, sqlParameter);
             }
             catch (Exception ex)
             {
@@ -758,17 +831,21 @@ namespace APIEmpHub.Models
                                  ,
                                  phone_office = HelperConvert.ConvertToString(r.Field<object>("phone_office")!)
                                  ,
-                                 divisionCode = HelperConvert.ConvertToString(r.Field<object>("divisionCode")!)
+                                 functionCode = GetOptionalString(r, "functionCode")
                                  ,
-                                 divisionDesc = HelperConvert.ConvertToString(r.Field<object>("divisionDesc")!)
+                                 functionDesc = GetOptionalString(r, "functionDesc")
                                  ,
-                                 departmentCode = HelperConvert.ConvertToString(r.Field<object>("departmentCode")!)
+                                 divisionCode = GetOptionalString(r, "divisionCode")
                                  ,
-                                 departmentDesc = HelperConvert.ConvertToString(r.Field<object>("departmentDesc")!)
+                                 divisionDesc = GetOptionalString(r, "divisionDesc")
                                  ,
-                                 sectionCode = HelperConvert.ConvertToString(r.Field<object>("sectionCode")!)
+                                 departmentCode = GetOptionalString(r, "departmentCode")
                                  ,
-                                 sectionDesc = HelperConvert.ConvertToString(r.Field<object>("sectionDesc")!)
+                                 departmentDesc = GetOptionalString(r, "departmentDesc")
+                                 ,
+                                 sectionCode = GetOptionalString(r, "sectionCode")
+                                 ,
+                                 sectionDesc = GetOptionalString(r, "sectionDesc")
                                  ,
                                  positionCode = HelperConvert.ConvertToString(r.Field<object>("positionCode")!)
                                  ,
@@ -1062,6 +1139,8 @@ namespace APIEmpHub.Models
                                  ,
                                  license = HelperConvert.ConvertToString(r.Field<object>("license")!)
                                  ,
+                                 certificateNo = GetOptionalString(r, "certificateNo")
+                                 ,
                                  organization = HelperConvert.ConvertToString(r.Field<object>("organization")!)
                                  ,
                                  issueDate = HelperConvert.ConvertToString(r.Field<object>("issueDate")!)
@@ -1125,6 +1204,10 @@ namespace APIEmpHub.Models
                                  divisionCode = HelperConvert.ConvertToString(r.Field<object>("divisionCode")!)
                                  ,
                                  divisionDesc = HelperConvert.ConvertToString(r.Field<object>("divisionDesc")!)
+                                 ,
+                                 functionCode = HelperConvert.ConvertToString(r.Field<object>("functionCode")!)
+                                 ,
+                                 functionDesc = HelperConvert.ConvertToString(r.Field<object>("functionDesc")!)
                                  ,
                                  positionCode = HelperConvert.ConvertToString(r.Field<object>("positionCode")!)
                                  ,
@@ -1232,6 +1315,10 @@ namespace APIEmpHub.Models
                                  divisionCode = HelperConvert.ConvertToString(r.Field<object>("divisionCode")!)
                                  ,
                                  divisionDesc = HelperConvert.ConvertToString(r.Field<object>("divisionDesc")!)
+                                 ,
+                                 functionCode = HelperConvert.ConvertToString(r.Field<object>("functionCode")!)
+                                 ,
+                                 functionDesc = HelperConvert.ConvertToString(r.Field<object>("functionDesc")!)
                                  ,
                                  positionCode = HelperConvert.ConvertToString(r.Field<object>("positionCode")!)
                                  ,

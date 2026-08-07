@@ -17,7 +17,11 @@ namespace APIEmpHub.Models
         public string lastname_en { get; set; }
         public string position { get; set; }
         public string department { get; set; }
+        public string division { get; set; }
+        public string function { get; set; }
         public string join_date { get; set; }
+        public string email { get; set; }
+        public string ext { get; set; }
         public string status { get; set; }
         public string create_by { get; set; }
         public string create_date { get; set; }
@@ -80,6 +84,10 @@ namespace APIEmpHub.Models
                         position = HelperConvert.ConvertToString(r.Field<object>("position")!)
                         ,
                         department = HelperConvert.ConvertToString(r.Field<object>("department")!)
+                        ,
+                        division = HelperConvert.ConvertToString(r.Field<object>("division")!)
+                        ,
+                        function = HelperConvert.ConvertToString(r.Field<object>("function")!)
                         ,
                         join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
                         ,
@@ -277,7 +285,15 @@ namespace APIEmpHub.Models
                                  ,
                                  department = HelperConvert.ConvertToString(r.Field<object>("department")!)
                                  ,
+                                 division = HelperConvert.ConvertToString(r.Field<object>("division")!)
+                                ,
+                                 function = HelperConvert.ConvertToString(r.Field<object>("function")!)
+                                ,
                                  join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
+                                 ,
+                                 email = HelperConvert.ConvertToString(r.Field<object>("email")!)
+                                 ,
+                                 ext = HelperConvert.ConvertToString(r.Field<object>("ext")!)
                                  ,
                                  status = HelperConvert.ConvertToString(r.Field<object>("status")!)
                                  ,

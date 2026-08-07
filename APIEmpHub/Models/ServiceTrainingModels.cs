@@ -11,6 +11,7 @@ namespace APIEmpHub.Models
         public string trainingId { get; set; }
         public string mode { get; set; } = "";
         public string license { get; set; }
+        public string certificateNo { get; set; }
         public string organization { get; set; }
         public string issueDate { get; set; }
         public string expireDate { get; set; }
@@ -32,6 +33,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
                     , iSql.SqlCom_Parameter("@trainingId", HelperConvert.ConvertToString(iProp.trainingId))
                     , iSql.SqlCom_Parameter("@license", HelperConvert.ConvertToString(iProp.license))
+                    , iSql.SqlCom_Parameter("@certificateNo", HelperConvert.ConvertToString(iProp.certificateNo))
                     , iSql.SqlCom_Parameter("@organization", HelperConvert.ConvertToString(iProp.organization))
                     , iSql.SqlCom_Parameter("@issueDate", HelperConvert.ConvertToDate112(iProp.issueDate))
                     , iSql.SqlCom_Parameter("@expireDate", HelperConvert.ConvertToDate112(iProp.expireDate))
@@ -76,6 +78,8 @@ namespace APIEmpHub.Models
                                  ,
                                  license = HelperConvert.ConvertToString(r.Field<object>("license")!)
                                  ,
+                                 certificateNo = GetOptionalString(r, "certificateNo")
+                                 ,
                                  organization = HelperConvert.ConvertToString(r.Field<object>("organization")!)
                                  ,
                                  issueDate = HelperConvert.ConvertToString(r.Field<object>("issueDate")!)
@@ -96,6 +100,16 @@ namespace APIEmpHub.Models
             }
 
             return lData;
+        }
+
+        private static string GetOptionalString(DataRow row, string columnName)
+        {
+            if (row == null || row.Table == null || !row.Table.Columns.Contains(columnName))
+            {
+                return "";
+            }
+
+            return HelperConvert.ConvertToString(row.Field<object>(columnName)!);
         }
     }
 }

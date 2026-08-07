@@ -182,7 +182,15 @@ namespace APIEmpHub.Controllers
                     ,
                     x.department
                     ,
+                    x.division
+                    ,
+                    x.function
+                    ,
                     x.join_date
+                    ,
+                    x.email
+                    ,
+                    x.ext
                     ,
                     x.status
                     ,

@@ -161,6 +161,10 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.style
                     ,
+                    iData.color
+                    ,
+                    iData.size
+                    ,
                     iData.quantity
                     ,
                     iData.description
@@ -2664,6 +2668,8 @@ namespace APIEmpHub.Controllers
                     iData.militaryStatus
                     ,
                     iData.disabilityStatus
+                    ,
+                    iData.disabilityCardNo
                 };
 
                 return Ok(vData);
@@ -2716,6 +2722,8 @@ namespace APIEmpHub.Controllers
                     iData.probation_end_date
                     ,
                     iData.employeeType
+                    ,
+                    iData.functionCode
                     ,
                     iData.divisionCode
                     ,

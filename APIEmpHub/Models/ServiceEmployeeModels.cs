@@ -19,6 +19,8 @@ namespace APIEmpHub.Models
         public string email { get; set; }
         public string ext { get; set; }
         public string phone_office { get; set; }
+        public string functionCode { get; set; }
+        public string functionDesc { get; set; }
         public string divisionCode { get; set; }
         public string divisionDesc { get; set; }
         public string departmentCode { get; set; }

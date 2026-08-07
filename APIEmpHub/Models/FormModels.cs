@@ -150,6 +150,8 @@ namespace APIEmpHub.Models
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
                     , iSql.SqlCom_Parameter("@style", HelperConvert.ConvertToString(iProp.style))
+                    , iSql.SqlCom_Parameter("@color", HelperConvert.ConvertToString(iProp.color))
+                    , iSql.SqlCom_Parameter("@size", HelperConvert.ConvertToString(iProp.size))
                     , iSql.SqlCom_Parameter("@quantity", iProp.quantity)
                     , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
@@ -185,6 +187,10 @@ namespace APIEmpHub.Models
                                  refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
                                  ,
                                  style = HelperConvert.ConvertToString(r.Field<object>("style")!)
+                                 ,
+                                 color = GetOptionalString(r, "color")
+                                 ,
+                                 size = GetOptionalString(r, "size")
                                  ,
                                  quantity = HelperConvert.ConvertToInt(r.Field<object>("quantity")!)
                                  ,
@@ -2352,6 +2358,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@maritalStatus", HelperConvert.ConvertToString(iProp.maritalStatus))
                     , iSql.SqlCom_Parameter("@militaryStatus", HelperConvert.ConvertToString(iProp.militaryStatus))
                     , iSql.SqlCom_Parameter("@disabilityStatus", HelperConvert.ConvertToString(iProp.disabilityStatus))
+                    , iSql.SqlCom_Parameter("@disabilityCardNo", HelperConvert.ConvertToString(iProp.disabilityCardNo))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
                     );
             }
@@ -2423,6 +2430,8 @@ namespace APIEmpHub.Models
                                  militaryStatus = HelperConvert.ConvertToString(r.Field<object>("militaryStatus")!)
                                  ,
                                  disabilityStatus = HelperConvert.ConvertToString(r.Field<object>("disabilityStatus")!)
+                                 ,
+                                 disabilityCardNo = HelperConvert.ConvertToString(r.Field<object>("disabilityCardNo")!)
                              }).FirstOrDefault()!;
                 }
             }
@@ -2453,6 +2462,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@join_date", HelperConvert.ConvertToDate112(iProp.join_date))
                     , iSql.SqlCom_Parameter("@probation_end_date", HelperConvert.ConvertToDate112(iProp.probation_end_date))
                     , iSql.SqlCom_Parameter("@employeeType", HelperConvert.ConvertToString(iProp.employeeType))
+                    , iSql.SqlCom_Parameter("@functionCode", HelperConvert.ConvertToString(iProp.functionCode))
                     , iSql.SqlCom_Parameter("@divisionCode", HelperConvert.ConvertToString(iProp.divisionCode))
                     , iSql.SqlCom_Parameter("@departmentCode", HelperConvert.ConvertToString(iProp.departmentCode))
                     , iSql.SqlCom_Parameter("@sectionCode", HelperConvert.ConvertToString(iProp.sectionCode))
@@ -2499,6 +2509,8 @@ namespace APIEmpHub.Models
                                  probation_end_date = HelperConvert.ConvertToString(r.Field<object>("probation_end_date")!)
                                  ,
                                  employeeType = HelperConvert.ConvertToString(r.Field<object>("employeeType")!)
+                                 ,
+                                 functionCode = GetOptionalString(r, "functionCode")
                                  ,
                                  divisionCode = HelperConvert.ConvertToString(r.Field<object>("divisionCode")!)
                                  ,
