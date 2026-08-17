@@ -23,6 +23,15 @@ namespace APIEmpHub.Models
         public string license { get; set; }
         public string organization { get; set; }
 
+        /* ตัวกรองรายงานการลาออก : เดือน และหน่วยงาน 4 ชั้น
+           department ของเดิมเป็นการค้นชื่อฝ่ายแบบ LIKE คนละตัวกับ departmentCode
+           คงไว้เพื่อไม่ให้หน้าเดิมพัง */
+        public int month { get; set; }
+        public string functionCode { get; set; }
+        public string divisionCode { get; set; }
+        public string departmentCode { get; set; }
+        public string sectionCode { get; set; }
+
         private string ReportSort(string sortBy, Dictionary<string, string> columns, string defaultSort)
         {
             var isDesc = !string.IsNullOrEmpty(sortBy) && sortBy.StartsWith("-");
@@ -218,6 +227,13 @@ namespace APIEmpHub.Models
                 dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@year", iProp.year)
                     , iSql.SqlCom_Parameter("@department", HelperConvert.ConvertToString(iProp.department))
+                    /* proc ประกาศพารามิเตอร์ชุดนี้ไว้ตรงกลาง ระหว่าง @department กับ @page
+                       ดู 2026-08-10_alter_report_turnover_filter_month_org.sql */
+                    , iSql.SqlCom_Parameter("@month", iProp.month)
+                    , iSql.SqlCom_Parameter("@functionCode", HelperConvert.ConvertToString(iProp.functionCode))
+                    , iSql.SqlCom_Parameter("@divisionCode", HelperConvert.ConvertToString(iProp.divisionCode))
+                    , iSql.SqlCom_Parameter("@departmentCode", HelperConvert.ConvertToString(iProp.departmentCode))
+                    , iSql.SqlCom_Parameter("@sectionCode", HelperConvert.ConvertToString(iProp.sectionCode))
                     , iSql.SqlCom_Parameter("@page", iProp.page)
                     , iSql.SqlCom_Parameter("@row", iProp.row)
                     , iSql.SqlCom_Parameter("@total", SqlDbType.Int, ParameterDirection.Output)

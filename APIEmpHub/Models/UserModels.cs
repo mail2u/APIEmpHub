@@ -48,6 +48,12 @@ namespace APIEmpHub.Models
         public int have_signature { get; set; }
         public string base64 { get; set; }
 
+        /* นำพนักงานออกจากระบบ : 'Resign' = ลาออก , 'Void' = บันทึกผิด */
+        public string offboardType { get; set; }
+        public string lastWorkingDate { get; set; }
+        public string offboardReason { get; set; }
+        public string offboardReasonOther { get; set; }
+
         private static string GetOptionalString(DataRow row, string columnName)
         {
             return row.Table.Columns.Contains(columnName)
@@ -143,6 +149,85 @@ WHERE   object_id = OBJECT_ID(@procedureName)
             {
                 iSql.Close();
             }
+        }
+
+        /* นำพนักงานออกจากระบบ
+           ไม่ปิด is_active เพราะวันทำงานวันสุดท้ายเป็นวันในอนาคตได้
+           ตัวตัดสินว่ายังทำงานอยู่ไหมคือ v_user_working ซึ่งเทียบวันที่สดทุกครั้ง */
+        public void Offboard(UserModels iProp)
+        {
+            String query = "up_user_offboard_upd";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@offboardType", HelperConvert.ConvertToString(iProp.offboardType))
+                    , iSql.SqlCom_Parameter("@lastWorkingDate", HelperConvert.ConvertToDate112(iProp.lastWorkingDate))
+                    , iSql.SqlCom_Parameter("@offboardReason", HelperConvert.ConvertToString(iProp.offboardReason))
+                    , iSql.SqlCom_Parameter("@offboardReasonOther", HelperConvert.ConvertToString(iProp.offboardReasonOther))
+                    , iSql.SqlCom_Parameter("@update_by", HelperConvert.ConvertToString(iProp.update_by))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        /* รับกลับเข้าทำงาน : ล้างข้อมูลการนำออก */
+        public void OffboardCancel(UserModels iProp)
+        {
+            String query = "up_user_offboard_cancel";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userId", HelperConvert.ConvertToString(iProp.userId))
+                    , iSql.SqlCom_Parameter("@update_by", HelperConvert.ConvertToString(iProp.update_by))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        /* รายงานคนออก */
+        public DataTable OffboardList(UserModels iProp)
+        {
+            String query = "up_user_offboard_sel";
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@offboardType", HelperConvert.ConvertToString(iProp.offboardType))
+                    , iSql.SqlCom_Parameter("@name", HelperConvert.ConvertToString(iProp.firstname_th))
+                    , iSql.SqlCom_Parameter("@dateFrom", HelperConvert.ConvertToDate112(iProp.dateFrom))
+                    , iSql.SqlCom_Parameter("@dateTo", HelperConvert.ConvertToDate112(iProp.dateTo))
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
         }
 
         public void Delete(UserModels iProp)
@@ -320,6 +405,10 @@ WHERE   object_id = OBJECT_ID(@procedureName)
                                  email = HelperConvert.ConvertToString(r.Field<object>("email")!)
                                  ,
                                  ext = HelperConvert.ConvertToString(r.Field<object>("ext")!)
+                                 ,
+                                 sectionCode = HelperConvert.ConvertToString(r.Field<object>("sectionCode")!)
+                                 ,
+                                 sectionDesc = HelperConvert.ConvertToString(r.Field<object>("sectionDesc")!)
                                  ,
                                  departmentCode = HelperConvert.ConvertToString(r.Field<object>("departmentCode")!)
                                  ,

@@ -59,6 +59,18 @@ namespace APIEmpHub.Models
         public int is_send { get; set; }
         public string ErrorMessage { get; set; }
 
+        /* หน้า Service/OnBehalf : สร้างใบงานแทนผู้ใช้ */
+        public string createMode { get; set; }
+        public string batchId { get; set; }
+        public string userSection { get; set; }
+        public string employeeCode { get; set; }
+        public List<string> lUserId { get; set; }
+        public int total_created { get; set; }
+        public int total_skip { get; set; }
+        public int total_cancel { get; set; }
+        public int total_expired { get; set; }
+        public int total_filled { get; set; }
+
 
         public List<ServiceModels> lUser { get; set; }
 
@@ -168,6 +180,11 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@title", HelperConvert.ConvertToString(iProp.title))
                     , iSql.SqlCom_Parameter("@detail", HelperConvert.ConvertToString(iProp.detail))
                     , iSql.SqlCom_Parameter("@createBy", HelperConvert.ConvertToString(iProp.createBy))
+                    /* ว่าง = 'Request' ตาม default ใน proc  ส่ง 'Draft' เมื่อสร้างแทนผู้ใช้ */
+                    , iSql.SqlCom_Parameter("@status", HelperConvert.ConvertToString(iProp.status))
+                    /* ว่าง = NULL ตาม proc  ใบปกติไม่ต้องส่ง 2 ตัวนี้ */
+                    , iSql.SqlCom_Parameter("@createMode", HelperConvert.ConvertToString(iProp.createMode))
+                    , iSql.SqlCom_Parameter("@batchId", HelperConvert.ConvertToString(iProp.batchId))
                     , iSql.SqlCom_Parameter("@id", SqlDbType.NVarChar, 50, ParameterDirection.Output)
                     );
 
@@ -354,6 +371,61 @@ namespace APIEmpHub.Models
         //        iSql.Close();
         //    }
         //}
+
+        /* รับเรื่องไว้ดำเนินการ (กำลังดำเนินการ)
+           ไม่เปลี่ยน status เพราะ 'Assign' ในระบบนี้เป็นสถานะเสมือน (ใบ Work ที่ยังไม่มีผู้รับผิดชอบ)
+           และ ServiceStepInfo ผูกกับ status อยู่ จึงบันทึกที่ progressBy/progressDate แทน
+           ทำให้ can_work ไม่ถูกกระทบ ปุ่มดำเนินการ/ปฏิเสธ ยังใช้ได้ */
+        public void Progress(ServiceModels iProp)
+        {
+            String query = "up_service_progress_upd";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
+                    , iSql.SqlCom_Parameter("@status", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    , iSql.SqlCom_Parameter("@subCategoryCode", SqlDbType.NVarChar, 50, ParameterDirection.Output)
+                    );
+
+                iProp.status = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@status"].Value);
+                iProp.subCategoryCode = HelperConvert.ConvertToString(iSql.sqlCom.Parameters["@subCategoryCode"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
+
+        public void Assign(ServiceModels iProp)
+        {
+            String query = "up_service_assign_upd";
+
+            try
+            {
+                iSql.Open(connectionString);
+                iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@id", HelperConvert.ConvertToString(iProp.id))
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+        }
 
         public void Work(ServiceModels iProp)
         {
@@ -756,6 +828,246 @@ namespace APIEmpHub.Models
             }
 
             return dtData;
+        }
+
+        /* ====================================================================
+           หน้า Service/OnBehalf : สร้างใบงานแทนผู้ใช้
+           ==================================================================== */
+
+        /* ค่าใน ServiceInfo.createMode
+           ต้องตรงกับที่ up_service_onbehalf_sel / _summary ใช้กรอง
+           ถ้าแก้ที่นี่ต้องแก้ใน proc ด้วย ไม่งั้นหน้าจอจะว่างโดยไม่มี error */
+        public const string ONBEHALF_DRAFT = "OnBehalfDraft";
+
+        public List<ServiceModels> OnBehalfList(ServiceModels iProp)
+        {
+            String query = "up_service_onbehalf_sel";
+
+            lData = new List<ServiceModels>();
+
+            try
+            {
+                iSql.Open(connectionString);
+                dsData = iSql.SqlCom_DataAdapterWithDataSet(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@status", HelperConvert.ConvertToString(iProp.status))
+                    , iSql.SqlCom_Parameter("@serviceNo", HelperConvert.ConvertToString(iProp.serviceNo))
+                    , iSql.SqlCom_Parameter("@userName", HelperConvert.ConvertToString(iProp.userName))
+                    , iSql.SqlCom_Parameter("@page", iProp.page)
+                    , iSql.SqlCom_Parameter("@row", iProp.row)
+                    , iSql.SqlCom_Parameter("@sortBy", HelperConvert.ConvertToString(iProp.sortBy))
+                    , iSql.SqlCom_Parameter("@total", SqlDbType.Int, ParameterDirection.Output)
+                );
+
+                iProp.total = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@total"].Value);
+
+                lData = (from r in dsData.Tables[0].AsEnumerable()
+                         select new ServiceModels
+                         {
+                             id = HelperConvert.ConvertToString(r.Field<object>("id")!)
+                             ,
+                             serviceNo = HelperConvert.ConvertToString(r.Field<object>("serviceNo")!)
+                             ,
+                             categoryCode = HelperConvert.ConvertToString(r.Field<object>("categoryCode")!)
+                             ,
+                             categoryDesc = HelperConvert.ConvertToString(r.Field<object>("categoryDesc")!)
+                             ,
+                             subCategoryCode = HelperConvert.ConvertToString(r.Field<object>("subCategoryCode")!)
+                             ,
+                             subCategoryDesc = HelperConvert.ConvertToString(r.Field<object>("subCategoryDesc")!)
+                             ,
+                             title = HelperConvert.ConvertToString(r.Field<object>("title")!)
+                             ,
+                             status = HelperConvert.ConvertToString(r.Field<object>("status")!)
+                             ,
+                             statusDesc = HelperConvert.ConvertToString(r.Field<object>("statusDesc")!)
+                             ,
+                             userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
+                             ,
+                             userName = HelperConvert.ConvertToString(r.Field<object>("userName")!)
+                             ,
+                             employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
+                             ,
+                             userDepartment = HelperConvert.ConvertToString(r.Field<object>("userDepartment")!)
+                             ,
+                             userSection = HelperConvert.ConvertToString(r.Field<object>("userSection")!)
+                             ,
+                             createDate = HelperConvert.ConvertToString(r.Field<object>("createDate")!)
+                         }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return lData;
+        }
+
+        public DataTable OnBehalfSummary(ServiceModels iProp)
+        {
+            String query = "up_service_onbehalf_summary";
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    , iSql.SqlCom_Parameter("@serviceNo", HelperConvert.ConvertToString(iProp.serviceNo))
+                    , iSql.SqlCom_Parameter("@userName", HelperConvert.ConvertToString(iProp.userName))
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        /* สร้างใบงานสถานะ Draft ให้พนักงานหลายคนในครั้งเดียว
+
+           วนสร้างฝั่ง server ไม่ให้หน้าจอวนเอง
+           เลือก 200 คนจะกลายเป็นยิง API 200 ครั้ง ช้าและถ้าหลุดกลางทางจะค้างครึ่ง ๆ กลาง ๆ
+
+           กันสร้างซ้ำ : ถ้าพนักงานคนนั้นมีใบ Draft ประเภทเดียวกันค้างอยู่แล้วให้ข้าม
+           ใช้วิธีดึงรายการ Draft ที่มีอยู่มาเทียบครั้งเดียว ไม่ query ทีละคน  */
+        public void CreateBulk(ServiceModels iProp)
+        {
+            iProp.total_created = 0;
+            iProp.total_skip = 0;
+
+            if (iProp.lUserId == null || iProp.lUserId.Count == 0)
+            {
+                throw new Exception("กรุณาเลือกพนักงานอย่างน้อย 1 คน");
+            }
+
+            if (String.IsNullOrEmpty(iProp.subCategoryCode))
+            {
+                throw new Exception("กรุณาเลือกประเภทแบบฟอร์ม");
+            }
+
+            /* 1 รอบการสร้างของ HR = 1 batchId ทุกใบในรอบใช้ค่าเดียวกัน
+               ต้องใส่ตั้งแต่ตอนสร้าง ภายหลัง backfill ไม่ได้
+
+               คืนค่านี้กลับไปให้หน้าจอด้วย เพื่อให้ toast มีปุ่มเรียกกลับทั้งชุดได้ */
+            string batchId = "batch_" + Guid.NewGuid().ToString().ToLower();
+            iProp.batchId = batchId;
+
+            /* รายชื่อที่มีใบ Draft ประเภทเดียวกันค้างอยู่แล้ว */
+            List<ServiceModels> lExist = OnBehalfList(new ServiceModels
+            {
+                userBy = iProp.createBy
+                ,
+                status = "Draft"
+                ,
+                page = 1
+                ,
+                row = 9999
+            });
+
+            HashSet<string> hExist = new HashSet<string>(
+                lExist.Where(x => x.subCategoryCode == iProp.subCategoryCode).Select(x => x.userId));
+
+            foreach (string userId in iProp.lUserId.Distinct())
+            {
+                if (String.IsNullOrEmpty(userId)) { continue; }
+
+                if (hExist.Contains(userId))
+                {
+                    iProp.total_skip = iProp.total_skip + 1;
+                    continue;
+                }
+
+                Create(new ServiceModels
+                {
+                    userId = userId
+                    ,
+                    categoryId = iProp.categoryId
+                    ,
+                    categoryCode = iProp.categoryCode
+                    ,
+                    categoryDesc = iProp.categoryDesc
+                    ,
+                    subCategoryId = iProp.subCategoryId
+                    ,
+                    subCategoryCode = iProp.subCategoryCode
+                    ,
+                    subCategoryDesc = iProp.subCategoryDesc
+                    ,
+                    title = iProp.title
+                    ,
+                    detail = iProp.detail
+                    ,
+                    createBy = iProp.createBy
+                    ,
+                    status = "Draft"
+                    ,
+                    /* ตั้งค่าตายตัวที่นี่ ไม่รับจากหน้าจอ
+                       ไม่งั้นจะปลอมใบธรรมดาให้ดูเหมือนใบที่สร้างแทนได้ */
+                    createMode = ONBEHALF_DRAFT
+                    ,
+                    batchId = batchId
+                });
+
+                iProp.total_created = iProp.total_created + 1;
+            }
+        }
+
+        /* เรียกกลับใบงานทั้งชุดที่สร้างในรอบเดียวกัน
+
+           proc คืนผลเป็น result set 1 แถว ไม่ใช่ output parameter
+           จึงใช้ DataAdapterWithDataTable ไม่ใช่ ExecuteNonQuery
+
+           ถ้ายกเลิกไม่ได้เลย proc จะ raiserror เอง ไม่ต้องเช็คซ้ำที่นี่ */
+        public void CancelBatch(ServiceModels iProp)
+        {
+            String query = "up_service_onbehalf_cancel_batch";
+
+            iProp.total_cancel = 0;
+            iProp.total_expired = 0;
+            iProp.total_filled = 0;
+
+            if (String.IsNullOrEmpty(iProp.batchId))
+            {
+                throw new Exception("ไม่พบรหัสชุดใบงานที่ต้องการยกเลิก");
+            }
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@batchId", HelperConvert.ConvertToString(iProp.batchId))
+                    , iSql.SqlCom_Parameter("@userBy", HelperConvert.ConvertToString(iProp.userBy))
+                    /* ผู้ยกเลิกคือคนเดียวกับเจ้าของชุด proc มี default ให้อยู่แล้ว
+                       ส่งซ้ำเพื่อความชัดเจน ServiceModels ไม่มี property update_by */
+                    , iSql.SqlCom_Parameter("@update_by", HelperConvert.ConvertToString(iProp.userBy))
+                );
+
+                if (dtData != null && dtData.Rows.Count > 0)
+                {
+                    DataRow r = dtData.Rows[0];
+
+                    iProp.total_cancel = HelperConvert.ConvertToInt(r["total_cancel"]);
+                    iProp.total_expired = HelperConvert.ConvertToInt(r["total_expired"]);
+                    iProp.total_filled = HelperConvert.ConvertToInt(r["total_filled"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
         }
 
         public List<ServiceModels> InquireList(ServiceModels iProp)

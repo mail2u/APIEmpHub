@@ -105,6 +105,58 @@ namespace APIEmpHub.Controllers
         }
 
         [HttpPost]
+        [Route("Offboard")]
+        public IActionResult Offboard(UserModels iProp)
+        {
+            try
+            {
+                this._logger.LogInformation("User Offboard : " + JsonConvert.SerializeObject(iProp));
+                iProp.update_by = User.UserId();
+                model.Offboard(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("OffboardCancel")]
+        public IActionResult OffboardCancel(UserModels iProp)
+        {
+            try
+            {
+                this._logger.LogInformation("User OffboardCancel : " + JsonConvert.SerializeObject(iProp));
+                iProp.update_by = User.UserId();
+                model.OffboardCancel(iProp);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("OffboardList")]
+        public IActionResult OffboardList(UserModels iProp)
+        {
+            try
+            {
+                dtData = model.OffboardList(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok(JsonConvert.SerializeObject(dtData));
+        }
+
+        [HttpPost]
         [Route("Delete")]
         public IActionResult Delete(UserModels iProp)
         {
@@ -170,6 +222,10 @@ namespace APIEmpHub.Controllers
                     x.email
                     ,
                     x.ext
+                    ,
+                    x.sectionCode
+                    ,
+                    x.sectionDesc
                     ,
                     x.departmentCode
                     ,
@@ -275,6 +331,10 @@ namespace APIEmpHub.Controllers
                     x.email
                     ,
                     x.ext
+                    ,
+                    x.sectionCode
+                    ,
+                    x.sectionDesc
                     ,
                     x.departmentCode
                     ,

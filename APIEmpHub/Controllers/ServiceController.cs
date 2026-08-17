@@ -95,6 +95,8 @@ namespace APIEmpHub.Controllers
                     ,
                     iData.can_work
                     ,
+                    iData.can_assign
+                    ,
                     iData.can_previous
                     ,
                     iData.can_edit
@@ -229,6 +231,23 @@ namespace APIEmpHub.Controllers
 
                 await SendMail(iProp);
                 model.MailResponse(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("Assign")]
+        public IActionResult Assign(ServiceModels iProp)
+        {
+            try
+            {
+                iProp.userBy = User.UserId();
+                model.Assign(iProp);
             }
             catch (Exception ex)
             {
@@ -478,6 +497,121 @@ namespace APIEmpHub.Controllers
             }
 
             return Ok(JsonConvert.SerializeObject(dtData));
+        }
+
+        [HttpPost]
+        [Route("OnBehalfList")]
+        public IActionResult OnBehalfList(ServiceModels iProp)
+        {
+            try
+            {
+                iProp.userBy = User.UserId();
+                lData = model.OnBehalfList(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            var vData = lData.Select(x => new
+            {
+                x.id
+                ,
+                x.serviceNo
+                ,
+                x.categoryCode
+                ,
+                x.categoryDesc
+                ,
+                x.subCategoryCode
+                ,
+                x.subCategoryDesc
+                ,
+                x.title
+                ,
+                x.status
+                ,
+                x.statusDesc
+                ,
+                x.userId
+                ,
+                x.userName
+                ,
+                x.employeeCode
+                ,
+                x.userDepartment
+                ,
+                x.userSection
+                ,
+                x.createDate
+            });
+
+            return Ok(JsonConvert.SerializeObject(new { data = vData, total = iProp.total }));
+        }
+
+        [HttpPost]
+        [Route("OnBehalfSummary")]
+        public IActionResult OnBehalfSummary(ServiceModels iProp)
+        {
+            try
+            {
+                iProp.userBy = User.UserId();
+                dtData = model.OnBehalfSummary(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok(JsonConvert.SerializeObject(dtData));
+        }
+
+        [HttpPost]
+        [Route("CreateBulk")]
+        public IActionResult CreateBulk(ServiceModels iProp)
+        {
+            try
+            {
+                /* ผู้สร้างต้องมาจาก token เสมอ ห้ามเชื่อค่าที่หน้าจอส่งมา */
+                iProp.createBy = User.UserId();
+                model.CreateBulk(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok(JsonConvert.SerializeObject(new
+            {
+                total_created = iProp.total_created,
+                total_skip = iProp.total_skip,
+                /* หน้าจอต้องได้ batchId กลับไป เพื่อให้ toast มีปุ่มเรียกกลับทั้งชุด */
+                batchId = iProp.batchId
+            }));
+        }
+
+        [HttpPost]
+        [Route("CancelBatch")]
+        public IActionResult CancelBatch(ServiceModels iProp)
+        {
+            try
+            {
+                /* บังคับจาก token ห้ามเชื่อค่าที่หน้าจอส่งมา
+                   ไม่งั้นจะยกเลิกชุดของ HR คนอื่นได้ */
+                iProp.userBy = User.UserId();
+                model.CancelBatch(iProp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok(JsonConvert.SerializeObject(new
+            {
+                total_cancel = iProp.total_cancel,
+                total_expired = iProp.total_expired,
+                total_filled = iProp.total_filled
+            }));
         }
 
         [HttpPost]
