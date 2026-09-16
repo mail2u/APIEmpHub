@@ -16,6 +16,7 @@ namespace APIEmpHub.Controllers
     public class FormController : baseController<FormModels>
     {
         public WebAPIModels webAPI = new WebAPIModels();
+        public ServiceStepModels mServiceStep = new ServiceStepModels();
         public FormController(IConfiguration configuration
            , IWebHostEnvironment hostingEnvironment
             , ILogger<FormModels> logger)
@@ -27,6 +28,7 @@ namespace APIEmpHub.Controllers
             model.webRoot = this._webhost.WebRootPath ?? this._webhost.ContentRootPath;
             this._logger = logger;
             this._configuration.GetSection("WebAPI").Bind(webAPI);
+            mServiceStep.connectionString = model.connectionString; 
         }
 
         #region FormNewCard
@@ -597,6 +599,136 @@ namespace APIEmpHub.Controllers
                 };
 
                 return Ok(vData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("FormManpowerPDF")]
+        public async Task<IActionResult> FormManpowerPDF(FormManpowerModels iProp)
+        {
+            try
+            {
+                FormManpowerModels iData = model.FormManpowerDetail(iProp);
+                List<ServiceStepModels> lStep = mServiceStep.DataList(new ServiceStepModels() { refId = iProp.refId });
+                ServiceStepModels? requestBy = lStep.Find(x=>x.status == "Request");
+                ServiceStepModels? approveBy1 = lStep.Find(x => x.status == "Approve1");
+                ServiceStepModels? approveBy2 = lStep.Find(x => x.status == "Approve2");
+                ServiceStepModels? approveBy3 = lStep.Find(x => x.status == "Approve3");
+
+                var vData = new
+                {
+                    iData.refId
+                    ,
+                    iData.position
+                    ,
+                    iData.department
+                    ,
+                    iData.required_date
+                    ,
+                    num_employee = iData.num_employee > 0 ? iData.num_employee.ToString() : ""
+                    ,
+                    // ประเภทของการจ้างงาน (เลือกได้อย่างเดียว) แปลงเป็นเครื่องหมายถูกให้ตรงช่องในแบบฟอร์ม
+                    emp_permanent = iData.type_employment == "permanent" ? "√" : ""
+                    ,
+                    emp_daily = iData.type_employment == "daily" ? "√" : ""
+                    ,
+                    emp_monthly = iData.type_employment == "monthly" ? "√" : ""
+                    ,
+                    emp_outsource = iData.type_employment == "outsource" ? "√" : ""
+                    ,
+                    iData.type_employment_desc
+                    ,
+                    // ประเภทของความต้องการ
+                    req_external = iData.type_requirement == "external_recruit" ? "√" : ""
+                    ,
+                    req_internal = iData.type_requirement == "internal_recruit" ? "√" : ""
+                    ,
+                    // เหตุผลการขอกำลังคนเพิ่ม
+                    reason_budget = iData.type_reason == "additional_budget" ? "√" : ""
+                    ,
+                    reason_hire = iData.type_reason == "additional_hire" ? "√" : ""
+                    ,
+                    iData.type_reason_additional_hire_desc
+                    ,
+                    reason_replacement = iData.type_reason == "replacement" ? "√" : ""
+                    ,
+                    iData.type_reason_replacement_desc
+                    ,
+                    iData.description_work
+                    ,
+                    // คุณสมบัติ
+                    sex_male = iData.sex == "male" ? "√" : ""
+                    ,
+                    sex_female = iData.sex == "female" ? "√" : ""
+                    ,
+                    age = iData.age > 0 ? iData.age.ToString() : ""
+                    ,
+                    iData.education
+                    ,
+                    iData.major
+                    ,
+                    iData.knowledge
+                    ,
+                    // ความสามารถพิเศษ
+                    skill_language = iData.skill_language == 1 ? "√" : ""
+                    ,
+                    iData.skill_language_desc
+                    ,
+                    skill_computer = iData.skill_computer == 1 ? "√" : ""
+                    ,
+                    iData.skill_computer_desc
+                    ,
+                    skill_other = iData.skill_other == 1 ? "√" : ""
+                    ,
+                    iData.skill_other_desc
+                    ,
+                    // ประสบการณ์
+                    exp_no = iData.type_experience == "no" ? "√" : ""
+                    ,
+                    exp_yes = iData.type_experience == "yes" ? "√" : ""
+                    ,
+                    iData.type_experience_yes_desc
+                    ,
+                    exp_other = iData.type_experience == "other" ? "√" : ""
+                    ,
+                    iData.type_experience_other_desc
+                    ,
+                    iData.create_by
+                    ,
+                    requestBy = requestBy?.actionName ?? ""
+                    ,
+                    requestPosition = requestBy?.position ?? ""
+                    ,
+                    requestDate = requestBy?.actionDate.Substring(0,10) ?? ""
+                    ,
+                    approveBy1 = approveBy1?.actionName ?? ""
+                    ,
+                    approvePosition1 = approveBy1?.position ?? ""
+                    ,
+                    approveDate1 = approveBy1?.actionDate.Substring(0, 10) ?? ""
+                    ,
+                    approveBy2 = approveBy2?.actionName ?? ""
+                    ,
+                    approvePosition2 = approveBy2?.position ?? ""
+                    ,
+                    approveDate2 = approveBy2?.actionDate.Substring(0, 10) ?? ""
+                    ,
+                    approveBy3 = approveBy3?.actionName ?? ""
+                    ,
+                    approvePosition3 = approveBy3?.position ?? ""
+                    ,
+                    approveDate3 = approveBy3?.actionDate.Substring(0, 10) ?? ""
+                };
+
+                PDFModels pdf = await LoadPDF("FormManpower", vData);
+                byte[] pdfBytes = Convert.FromBase64String(pdf.base64);
+
+                // return file
+                return File(pdfBytes, "application/pdf", "download.pdf");
             }
             catch (Exception ex)
             {
