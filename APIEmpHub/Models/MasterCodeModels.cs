@@ -15,6 +15,7 @@ namespace APIEmpHub.Models
         public string condition_2 { get; set; }
         public string condition_3 { get; set; }
         public string condition_4 { get; set; }
+        public int orderindex { get; set; }
         public string create_by { get; set; }
         public string update_by { get; set; }
 
@@ -34,6 +35,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@condition_2", HelperConvert.ConvertToString(iProp.condition_2))
                     , iSql.SqlCom_Parameter("@condition_3", HelperConvert.ConvertToString(iProp.condition_3))
                     , iSql.SqlCom_Parameter("@condition_4", HelperConvert.ConvertToString(iProp.condition_4))
+                    , iSql.SqlCom_Parameter("@orderindex", iProp.orderindex)
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
                     );
             }
@@ -64,6 +66,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@condition_2", HelperConvert.ConvertToString(iProp.condition_2))
                     , iSql.SqlCom_Parameter("@condition_3", HelperConvert.ConvertToString(iProp.condition_3))
                     , iSql.SqlCom_Parameter("@condition_4", HelperConvert.ConvertToString(iProp.condition_4))
+                    , iSql.SqlCom_Parameter("@orderindex", iProp.orderindex)
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
                     );
             }
@@ -134,6 +137,8 @@ namespace APIEmpHub.Models
                                  condition_3 = HelperConvert.ConvertToString(r.Field<object>("condition_3")!)
                                  ,
                                  condition_4 = HelperConvert.ConvertToString(r.Field<object>("condition_4")!)
+                                 ,
+                                 orderindex = HelperConvert.ConvertToInt(r.Field<object>("orderindex")!)
                              }).ToList();
                 }
             }

@@ -243,6 +243,10 @@ namespace APIEmpHub.Controllers
                     ,
                     x.positionDesc
                     ,
+                    x.employeeType
+                    ,
+                    x.employeeTypeDesc
+                    ,
                     x.have_signature
                 }).ToList();
 
@@ -353,6 +357,8 @@ namespace APIEmpHub.Controllers
                     x.positionDesc
                     ,
                     x.employeeType
+                    ,
+                    x.employeeTypeDesc
                     ,
                     x.have_signature
                 }).ToList();

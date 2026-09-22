@@ -40,6 +40,7 @@ namespace APIEmpHub.Models
         public string authenCode { get; set; }
         public string employeeCode { get; set; }
         public string employeeType { get; set; }
+        public string employeeTypeDesc { get; set; }
         public string create_by { get; set; }
         public string update_by { get; set; }
         public string ipaddress { get; set; }
@@ -427,6 +428,8 @@ WHERE   object_id = OBJECT_ID(@procedureName)
                                  positionDesc = HelperConvert.ConvertToString(r.Field<object>("positionDesc")!)
                                  ,
                                  employeeType = HelperConvert.ConvertToString(r.Field<object>("employeeType")!)
+                                 ,
+                                 employeeTypeDesc = HelperConvert.ConvertToString(r.Field<object>("employeeTypeDesc")!)
                                  ,
                                  have_signature = HelperConvert.ConvertToInt(r.Field<object>("have_signature")!)
                              }).ToList();
@@ -849,6 +852,7 @@ WHERE   object_id = OBJECT_ID(@procedureName)
                     , iSql.SqlCom_Parameter("@grade", HelperConvert.ConvertToString(iProp.grade))
                     , iSql.SqlCom_Parameter("@join_date", HelperConvert.ConvertToDate112(iProp.join_date))
                     , iSql.SqlCom_Parameter("@probation_end_date", HelperConvert.ConvertToDate112(iProp.probation_end_date))
+                    , iSql.SqlCom_Parameter("@appointed_date", HelperConvert.ConvertToDate112(iProp.appointed_date))
                     , iSql.SqlCom_Parameter("@probation_day", iProp.probation_day)
                     , iSql.SqlCom_Parameter("@supervisorId", HelperConvert.ConvertToString(iProp.supervisorId))
                     , iSql.SqlCom_Parameter("@location", HelperConvert.ConvertToString(iProp.location))
@@ -949,6 +953,8 @@ WHERE   object_id = OBJECT_ID(@procedureName)
                                  join_date = HelperConvert.ConvertToString(r.Field<object>("join_date")!)
                                  ,
                                  probation_end_date = HelperConvert.ConvertToString(r.Field<object>("probation_end_date")!)
+                                 ,
+                                 appointed_date = HelperConvert.ConvertToString(r.Field<object>("appointed_date")!)
                                  ,
                                  probation_day = HelperConvert.ConvertToInt(r.Field<object>("probation_day")!)
                                  ,
@@ -1113,6 +1119,8 @@ WHERE   object_id = OBJECT_ID(@procedureName)
                                  programName = HelperConvert.ConvertToString(r.Field<object>("programName")!)
                                  ,
                                  major = HelperConvert.ConvertToString(r.Field<object>("major")!)
+                                 ,
+                                 startYear = HelperConvert.ConvertToInt(r.Field<object>("startYear")!)
                                  ,
                                  year = HelperConvert.ConvertToInt(r.Field<object>("year")!)
                                  ,

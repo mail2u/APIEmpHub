@@ -34,6 +34,7 @@ namespace APIEmpHub.Models
         public string grade { get; set; }
         public string join_date { get; set; }
         public string probation_end_date { get; set; }
+        public string appointed_date { get; set; }
         public int probation_day { get; set; }
         public string supervisorId { get; set; }
         public string supervisorName { get; set; }

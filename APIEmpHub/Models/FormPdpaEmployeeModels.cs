@@ -3,6 +3,7 @@
     public class FormPdpaEmployeeModels
     {
         public string refId { get; set; }
+        public string prefix { get; set; }
         public string firstname { get; set; }
         public string lastname { get; set; }
         public string idcard { get; set; }

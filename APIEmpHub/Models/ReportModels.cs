@@ -31,6 +31,8 @@ namespace APIEmpHub.Models
         public string divisionCode { get; set; }
         public string departmentCode { get; set; }
         public string sectionCode { get; set; }
+        public string dateFrom { get; set; }   // yyyyMMdd ช่วงวันเริ่มงาน
+        public string dateTo { get; set; }      // yyyyMMdd ช่วงวันเริ่มงาน
 
         private string ReportSort(string sortBy, Dictionary<string, string> columns, string defaultSort)
         {
@@ -64,6 +66,36 @@ namespace APIEmpHub.Models
                 );
 
                 iProp.total = HelperConvert.ConvertToInt(iSql.sqlCom.Parameters["@total"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                iSql.Close();
+            }
+
+            return dtData;
+        }
+
+        // รายงาน "ขอข้อมูลพนักงาน" — ครบทุกฟิลด์ตามแบบฟอร์ม FormEmployeeData (เฉพาะพนักงานที่ยังทำงาน)
+        public DataTable ReportEmployeeData(ReportModels iProp)
+        {
+            String query = "up_report_employee_data_sel";
+
+            try
+            {
+                iSql.Open(connectionString);
+                dtData = iSql.SqlCom_DataAdapterWithDataTable(query, CommandType.StoredProcedure
+                    , iSql.SqlCom_Parameter("@name", HelperConvert.ConvertToString(iProp.name))
+                    , iSql.SqlCom_Parameter("@positionCode", HelperConvert.ConvertToString(iProp.position))
+                    , iSql.SqlCom_Parameter("@departmentCode", HelperConvert.ConvertToString(iProp.departmentCode))
+                    , iSql.SqlCom_Parameter("@dateFrom", HelperConvert.ConvertToString(iProp.dateFrom))
+                    , iSql.SqlCom_Parameter("@dateTo", HelperConvert.ConvertToString(iProp.dateTo))
+                );
+
+                iProp.total = dtData != null ? dtData.Rows.Count : 0;
             }
             catch (Exception ex)
             {

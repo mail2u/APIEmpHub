@@ -178,6 +178,10 @@ namespace APIEmpHub.Controllers
                     ,
                     x.lastname_en
                     ,
+                    x.nickname
+                    ,
+                    x.employeeType
+                    ,
                     x.position
                     ,
                     x.department

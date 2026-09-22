@@ -219,10 +219,10 @@ namespace APIEmpHub.Controllers
                 {
                     model.CompleteMail(iProp);
 
-                    if(iProp.subCategoryCode.ToLower() == "form_employee_data")
-                    {
-                        await SendMailEmployeeData(iProp);
-                    }
+                    //if(iProp.subCategoryCode.ToLower() == "form_employee_data")
+                    //{
+                    //    await SendMailEmployeeData(iProp);
+                    //}
                 }
                 else
                 {

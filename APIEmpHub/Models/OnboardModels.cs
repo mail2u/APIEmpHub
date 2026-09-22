@@ -15,6 +15,8 @@ namespace APIEmpHub.Models
         public string prefix_en { get; set; }
         public string firstname_en { get; set; }
         public string lastname_en { get; set; }
+        public string nickname { get; set; }
+        public string employeeType { get; set; }
         public string position { get; set; }
         public string department { get; set; }
         public string division { get; set; }
@@ -74,6 +76,8 @@ namespace APIEmpHub.Models
                         userId = HelperConvert.ConvertToString(r.Field<object>("userId")!)
                         ,
                         employeeCode = HelperConvert.ConvertToString(r.Field<object>("employeeCode")!)
+                        ,
+                        employeeType = HelperConvert.ConvertToString(r.Field<object>("employeeType")!)
                         ,
                         prefix_th = HelperConvert.ConvertToString(r.Field<object>("prefix_th")!)
                         ,
@@ -280,6 +284,10 @@ namespace APIEmpHub.Models
                                  firstname_en = HelperConvert.ConvertToString(r.Field<object>("firstname_en")!)
                                  ,
                                  lastname_en = HelperConvert.ConvertToString(r.Field<object>("lastname_en")!)
+                                 ,
+                                 nickname = HelperConvert.ConvertToString(r.Field<object>("nickname")!)
+                                 ,
+                                 employeeType = HelperConvert.ConvertToString(r.Field<object>("employeeType")!)
                                  ,
                                  position = HelperConvert.ConvertToString(r.Field<object>("position")!)
                                  ,

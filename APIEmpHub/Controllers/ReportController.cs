@@ -42,6 +42,22 @@ namespace APIEmpHub.Controllers
         }
 
         [HttpPost]
+        [Route("ReportEmployeeData")]
+        public IActionResult ReportEmployeeData(ReportModels iProp)
+        {
+            try
+            {
+                dtData = model.ReportEmployeeData(iProp);
+
+                return Ok(new { data = JsonConvert.SerializeObject(dtData), total = iProp.total });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
         [Route("ReportHeadcountSection")]
         public IActionResult ReportHeadcountSection(ReportModels iProp)
         {

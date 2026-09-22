@@ -74,6 +74,8 @@ namespace APIEmpHub.Controllers
                     ,
                     x.major
                     ,
+                    x.startYear
+                    ,
                     x.year
                     ,
                     x.grade

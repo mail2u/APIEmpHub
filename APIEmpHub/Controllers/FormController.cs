@@ -1841,6 +1841,8 @@ namespace APIEmpHub.Controllers
                 {
                     iData.refId
                     ,
+                    iData.prefix
+                    ,
                     iData.firstname
                     ,
                     iData.lastname
@@ -1873,6 +1875,14 @@ namespace APIEmpHub.Controllers
                 var vData = new
                 {
                     iData.refId
+                    ,
+                    iData.prefix
+                    ,
+                    prefix_mr = iData.prefix == "นาย" ? "√" : ""
+                    ,
+                    prefix_mrs = iData.prefix == "นาง" ? "√" : ""
+                    ,
+                    prefix_miss = iData.prefix == "นางสาว" ? "√" : ""
                     ,
                     iData.firstname
                     ,
@@ -3270,13 +3280,41 @@ namespace APIEmpHub.Controllers
      ,
                     iData.is_username
      ,
+                    iData.is_prefix_th
+     ,
+                    iData.is_prefix_en
+     ,
                     iData.is_fullname_th
      ,
                     iData.is_fullname_en
      ,
                     iData.is_position
      ,
+                    iData.is_position_en
+     ,
+                    iData.is_employee_type_th
+     ,
+                    iData.is_employee_type_en
+     ,
                     iData.is_department
+     ,
+                    iData.is_department_en
+     ,
+                    iData.is_division_th
+     ,
+                    iData.is_division_en
+     ,
+                    iData.is_function_th
+     ,
+                    iData.is_function_en
+     ,
+                    iData.is_join_date
+     ,
+                    iData.is_resign_date
+     ,
+                    iData.is_employee_code
+     ,
+                    iData.is_nickname
      ,
                     iData.is_email
                     ,
@@ -3301,7 +3339,9 @@ namespace APIEmpHub.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(dataRequest), Encoding.UTF8, "application/json");
+                // แปลงปีของวันที่ (dd/MM/yyyy) ในข้อมูลทั้งหมดเป็น พ.ศ. เพื่อให้เอกสาร PDF แสดงเป็น พ.ศ.
+                string json = ConvertJsonDatesToBuddhist(JsonConvert.SerializeObject(dataRequest));
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var authenticationString = String.Format("{0}:{1}", webAPI.APIPDF_username, webAPI.APIPDF_password);
                 var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authenticationString));
@@ -3323,6 +3363,28 @@ namespace APIEmpHub.Controllers
             }
 
             return iPDF;
+        }
+
+        // แปลงปีของวันที่รูปแบบ dd/MM/yyyy ใน JSON payload เป็น พ.ศ. (บวก 543)
+        // กันแปลงซ้ำด้วยการข้ามปีที่เป็น พ.ศ. อยู่แล้ว (>= 2400)
+        private static string ConvertJsonDatesToBuddhist(string json)
+        {
+            if (string.IsNullOrEmpty(json))
+            {
+                return json;
+            }
+
+            return System.Text.RegularExpressions.Regex.Replace(json, @"(\d{1,2}/\d{1,2}/)(\d{4})", m =>
+            {
+                int year = int.Parse(m.Groups[2].Value);
+
+                if (year >= 2400)
+                {
+                    return m.Value;
+                }
+
+                return m.Groups[1].Value + (year + 543);
+            });
         }
     }
 }

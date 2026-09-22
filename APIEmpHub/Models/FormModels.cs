@@ -1585,6 +1585,7 @@ namespace APIEmpHub.Models
                 iSql.Open(connectionString);
                 iSql.SqlCom_ExecuteNonQuery(query, CommandType.StoredProcedure
                     , iSql.SqlCom_Parameter("@refId", HelperConvert.ConvertToString(iProp.refId))
+                    , iSql.SqlCom_Parameter("@prefix", HelperConvert.ConvertToString(iProp.prefix))
                     , iSql.SqlCom_Parameter("@firstname", HelperConvert.ConvertToString(iProp.firstname))
                     , iSql.SqlCom_Parameter("@lastname", HelperConvert.ConvertToString(iProp.lastname))
                     , iSql.SqlCom_Parameter("@idcard", HelperConvert.ConvertToString(iProp.idcard))
@@ -1622,6 +1623,8 @@ namespace APIEmpHub.Models
                              select new FormPdpaEmployeeModels
                              {
                                  refId = HelperConvert.ConvertToString(r.Field<object>("refId")!)
+                                 ,
+                                 prefix = HelperConvert.ConvertToString(r.Field<object>("prefix")!)
                                  ,
                                  firstname = HelperConvert.ConvertToString(r.Field<object>("firstname")!)
                                  ,
@@ -3067,6 +3070,20 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@is_email", iProp.is_email)
                     , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
                     , iSql.SqlCom_Parameter("@create_by", HelperConvert.ConvertToString(iProp.create_by))
+                    , iSql.SqlCom_Parameter("@is_prefix_th", iProp.is_prefix_th)
+                    , iSql.SqlCom_Parameter("@is_prefix_en", iProp.is_prefix_en)
+                    , iSql.SqlCom_Parameter("@is_position_en", iProp.is_position_en)
+                    , iSql.SqlCom_Parameter("@is_employee_type_th", iProp.is_employee_type_th)
+                    , iSql.SqlCom_Parameter("@is_employee_type_en", iProp.is_employee_type_en)
+                    , iSql.SqlCom_Parameter("@is_department_en", iProp.is_department_en)
+                    , iSql.SqlCom_Parameter("@is_division_th", iProp.is_division_th)
+                    , iSql.SqlCom_Parameter("@is_division_en", iProp.is_division_en)
+                    , iSql.SqlCom_Parameter("@is_function_th", iProp.is_function_th)
+                    , iSql.SqlCom_Parameter("@is_function_en", iProp.is_function_en)
+                    , iSql.SqlCom_Parameter("@is_join_date", iProp.is_join_date)
+                    , iSql.SqlCom_Parameter("@is_resign_date", iProp.is_resign_date)
+                    , iSql.SqlCom_Parameter("@is_employee_code", iProp.is_employee_code)
+                    , iSql.SqlCom_Parameter("@is_nickname", iProp.is_nickname)
                     );
             }
             catch (Exception ex)
@@ -3112,6 +3129,34 @@ namespace APIEmpHub.Models
                                  is_email = HelperConvert.ConvertToInt(r.Field<object>("is_email")!)
                                  ,
                                  description = HelperConvert.ConvertToString(r.Field<object>("description")!)
+                                 ,
+                                 is_prefix_th = HelperConvert.ConvertToInt(r.Field<object>("is_prefix_th")!)
+                                 ,
+                                 is_prefix_en = HelperConvert.ConvertToInt(r.Field<object>("is_prefix_en")!)
+                                 ,
+                                 is_position_en = HelperConvert.ConvertToInt(r.Field<object>("is_position_en")!)
+                                 ,
+                                 is_employee_type_th = HelperConvert.ConvertToInt(r.Field<object>("is_employee_type_th")!)
+                                 ,
+                                 is_employee_type_en = HelperConvert.ConvertToInt(r.Field<object>("is_employee_type_en")!)
+                                 ,
+                                 is_department_en = HelperConvert.ConvertToInt(r.Field<object>("is_department_en")!)
+                                 ,
+                                 is_division_th = HelperConvert.ConvertToInt(r.Field<object>("is_division_th")!)
+                                 ,
+                                 is_division_en = HelperConvert.ConvertToInt(r.Field<object>("is_division_en")!)
+                                 ,
+                                 is_function_th = HelperConvert.ConvertToInt(r.Field<object>("is_function_th")!)
+                                 ,
+                                 is_function_en = HelperConvert.ConvertToInt(r.Field<object>("is_function_en")!)
+                                 ,
+                                 is_join_date = HelperConvert.ConvertToInt(r.Field<object>("is_join_date")!)
+                                 ,
+                                 is_resign_date = HelperConvert.ConvertToInt(r.Field<object>("is_resign_date")!)
+                                 ,
+                                 is_employee_code = HelperConvert.ConvertToInt(r.Field<object>("is_employee_code")!)
+                                 ,
+                                 is_nickname = HelperConvert.ConvertToInt(r.Field<object>("is_nickname")!)
                              }).FirstOrDefault()!;
 
                 }

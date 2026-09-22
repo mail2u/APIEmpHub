@@ -16,6 +16,7 @@ namespace APIEmpHub.Models
         public string programCode { get; set; }
         public string programName { get; set; }
         public string major { get; set; }
+        public int startYear { get; set; } = 0;
         public int year { get; set; } = 0;
         public decimal grade { get; set; }
         public string description { get; set; }
@@ -41,6 +42,7 @@ namespace APIEmpHub.Models
                     , iSql.SqlCom_Parameter("@programCode", HelperConvert.ConvertToString(iProp.programCode))
                     , iSql.SqlCom_Parameter("@programName", HelperConvert.ConvertToString(iProp.programName))
                     , iSql.SqlCom_Parameter("@major", HelperConvert.ConvertToString(iProp.major))
+                    , iSql.SqlCom_Parameter("@startYear", iProp.startYear)
                     , iSql.SqlCom_Parameter("@year", iProp.year)
                     , iSql.SqlCom_Parameter("@grade", iProp.grade)
                     , iSql.SqlCom_Parameter("@description", HelperConvert.ConvertToString(iProp.description))
@@ -93,6 +95,8 @@ namespace APIEmpHub.Models
                                  programName = HelperConvert.ConvertToString(r.Field<object>("programName")!)
                                  ,
                                  major = HelperConvert.ConvertToString(r.Field<object>("major")!)
+                                 ,
+                                 startYear = HelperConvert.ConvertToInt(r.Field<object>("startYear")!)
                                  ,
                                  year = HelperConvert.ConvertToInt(r.Field<object>("year")!)
                                  ,
